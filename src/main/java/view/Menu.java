@@ -14,6 +14,7 @@ public class Menu {
         this.name = name;
         this.parentMenu = parentMenu;
         this.subMenus = subMenus;
+        System.out.println("hey there");
     }
 
     public void execute() {
