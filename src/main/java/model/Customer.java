@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Customer extends User {
-    private HashMap<Product, Integer> cart;
-    private ArrayList<purchaseLog> purchaseHistory;
-    private ArrayList<Discount> discountCodes;
+    private HashMap<String, Integer> cart; //<productCode, Number>
+    private ArrayList<String> purchaseHistory;
+    private ArrayList<String> discountCodes;
 
     public Customer(String username, String name, String surname, String email, String password, long credit) {
         super(username, name, surname, email, password, credit);

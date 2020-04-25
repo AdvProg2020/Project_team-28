@@ -2,22 +2,23 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SellLog {
-    private String logId;
     private LocalDateTime date;
     private long amountReceived;
     private long amountReduced;
-    private HashMap<Product, Integer> soldProducts;
-    private Customer customer;
+    private HashMap<String, Integer> soldProducts;//<Product, Number>
+    private String customer;
     private enum shippingStatus {A, B}
+    private String id;
 
-    public String getLogId() {
-        return logId;
+    public String getId() {
+        return id;
     }
 
-    public void setLogId(String logId) {
-        this.logId = logId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDateTime getDate() {
@@ -45,18 +46,18 @@ public class SellLog {
     }
 
     public HashMap<Product, Integer> getSoldProducts() {
-        return soldProducts;
+        return null;
     }
 
     public void setSoldProducts(HashMap<Product, Integer> soldProducts) {
-        this.soldProducts = soldProducts;
+
     }
 
     public Customer getCustomer() {
-        return customer;
+        return null;
     }
 
     public void setCustomer(Customer customer) {
-        this.customer = customer;
+
     }
 }

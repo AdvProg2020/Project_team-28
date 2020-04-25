@@ -1,20 +1,29 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Product {
-    private String productId;
     private enum productStatus  {A, B}
     private String name;
     private String brand;
     private String price;
-    private Seller seller;
+    private String seller;
     private boolean inStock;
-    private Category category;
+    private String category;
     private String description;
-    private ArrayList<Score> allScores;
-    private ArrayList<Comment> allComments;
-    private ArrayList<Property> allProperties;
+    private ArrayList<String> allScores;
+    private ArrayList<String> allComments;
+    private ArrayList<String> allProperties;
+    private String id;
+
+    public Product() {
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public double getAverageScore() {
         return 0;

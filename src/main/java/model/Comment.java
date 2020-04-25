@@ -1,32 +1,60 @@
 package model;
 
-public class Comment {
-    private User user;
-    private Product product;
-    private String text;
-    private enum commentStatus {A,B}
-    private boolean hasBought;
+import controller.Database;
 
-    public Comment(User user, Product product, String text, boolean hasBought) {
+import java.util.UUID;
+
+public class Comment {
+    private String user;
+    private String product;
+    private String text;
+    private enum CommentStatus {WaitingForConfirmation,Confirmed, RejectedByManager}
+    CommentStatus status = CommentStatus.WaitingForConfirmation;
+    private boolean bought;
+    private String id;
+
+    public Comment(String user, String product, String text, boolean bought) {
         this.user = user;
         this.product = product;
         this.text = text;
-        this.hasBought = hasBought;
+        this.bought = bought;
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public User getUser() {
-        return user;
+        return Database.getUserById(user);
     }
 
     public Product getProduct() {
-        return product;
+        return Database.getProductById(product);
     }
 
     public String getText() {
         return text;
     }
 
-    public boolean isHasBought() {
-        return hasBought;
+    public boolean hasBought() {
+        return bought;
+    }
+
+    public String getStatus() {
+        return status.toString();
+    }
+
+    public void setStatus(String status) {
+        this.status = CommentStatus.valueOf(status);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder finalString = new StringBuilder();
+        finalString.append(getUser().getFullName()).append(" said:\n").append(text).append("\n")
+        .append("has bought this product: ");
+        finalString.append(bought ? "yes" : "no");
+        return finalString.toString();
     }
 }

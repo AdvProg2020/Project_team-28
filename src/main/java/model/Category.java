@@ -1,22 +1,38 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Category {
     private String name;
-    private ArrayList<Property> specialProperties;
-    private ArrayList<Product> commodities;
+    private ArrayList<String> specialProperties;
+    private ArrayList<String> products;
+    private String id;
+
+    public Category() {
+        id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
     public void setSpecialProperties(ArrayList<Property> specialProperties) {
-        this.specialProperties = specialProperties;
+        this.specialProperties = new ArrayList<>();
+        for (Property specialProperty : specialProperties) {
+            this.specialProperties.add(specialProperty.getId());
+        }
     }
 
-    public void setCommodities(ArrayList<Product> commodities) {
-        this.commodities = commodities;
+    public void setProducts(ArrayList<Product> products) {
+        this.products = new ArrayList<>();
+        for (Product product : products) {
+            this.products.add(product.getId());
+        }
     }
 
     public String getName() {
@@ -24,10 +40,10 @@ public class Category {
     }
 
     public ArrayList<Property> getSpecialProperties() {
-        return specialProperties;
+        return null;
     }
 
-    public ArrayList<Product> getCommodities() {
-        return commodities;
+    public ArrayList<Product> getProducts() {
+        return null;
     }
 }

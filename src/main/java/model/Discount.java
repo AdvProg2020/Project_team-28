@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Discount {
     private String code;
@@ -10,7 +11,12 @@ public class Discount {
     private int discountPercent;
     private long maximumAmount;
     private int repetitionNumber;
-    private ArrayList<User> users;
+    private ArrayList<String> users;
+    private String id;
+
+    public Discount() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public String getCode() {
         return code;
@@ -61,10 +67,10 @@ public class Discount {
     }
 
     public ArrayList<User> getUsers() {
-        return users;
+        return null;
     }
 
     public void setUsers(ArrayList<User> users) {
-        this.users = users;
+
     }
 }

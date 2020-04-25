@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class purchaseLog {
-    private String logId;
     private LocalDateTime date;
     private long amountPaid;
-    private Discount discount;
-    private HashMap<Product, Integer> products;
-    private Seller seller;
+    private String discount;
+    private HashMap<String, Integer> products;//<Product, Number>
+    private String seller;
     private enum deliveryStatus {A,B}
+    private String id;
 
-    public String getLogId() {
-        return logId;
+    public String getId() {
+        return id;
     }
 
-    public void setLogId(String logId) {
-        this.logId = logId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDateTime getDate() {
@@ -37,26 +37,24 @@ public class purchaseLog {
     }
 
     public Discount getDiscount() {
-        return discount;
+        return null;
     }
 
     public void setDiscount(Discount discount) {
-        this.discount = discount;
+
     }
 
     public HashMap<Product, Integer> getProducts() {
-        return products;
+        return null;
     }
 
     public void setProducts(HashMap<Product, Integer> products) {
-        this.products = products;
     }
 
     public Seller getSeller() {
-        return seller;
+        return null;
     }
 
     public void setSeller(Seller seller) {
-        this.seller = seller;
     }
 }
