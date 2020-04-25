@@ -1,5 +1,7 @@
 package model;
 
+import controller.Database;
+
 import java.util.UUID;
 
 public class Score {
@@ -16,7 +18,7 @@ public class Score {
     }
 
     public User getUser() {
-        return null;
+        return Database.getUserById(user);
     }
 
     public int getScore() {
@@ -24,6 +26,6 @@ public class Score {
     }
 
     public Product getProduct() {
-        return null;
+        return Database.getProductById(product);
     }
 }

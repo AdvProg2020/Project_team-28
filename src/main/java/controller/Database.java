@@ -6,12 +6,12 @@ import model.*;
 import java.util.ArrayList;
 
 public class Database { //jaaye in tu model nist? :thinking:
-    private static ArrayList<User> allUsers;
-    private static ArrayList<Product> allProducts;
-    private static ArrayList<Gson> allRequests;
-    private static ArrayList<Discount> allDiscountCodes;
-    private static ArrayList<Category> allCategories;
-    private static ArrayList<Comment> allComments;
+    private static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<Product> allProducts = new ArrayList<>();
+    private static ArrayList<Gson> allRequests = new ArrayList<>();
+    private static ArrayList<Discount> allDiscountCodes = new ArrayList<>();
+    private static ArrayList<Category> allCategories = new ArrayList<>();
+    private static ArrayList<Comment> allComments = new ArrayList<>();
 
     public void loadAllData() {
 

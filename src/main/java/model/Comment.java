@@ -13,9 +13,9 @@ public class Comment {
     private boolean bought;
     private String id;
 
-    public Comment(String user, String product, String text, boolean bought) {
-        this.user = user;
-        this.product = product;
+    public Comment(User user, Product product, String text, boolean bought) {
+        this.user = user.getId();
+        this.product = product.getId();
         this.text = text;
         this.bought = bought;
         this.id = UUID.randomUUID().toString();
