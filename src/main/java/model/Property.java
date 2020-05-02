@@ -19,6 +19,13 @@ public class Property {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (obj instanceof Property && ((Property) obj).isNumber == this.isNumber) {
+            if (isNumber) {
+                return this.valueInt == ((Property) obj).valueInt;
+            }else {
+                return this.valueString.compareTo(((Property) obj).valueString) == 0;
+            }
+        }
+        return false;
     }
 }

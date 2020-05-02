@@ -1,5 +1,8 @@
 package model;
 
+import controller.Database;
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,7 +12,8 @@ public class Category {
     private ArrayList<String> products;
     private String id;
 
-    public Category() {
+    public Category(String name) {
+        this.name = name;
         id = UUID.randomUUID().toString();
     }
 
@@ -40,10 +44,18 @@ public class Category {
     }
 
     public ArrayList<Property> getSpecialProperties() {
-        return null;
+        ArrayList<Property> finalList = new ArrayList<>();
+        for (String property : specialProperties) {
+            finalList.add(Database.getPropertyById(property));
+        }
+        return finalList;
     }
 
     public ArrayList<Product> getProducts() {
-        return null;
+        ArrayList<Product> finalList = new ArrayList<>();
+        for (String product : products) {
+            finalList.add(Database.getProductById(product));
+        }
+        return finalList;
     }
 }

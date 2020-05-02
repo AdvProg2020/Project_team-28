@@ -12,6 +12,7 @@ public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<Discount> allDiscountCodes = new ArrayList<>();
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private static ArrayList<Comment> allComments = new ArrayList<>();
+    private static ArrayList<Property> allProperties = new ArrayList<>();
 
     public void loadAllData() {
 
@@ -35,6 +36,9 @@ public class Database { //jaaye in tu model nist? :thinking:
     public static void add (Comment comment) {
         allComments.add(comment);
     }
+    public static void add (Property property) {
+        allProperties.add(property);
+    }
 
     public static Product getProductById(String id) {
         return null;
@@ -49,10 +53,17 @@ public class Database { //jaaye in tu model nist? :thinking:
     public static Discount getDiscountById (String id) {
         return null;
     }
-    public Category getCategoryById (String id) {
+    public  static Category getCategoryById (String id) {
         return null;
     }
-    public Comment getCommentById (String id) {
+    public static Comment getCommentById (String id) {
+        return null;
+    }
+    public static Property getPropertyById (String id) {
+        for (Property property : allProperties) {
+            if (property.getId().equals(id))
+                return property;
+        }
         return null;
     }
 

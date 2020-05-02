@@ -2,6 +2,7 @@ package model;
 
 import controller.Database;
 
+import javax.xml.crypto.Data;
 import java.util.UUID;
 
 public class Score {

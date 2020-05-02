@@ -1,7 +1,6 @@
 package model;
 
 import controller.Database;
-
 import java.util.UUID;
 
 public class Comment {
