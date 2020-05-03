@@ -7,7 +7,7 @@ public class Product {
     private enum productStatus  {A, B}
     private String name;
     private String brand;
-    private String price;
+    private long price;
     private String seller;
     private boolean inStock;
     private String category;
@@ -31,5 +31,14 @@ public class Product {
 
     public void addProperty(Property property) {
 
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return id + "\t" + name + "\t" + price;
     }
 }
