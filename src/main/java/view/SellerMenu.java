@@ -1,15 +1,22 @@
 package view;
 
+import controller.SellerController;
+
 import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
+    SellerController controller;
     public SellerMenu(String name, Menu parentMenu, ArrayList<Menu> subMenus) {
-        super(name, parentMenu, subMenus);
+        super(parentMenu);
+    }
+
+    public SellerMenu(SellerController sellerController) {
+        controller = sellerController;
     }
 
     @Override
-    public void execute() {
-        super.execute();
+    public boolean execute() {
+        return false;
     }
 
     @Override
@@ -19,6 +26,5 @@ public class SellerMenu extends Menu {
 
     @Override
     public void help() {
-        super.help();
     }
 }

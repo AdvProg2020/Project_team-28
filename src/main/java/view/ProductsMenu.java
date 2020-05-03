@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class ProductsMenu extends Menu {
     public ProductsMenu(String name, Menu parentMenu, ArrayList<Menu> subMenus) {
-        super(name, parentMenu, subMenus);
+        super(parentMenu);
     }
 
     @Override
-    public void execute() {
-        super.execute();
+    public boolean execute() {
+
+        return false;
     }
 
     @Override
@@ -19,7 +20,7 @@ public class ProductsMenu extends Menu {
 
     @Override
     public void help() {
-        super.help();
+
     }
 
     private void showFilteredProducts(ArrayList<model.Product> products) {
