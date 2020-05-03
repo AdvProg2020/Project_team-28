@@ -3,31 +3,33 @@ package view;
 import javafx.css.Match;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class Conversation {
-    private ArrayList<String> fields;
-    private ArrayList<Boolean> isOptional;
+    private HashMap<String, Boolean> fields;
     private int stateNumber = 0;
-    private ArrayList<String> res = new ArrayList<>();
+    private HashMap<String, String> res = new HashMap<>();
+    ArrayList<String> keys = new ArrayList<>();
     private String error;
 
-    Conversation(ArrayList<String> fields, ArrayList<Boolean> isOptional) {
+    Conversation(HashMap<String, Boolean> fields) {
         this.fields = fields;
-        this.isOptional = isOptional;
+        keys.addAll(fields.keySet());
     }
 
-    public ArrayList<String> execute() {
+    public HashMap<String, String> execute() {
         if (stateNumber == fields.size()) {
             return res;
         }
-        System.out.print("Please enter " + fields.get(stateNumber) +": ");
+        String key = keys.get(stateNumber);
+        System.out.print("Please enter " + key +": ");
         String input = Menu.scanner.nextLine();
 
         Matcher emptyMatcher = Menu.getMatcher(input, "^\\s*$");
         try {
-            if (!emptyMatcher.find() || isOptional.get(stateNumber)) {
-                res.add(input);
+            if (!emptyMatcher.find() || fields.get(key)) {
+                res.put(key,input);
                 stateNumber ++;
             } else {
                 throw new Exception("Required field can't be left empty.");

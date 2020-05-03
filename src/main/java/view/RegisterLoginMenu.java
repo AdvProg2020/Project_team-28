@@ -6,6 +6,7 @@ import controller.SellerController;
 import controller.UserController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class RegisterLoginMenu extends Menu {
@@ -28,7 +29,6 @@ public class RegisterLoginMenu extends Menu {
         String input = Menu.scanner.nextLine();
         input = input.replaceAll("^\\s+", "");
         input = input.replaceAll("\\s+$", "");
-        System.out.println(input);
 
         Matcher helpMatcher = Menu.getMatcher(input,"^help$");
         Matcher registerMatcher = Menu.getMatcher(input, "^create account \\S+ \\S+$");
@@ -41,20 +41,16 @@ public class RegisterLoginMenu extends Menu {
             } else if (registerMatcher.find()) {
                 String type = input.split(" ")[2];
                 String username = input.split(" ")[3];
-                ArrayList<String> fields = new ArrayList<>();
-                ArrayList<Boolean> isOptional = new ArrayList<>();
-                fillForProperties(fields, isOptional);
-                ArrayList<String> data = new Conversation(fields, isOptional).execute();
-                data.add(0,username);
-                data.add(0, type);
+                HashMap<String, Boolean> fields = fillForProperties();
+                HashMap<String, String> data = new Conversation(fields).execute();
+                data.put("username",username);
+                data.put("type", type);
                 controller.registerAccount(data);
             } else if (loginMatcher.find()) {
                 String username = input.split(" ")[1];
-                ArrayList<String> fields = new ArrayList<>();
-                ArrayList<Boolean> isOptional = new ArrayList<>();
-                fields.add("password");
-                isOptional.add(false);
-                String password = new Conversation(fields, isOptional).execute().get(0);
+                HashMap<String, Boolean> fields = new HashMap<>();
+                fields.put("password", false);
+                String password = new Conversation(fields).execute().get("password");
                 controller.loginUser(username, password);
                 if ("manager".equals(controller.getUser().getType())) {
                     new ManagerMenu(new ManagerController(controller.getUser()));
@@ -75,10 +71,10 @@ public class RegisterLoginMenu extends Menu {
         return true;
     }
 
-    private void fillForProperties(ArrayList<String> fields, ArrayList<Boolean> isOptional) {
-        fields.add("password");
-        isOptional.add(false);
-        fields.add("rest:D");
-        isOptional.add(true);
+    private HashMap<String, Boolean> fillForProperties() {
+        HashMap<String, Boolean> fields = new HashMap<>();
+        fields.put("password", false);
+        fields.put("rest:D", true);
+        return fields;
     }
 }

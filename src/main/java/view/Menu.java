@@ -6,13 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Menu {
-    protected static Scanner scanner = new Scanner(System.in);
+    protected final static Scanner scanner = new Scanner(System.in);
 
     protected String title;
     protected String fortune;
     protected String hint;
     protected boolean give_hint;
     protected String error;
+    protected String context;
     private Menu parentMenu;
 
     protected Menu(String title, Menu parentMenu, String fortune) {
@@ -61,10 +62,17 @@ public abstract class Menu {
             System.out.println(ConsoleColors.YELLOW + ConsoleColors.BLACK_BACKGROUND +
                     hint + ConsoleColors.RESET);
         }
+
         if (error != null) {
             System.out.println(ConsoleColors.RED + ConsoleColors.BLUE_BACKGROUND +
                     error + ConsoleColors.RESET);
             error = null;
+        }
+
+        if (context != null) {
+            System.out.println(ConsoleColors.GREEN + ConsoleColors.BLACK_BACKGROUND +
+                    context + ConsoleColors.RESET);
+            context = null;
         }
     }
 
