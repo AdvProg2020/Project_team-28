@@ -18,6 +18,10 @@ public class Discount {
         this.id = UUID.randomUUID().toString();
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getCode() {
         return code;
     }

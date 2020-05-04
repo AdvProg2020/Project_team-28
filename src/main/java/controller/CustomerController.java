@@ -1,6 +1,7 @@
 package controller;
 
 import model.Customer;
+import model.Discount;
 import model.Product;
 
 import java.util.HashMap;
@@ -68,6 +69,14 @@ public class CustomerController extends UserController {
             }
         }
         return totalPrice;
+    }
+
+    public boolean validateDiscountCode (String code) {
+        Discount discount = Database.getDiscountByCode(code);
+        if (userLoggedOn instanceof Customer && discount != null) {
+            return ((Customer) userLoggedOn).hasDiscount(discount);
+        }
+        return false;
     }
 
 }

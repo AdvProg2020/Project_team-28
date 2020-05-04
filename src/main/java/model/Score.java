@@ -29,4 +29,8 @@ public class Score {
     public Product getProduct() {
         return Database.getProductById(product);
     }
+
+    public String getId() {
+        return id;
+    }
 }

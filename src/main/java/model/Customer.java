@@ -19,6 +19,10 @@ public class Customer extends User {
         return super.getType();
     }
 
+    public boolean hasDiscount (Discount discount) {
+        return discountCodes.contains(discount.getId());
+    }
+
     public void AddToPurchaseHistory(purchaseLog purchaseLog) {
         purchaseHistory.add(purchaseLog.getId());
     }

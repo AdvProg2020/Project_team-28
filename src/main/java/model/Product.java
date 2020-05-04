@@ -1,5 +1,7 @@
 package model;
 
+import controller.Database;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -50,7 +52,10 @@ public class Product {
     }
 
     public double getAverageScore() {
-        return 0;
+        float averageResult = 0;
+        for (String score : allScores)
+            averageResult += Database.getScoreById(score).getScore();
+        return averageResult/allScores.size();
     }
 
     public void addProperty(Property property) {

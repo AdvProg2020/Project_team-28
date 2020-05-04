@@ -13,11 +13,15 @@ public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private static ArrayList<Comment> allComments = new ArrayList<>();
     private static ArrayList<Property> allProperties = new ArrayList<>();
+    private static ArrayList<Score> allScores = new ArrayList<>();
 
     public void loadAllData() {
 
     }
 
+    public static void add (Score score) {
+        allScores.add(score);
+    }
     public static void add (User user) {
         allUsers.add(user);
     }
@@ -41,19 +45,30 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
 
     public static Product getProductById(String id) {
+        for (Product product : allProducts) {
+            if (product.getId().equals(id))
+                return product;
+        }
         return null;
     }
-
     public static User getUserById(String id) {
+        for (User user : allUsers) {
+            if (user.getId().equals(id))
+                return user;
+        }
         return null;
     }
     public static Gson getRequestById(String id) {
         return null;
     }
     public static Discount getDiscountById (String id) {
+        for (Discount discountCode : allDiscountCodes) {
+            if (discountCode.getId().equals(id))
+                return discountCode;
+        }
         return null;
     }
-    public  static Category getCategoryById (String id) {
+    public static Category getCategoryById (String id) {
         return null;
     }
     public static Comment getCommentById (String id) {
@@ -66,8 +81,23 @@ public class Database { //jaaye in tu model nist? :thinking:
         }
         return null;
     }
+    public static Score getScoreById (String id) {
+        for (Score score : allScores) {
+            if (score.getId().equals(id))
+                return score;
+        }
+        return null;
+    }
 
     public User getUserByUsername(String username) {
+        return null;
+    }
+
+    public static Discount getDiscountByCode (String code) {
+        for (Discount discountCode : allDiscountCodes) {
+            if (discountCode.getCode().equals(code))
+                return discountCode;
+        }
         return null;
     }
 
