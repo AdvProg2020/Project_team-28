@@ -13,6 +13,10 @@ public class Seller extends User {
         this.companyName = companyName;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
     @Override
     public String getType() {
         return super.getType();

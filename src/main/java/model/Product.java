@@ -25,6 +25,30 @@ public class Product {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public double getAverageScore() {
         return 0;
     }

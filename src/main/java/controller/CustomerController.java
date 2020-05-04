@@ -32,9 +32,9 @@ public class CustomerController extends UserController {
 
     public String showProduct(String productId) {
         if (userLoggedOn instanceof Customer && ((Customer) userLoggedOn).isProductInCart(productId)) {
-            return null;
+            return ProductController.showProduct(productId);
         }
-        return null;
+        return "Not a Valid Id";
     }
 
     public void addToCart(String productId) {
