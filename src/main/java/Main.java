@@ -1,8 +1,12 @@
+import controller.UserController;
+import view.Menu;
+import view.RegisterLoginMenu;
 import view.UserMenu;
+
+import java.io.IOException;
 
 class Main {
     public static void main(String[] args) {
-        System.out.println("Hi");
-        new UserMenu("hi", null, null);
+        new RegisterLoginMenu(new UserController());
     }
 }
