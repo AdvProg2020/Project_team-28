@@ -69,4 +69,12 @@ public class Customer extends User {
     public void payCredit (long cost) {
         this.setCredit(this.getCredit() - cost);
     }
+
+    public ArrayList<purchaseLog> getPurchaseHistory() {
+        ArrayList<purchaseLog> purchaseLogs = new ArrayList<>();
+        for (String log : this.purchaseHistory) {
+            purchaseLogs.add(Database.getPurchaseLogById(log));
+        }
+        return purchaseLogs;
+    }
 }
