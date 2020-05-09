@@ -48,4 +48,36 @@ public class User {
     public String getFullName() {
         return name + " " + surname;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
+
+    public long getCredit() {
+        return credit;
+    }
 }
