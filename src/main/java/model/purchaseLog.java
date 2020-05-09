@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class purchaseLog {
     private LocalDateTime date;
@@ -11,6 +12,10 @@ public class purchaseLog {
     private String seller;
     private enum deliveryStatus {A,B}
     private String id;
+
+    public purchaseLog() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public String getId() {
         return id;

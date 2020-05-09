@@ -14,13 +14,10 @@ public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<Comment> allComments = new ArrayList<>();
     private static ArrayList<Property> allProperties = new ArrayList<>();
     private static ArrayList<Score> allScores = new ArrayList<>();
+    private static ArrayList<purchaseLog> allPurchaseLogs = new ArrayList<>();
 
     public void loadAllData() {
 
-    }
-
-    public static void add (Score score) {
-        allScores.add(score);
     }
     public static void add (User user) {
         allUsers.add(user);
@@ -42,6 +39,12 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
     public static void add (Property property) {
         allProperties.add(property);
+    }
+    public static void add (Score score) {
+        allScores.add(score);
+    }
+    public static void add (purchaseLog log) {
+        allPurchaseLogs.add(log);
     }
 
     public static Product getProductById(String id) {
@@ -85,6 +88,13 @@ public class Database { //jaaye in tu model nist? :thinking:
         for (Score score : allScores) {
             if (score.getId().equals(id))
                 return score;
+        }
+        return null;
+    }
+    public static purchaseLog getPurchaseLogById (String id) {
+        for (purchaseLog log : allPurchaseLogs) {
+            if (log.getId().equals(id))
+                return log;
         }
         return null;
     }

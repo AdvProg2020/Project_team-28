@@ -4,7 +4,9 @@ import model.Customer;
 import model.Discount;
 import model.Product;
 import model.User;
+import model.purchaseLog;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
@@ -74,6 +76,25 @@ public class CustomerController extends UserController {
             return customerLoggedOn.hasDiscount(discount);
         }
         return false;
+    }
+
+    public void purchase() {
+        customerLoggedOn.payCredit(getTotalPrice());
+        purchaseLog newLog = createPurchaseLog();
+        Database.add(newLog);
+        customerLoggedOn.addToPurchaseHistory(newLog);
+        customerLoggedOn.emptyCart();
+
+    }
+
+    private purchaseLog createPurchaseLog () {
+        purchaseLog log = new purchaseLog();
+        log.setDate(LocalDateTime.now());
+        log.setAmountPaid(getTotalPrice());
+        log.setProducts(customerLoggedOn.getCart());
+        //TODO: how to set seller?
+        //log.setSeller();
+        return log;
     }
 
 }

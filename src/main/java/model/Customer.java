@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Customer extends User {
-    private HashMap<String, Integer> cart; //<productId, Number>
+    private HashMap<String, Integer> cart = new HashMap<>(); //<productId, Number>
     private ArrayList<String> purchaseHistory;
     private ArrayList<String> discountCodes;
 
@@ -23,7 +23,7 @@ public class Customer extends User {
         return discountCodes.contains(discount.getId());
     }
 
-    public void AddToPurchaseHistory(purchaseLog purchaseLog) {
+    public void addToPurchaseHistory(purchaseLog purchaseLog) {
         purchaseHistory.add(purchaseLog.getId());
     }
 
@@ -50,6 +50,10 @@ public class Customer extends User {
         }
     }
 
+    public void emptyCart () {
+        this.cart = new HashMap<>();
+    }
+
     public HashMap<Product, Integer> getCart() {
         HashMap<Product, Integer> finalCart = new HashMap<>();
         for (String item : cart.keySet()) {
@@ -60,5 +64,9 @@ public class Customer extends User {
 
     public boolean isProductInCart(String productId) {
         return this.cart.containsKey(productId);
+    }
+
+    public void payCredit (long cost) {
+        this.setCredit(this.getCredit() - cost);
     }
 }
