@@ -1,6 +1,9 @@
 package model;
 
+import controller.Database;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -50,7 +53,11 @@ public class purchaseLog {
     }
 
     public HashMap<Product, Integer> getProducts() {
-        return null;
+        HashMap<Product, Integer> toReturn = new HashMap<>();
+        for (String product : products.keySet()) {
+            toReturn.put(Database.getProductById(product), products.get(product) );
+        }
+        return toReturn;
     }
 
     public void setProducts(HashMap<Product, Integer> products) {
@@ -61,5 +68,22 @@ public class purchaseLog {
     }
 
     public void setSeller(Seller seller) {
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder toReturn = new StringBuilder();
+        HashMap<Product, Integer> allProducts = this.getProducts();
+        toReturn.append("Log id: ").append(this.id).append("\n")
+                .append("Date and time: ").append(this.date).append("\n")
+                .append("List of Products:").append("\n")
+                .append("Product Id\tProduct name\tPrice\tNumber").append("\n");
+        for (Product product : allProducts.keySet()) {
+            toReturn.append(product).append("\t").append(allProducts.get(product)).append("\n");
+        }
+        toReturn.append("Total price: ").append(this.amountPaid).append("\n");
+        //Todo
+        //append("Delivery status: ").append()
+        return toReturn.toString();
     }
 }

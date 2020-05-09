@@ -95,6 +95,25 @@ public class CustomerController extends UserController {
         //TODO: how to set seller?
         //log.setSeller();
         return log;
+    }//one to do
+
+    public String viewOrders () {
+        StringBuilder stringToReturn = new StringBuilder();
+        stringToReturn.append("Order ID\tAmount paid\tDate\n");
+        for (purchaseLog log : customerLoggedOn.getPurchaseHistory()) {
+            stringToReturn.append(log.getId()).append("\t")
+                    .append(log.getAmountPaid()).append("\t")
+                    .append(log.getDate()).append("\n");
+        }
+        return stringToReturn.toString();
+    }
+
+    public String viewOrder (String orderId) {
+        purchaseLog thisLog = Database.getPurchaseLogById(orderId);
+        if (thisLog != null)
+            return thisLog.toString();
+        else
+            return "Not a valid id";
     }
 
 }
