@@ -1,12 +1,9 @@
 package controller;
 
-import model.Customer;
-import model.Discount;
-import model.Product;
-import model.User;
-import model.purchaseLog;
+import model.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
@@ -24,11 +21,11 @@ public class CustomerController extends UserController {
                 "Phone number: " + customerLoggedOn.getPhoneNumber() + "\n";
     }
 
-    private void changePersonalInfo() {
-
+    public void changePersonalInfo(HashMap<String, String> infoToSet) {
+        super.changePersonalInfo(infoToSet);
     }
 
-    public String viewCartProducts() {
+    public String viewProducts() {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();
@@ -108,12 +105,29 @@ public class CustomerController extends UserController {
         return stringToReturn.toString();
     }
 
-    public String viewOrder (String orderId) {
+    public String showOrder(String orderId) {
         purchaseLog thisLog = Database.getPurchaseLogById(orderId);
         if (thisLog != null)
             return thisLog.toString();
         else
             return "Not a valid id";
+    }
+
+    public void rateProduct (String productId, int score) {
+        Score newScore = new Score(customerLoggedOn, score, Database.getProductById(productId));
+        Database.add(newScore);
+        Database.getProductById(productId).addScore(newScore);
+    }
+
+    public String viewBalance () {
+        return Long.toString(customerLoggedOn.getCredit());
+    }
+
+    public ArrayList<String> viewDiscountCodes () {
+        ArrayList<String> result = new ArrayList<>();
+        for (Discount code : customerLoggedOn.getDiscountCodes())
+            result.add(code.getCode());
+        return result;
     }
 
 }

@@ -77,4 +77,12 @@ public class Customer extends User {
         }
         return purchaseLogs;
     }
+
+    public ArrayList<Discount> getDiscountCodes() {
+        ArrayList<Discount> toReturn = new ArrayList<>();
+        for (String code : discountCodes) {
+            toReturn.add(Database.getDiscountById(code));
+        }
+        return toReturn;
+    }
 }
