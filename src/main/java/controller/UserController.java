@@ -24,7 +24,29 @@ public class UserController {
         return "You are what you are";
     }
 
-    public void changePersonalInfo(String field, String value) throws Exception {
-        throw new Exception(field + "changed to" + value);
+    public void changePersonalInfo(HashMap<String, String> infoToSet) {
+        for (String info : infoToSet.keySet()) {
+            String value = infoToSet.get(info);
+            switch (info) {
+                case "name":
+                    userLoggedOn.setName(value);
+                    break;
+                case "surname":
+                    userLoggedOn.setSurname(value);
+                    break;
+                case "email":
+                    userLoggedOn.setEmail(value);
+                    break;
+                case "phoneNumber":
+                    userLoggedOn.setPhoneNumber(value);
+                    break;
+                case "password":
+                    userLoggedOn.setPassword(value);
+                    break;
+                case "username":
+                    userLoggedOn.setUsername(value);
+                    break;
+            }
+        }
     }
 }

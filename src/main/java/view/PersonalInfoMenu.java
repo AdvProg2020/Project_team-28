@@ -41,7 +41,9 @@ public class PersonalInfoMenu extends Menu {
                 HashMap<String, Boolean> fields = new HashMap<>();
                 fields.put(field, false);
                 String value = new Conversation(fields).execute().get(field);
-                controller.changePersonalInfo(field, value);
+                HashMap<String, String> information = new HashMap<>();
+                information.put(field, value);
+                controller.changePersonalInfo(information);
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");

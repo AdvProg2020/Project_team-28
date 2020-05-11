@@ -20,6 +20,9 @@ public class Product {
     private String id;
 
     public Product() {
+        allScores = new ArrayList<>();
+        allComments = new ArrayList<>();
+        allProperties = new ArrayList<>();
         this.id = UUID.randomUUID().toString();
     }
 
@@ -60,6 +63,10 @@ public class Product {
 
     public void addProperty(Property property) {
 
+    }
+
+    public void addScore (Score score) {
+        allScores.add(score.getId());
     }
 
     public long getPrice() {
