@@ -12,11 +12,12 @@ public class purchaseLog {
     private long amountPaid;
     private String discount;
     private HashMap<String, Integer> products;//<Product, Number>
-    private String seller;
-    private enum deliveryStatus {A,B}
+    private enum deliveryStatus {InStock, Sent, Delivered}
+    deliveryStatus status = deliveryStatus.InStock;
     private String id;
 
     public purchaseLog() {
+        this.products = new HashMap<>();
         this.id = UUID.randomUUID().toString();
     }
 
@@ -63,11 +64,12 @@ public class purchaseLog {
     public void setProducts(HashMap<Product, Integer> products) {
     }
 
-    public Seller getSeller() {
-        return null;
+    public String getStatus() {
+        return status.toString();
     }
 
-    public void setSeller(Seller seller) {
+    public void setStatus(String status) {
+        this.status = deliveryStatus.valueOf(status);
     }
 
     @Override
@@ -77,13 +79,12 @@ public class purchaseLog {
         toReturn.append("Log id: ").append(this.id).append("\n")
                 .append("Date and time: ").append(this.date).append("\n")
                 .append("List of Products:").append("\n")
-                .append("Product Id\tProduct name\tPrice\tNumber").append("\n");
+                .append("Product Id\tProduct name\tSeller\tPrice\tNumber").append("\n");
         for (Product product : allProducts.keySet()) {
             toReturn.append(product).append("\t").append(allProducts.get(product)).append("\n");
         }
-        toReturn.append("Total price: ").append(this.amountPaid).append("\n");
-        //Todo
-        //append("Delivery status: ").append()
+        toReturn.append("Total price: ").append(this.amountPaid).append("\n")
+                .append("Delivery status: ").append(status.toString());
         return toReturn.toString();
     }
 }
