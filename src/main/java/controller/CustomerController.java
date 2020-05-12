@@ -89,10 +89,8 @@ public class CustomerController extends UserController {
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
         log.setProducts(customerLoggedOn.getCart());
-        //TODO: how to set seller?
-        //log.setSeller();
         return log;
-    }//one to do
+    }
 
     public String viewOrders () {
         StringBuilder stringToReturn = new StringBuilder();
