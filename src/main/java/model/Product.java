@@ -38,8 +38,8 @@ public class Product {
         return brand;
     }
 
-    public String getSeller() {
-        return seller;
+    public Seller getSeller() {
+        return (Seller) Database.getUserById(seller);
     }
 
     public boolean isInStock() {
@@ -75,6 +75,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return id + "\t" + name + "\t" + price;
+        return id + "\t" + name + "\t" + this.getSeller().getFullName() + "\t" + price;
     }
 }
