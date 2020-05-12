@@ -7,14 +7,16 @@ public class Comment {
     private String user;
     private String product;
     private String text;
+    private String title;
     private enum CommentStatus {WaitingForConfirmation,Confirmed, RejectedByManager}
     CommentStatus status = CommentStatus.WaitingForConfirmation;
     private boolean bought;
     private String id;
 
-    public Comment(User user, Product product, String text, boolean bought) {
+    public Comment(User user, Product product,String title, String text, boolean bought) {
         this.user = user.getId();
         this.product = product.getId();
+        this.title = title;
         this.text = text;
         this.bought = bought;
         this.id = UUID.randomUUID().toString();
@@ -50,10 +52,8 @@ public class Comment {
 
     @Override
     public String toString() {
-        StringBuilder finalString = new StringBuilder();
-        finalString.append(getUser().getFullName()).append(" said:\n").append(text).append("\n")
-        .append("has bought this product: ");
-        finalString.append(bought ? "yes" : "no");
-        return finalString.toString();
+        return getUser().getFullName() + " said:\n" + text + "\n" +
+                "has bought this product: " +
+                (bought ? "yes" : "no");
     }
 }

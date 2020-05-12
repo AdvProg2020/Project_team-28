@@ -13,6 +13,12 @@ public class Property {
         this.id = UUID.randomUUID().toString();
     }
 
+    public Property (Property property) {
+        this.name = property.getName();
+        this.isNumber = property.isNumber();
+        this.id = UUID.randomUUID().toString();
+    }
+
     public String getId() {
         return id;
     }
@@ -27,5 +33,21 @@ public class Property {
             }
         }
         return false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isNumber() {
+        return isNumber;
+    }
+
+    public void setValueInt(int valueInt) {
+        this.valueInt = valueInt;
+    }
+
+    public void setValueString(String valueString) {
+        this.valueString = valueString;
     }
 }

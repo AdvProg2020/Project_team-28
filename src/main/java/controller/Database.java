@@ -111,6 +111,18 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
+    public static Property getPropertyByName (String name) {
+        for (Property property : allProperties) {
+            if (property.getName().equals(name))
+                return property;
+        }
+        return null;
+    }
+
+    public static ArrayList<Category> getAllCategories() {
+        return allCategories;
+    }
+
     public void update(Object object) {
 
     }

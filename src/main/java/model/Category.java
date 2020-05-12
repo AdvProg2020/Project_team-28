@@ -58,4 +58,12 @@ public class Category {
         }
         return finalList;
     }
+
+    public void addProduct (Product product) {
+        this.products.add(product.getId());
+    }
+
+    public void addProperty (Property property) {
+        this.specialProperties.add(property.getId());
+    }
 }

@@ -17,6 +17,7 @@ public class Product {
     private ArrayList<String> allScores;
     private ArrayList<String> allComments;
     private ArrayList<String> allProperties;
+    private ArrayList<String> allSpecialProperties;
     private String id;
 
     public Product() {
@@ -40,6 +41,16 @@ public class Product {
 
     public Seller getSeller() {
         return (Seller) Database.getUserById(seller);
+    }
+
+    public void setCategory(Category category) {
+        this.category = category.getId();
+        allSpecialProperties = new ArrayList<>();
+        for (Property property : category.getSpecialProperties()) {
+            Property clonedProperty = new Property(property);
+            allSpecialProperties.add(clonedProperty.getId());
+            Database.add(clonedProperty);
+        }
     }
 
     public boolean isInStock() {
@@ -67,6 +78,22 @@ public class Product {
 
     public void addScore (Score score) {
         allScores.add(score.getId());
+    }
+
+    public void addComment (Comment comment) {
+        allComments.add(comment.getId());
+    }
+
+    public boolean hasProperty (Property property) {
+        for (String thisProperty : allProperties) {
+            if (property.equals(Database.getPropertyById(thisProperty)))
+                return true;
+        }
+        for (String specialProperty : allSpecialProperties) {
+            if (property.equals(Database.getPropertyById(specialProperty)))
+                return true;
+        }
+        return false;
     }
 
     public long getPrice() {
