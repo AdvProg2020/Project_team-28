@@ -1,18 +1,25 @@
 package model;
 
+import controller.Database;
+
+import javax.xml.crypto.Data;
+import java.util.UUID;
+
 public class Score {
-    private User user;
+    private String user;
     private int score;
-    private Product product;
+    private String product;
+    private String id;
 
     public Score(User user, int score, Product product) {
-        this.user = user;
+        this.user = user.getId();
         this.score = score;
-        this.product = product;
+        this.product = product.getId();
+        this.id = UUID.randomUUID().toString();
     }
 
     public User getUser() {
-        return user;
+        return Database.getUserById(user);
     }
 
     public int getScore() {
@@ -20,6 +27,10 @@ public class Score {
     }
 
     public Product getProduct() {
-        return product;
+        return Database.getProductById(product);
+    }
+
+    public String getId() {
+        return id;
     }
 }

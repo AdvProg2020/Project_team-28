@@ -1,10 +1,16 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Filter {
-    private ArrayList<Property> properties;
+    private ArrayList<String> properties;
     private Category filteredCategory;
+    private String id;
+
+    public Filter() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public boolean isValid(Product product) {
         return true;

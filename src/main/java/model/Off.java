@@ -2,29 +2,34 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Off {
-    private String offId;
-    private ArrayList<Product> products;
+    private ArrayList<String> products;
     private enum offStatus {A, B}
     private LocalDateTime startTime;
     private LocalDateTime finishTime;
     private int discountAmount;
+    private String id;
 
-    public String getOffId() {
-        return offId;
+    public Off() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public void setOffId(String offId) {
-        this.offId = offId;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ArrayList<Product> getProducts() {
-        return products;
+        return null;
     }
 
     public void setProducts(ArrayList<Product> products) {
-        this.products = products;
+
     }
 
     public LocalDateTime getStartTime() {
