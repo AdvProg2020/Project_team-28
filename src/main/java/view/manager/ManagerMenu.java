@@ -1,9 +1,10 @@
-package view;
+package view.manager;
 
 import controller.ManagerController;
-import model.Discount;
+import view.Conversation;
+import view.Menu;
+import view.userstuff.PersonalInfoMenu;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -39,6 +40,7 @@ public class ManagerMenu extends Menu {
         Matcher createDiscountCodeMatcher = Menu.getMatcher(input, "^create discount code$");
         Matcher viewDiscountCodesMatcher = Menu.getMatcher(input, "^view discount codes$");
         Matcher manageRequestsMatcher = Menu.getMatcher(input, "^manage requests$");
+        Matcher manageCategoriesMatcher = Menu.getMatcher(input, "^manage categories");
         Matcher helpMatcher = Menu.getMatcher(input, "^help$");
         Matcher backMatcher = Menu.getMatcher(input, "^back$");
         try {
@@ -59,6 +61,8 @@ public class ManagerMenu extends Menu {
                 new DiscountEditorMenu(controller);
             } else if (manageRequestsMatcher.find()) {
                 new RequestMenu(controller);
+            } else if (manageCategoriesMatcher.find()) {
+                new CategoryMenu(controller);
             } else if (helpMatcher.find()) {
                 help();
             } else if (backMatcher.find()) {

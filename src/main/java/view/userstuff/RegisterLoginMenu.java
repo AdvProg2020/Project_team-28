@@ -1,11 +1,15 @@
-package view;
+package view.userstuff;
 
 import controller.CustomerController;
 import controller.ManagerController;
 import controller.SellerController;
 import controller.UserController;
+import view.Conversation;
+import view.CustomerMenu;
+import view.Menu;
+import view.manager.ManagerMenu;
+import view.seller.SellerMenu;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -55,7 +59,7 @@ public class RegisterLoginMenu extends Menu {
                 if ("manager".equals(controller.getUser().getType())) {
                     new ManagerMenu(new ManagerController(controller.getUser()));
                 } else if ("customer".equals(controller.getUser().getType())) {
-                    new UserMenu(new CustomerController(controller.getUser()));
+                    new CustomerMenu(new CustomerController(controller.getUser()));
                 } else if ("seller".equals(controller.getUser().getType())) {
                     new SellerMenu(new SellerController(controller.getUser()));
                 }

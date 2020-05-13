@@ -1,6 +1,8 @@
-package view;
+package view.manager;
 
 import controller.ManagerController;
+import view.Conversation;
+import view.Menu;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;

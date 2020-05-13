@@ -4,13 +4,14 @@ import controller.CustomerController;
 
 import java.util.ArrayList;
 
-public class UserMenu extends Menu {
+public class CustomerMenu extends Menu {
     CustomerController controller;
-    public UserMenu(String name, Menu parentMenu, ArrayList<Menu> subMenus) {
+
+    public CustomerMenu(String name, Menu parentMenu, ArrayList<Menu> subMenus) {
         super(parentMenu);
     }
 
-    public UserMenu(CustomerController customerController) {
+    public CustomerMenu(CustomerController customerController) {
         controller = customerController;
     }
 
