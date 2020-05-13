@@ -1,7 +1,5 @@
 package view;
 
-import javafx.css.Match;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -13,7 +11,7 @@ public class Conversation {
     ArrayList<String> keys = new ArrayList<>();
     private String error;
 
-    Conversation(HashMap<String, Boolean> fields) {
+    public Conversation(HashMap<String, Boolean> fields) {
         this.fields = fields;
         keys.addAll(fields.keySet());
     }
