@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 
 public class RequestMenu extends Menu {
     ManagerController controller;
+
     public RequestMenu(ManagerController managerController) {
         super();
         controller = managerController;

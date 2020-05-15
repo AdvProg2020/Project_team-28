@@ -5,8 +5,8 @@ import controller.ManagerController;
 import controller.SellerController;
 import controller.UserController;
 import view.Conversation;
-import view.CustomerMenu;
 import view.Menu;
+import view.customer.CustomerMenu;
 import view.manager.ManagerMenu;
 import view.seller.SellerMenu;
 
@@ -34,7 +34,7 @@ public class RegisterLoginMenu extends Menu {
         input = input.replaceAll("^\\s+", "");
         input = input.replaceAll("\\s+$", "");
 
-        Matcher helpMatcher = Menu.getMatcher(input,"^help$");
+        Matcher helpMatcher = Menu.getMatcher(input, "^help$");
         Matcher registerMatcher = Menu.getMatcher(input, "^create account \\S+ \\S+$");
         Matcher loginMatcher = Menu.getMatcher(input, "^login \\S+$");
         Matcher backMatcher = Menu.getMatcher(input, "^back$");
@@ -47,7 +47,7 @@ public class RegisterLoginMenu extends Menu {
                 String username = input.split(" ")[3];
                 HashMap<String, Boolean> fields = fillForProperties();
                 HashMap<String, String> data = new Conversation(fields).execute();
-                data.put("username",username);
+                data.put("username", username);
                 data.put("type", type);
                 controller.registerAccount(data);
             } else if (loginMatcher.find()) {
@@ -60,6 +60,7 @@ public class RegisterLoginMenu extends Menu {
                     new ManagerMenu(new ManagerController(controller.getUser()));
                 } else if ("customer".equals(controller.getUser().getType())) {
                     new CustomerMenu(new CustomerController(controller.getUser()));
+                    //TODO renew default account
                 } else if ("seller".equals(controller.getUser().getType())) {
                     new SellerMenu(new SellerController(controller.getUser()));
                 }
