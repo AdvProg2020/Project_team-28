@@ -66,4 +66,10 @@ public class Category {
     public void addProperty (Property property) {
         this.specialProperties.add(property.getId());
     }
+    @Override
+    public boolean equals (Object object) {
+        if (object instanceof Category)
+            return ((Category) object).getName().equals(this.name);
+        return false;
+    }
 }

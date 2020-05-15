@@ -57,8 +57,8 @@ public class Product {
         return inStock;
     }
 
-    public String getCategory() {
-        return category;
+    public Category getCategory() {
+        return Database.getCategoryById(this.category);
     }
 
     public String getDescription() {

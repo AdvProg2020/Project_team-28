@@ -39,6 +39,14 @@ public class Property {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNumber(boolean number) {
+        isNumber = number;
+    }
+
     public boolean isNumber() {
         return isNumber;
     }
@@ -49,5 +57,12 @@ public class Property {
 
     public void setValueString(String valueString) {
         this.valueString = valueString;
+    }
+
+    public static Property createPropertyFromString (String string, boolean isNumber) {
+        Property result = new Property();
+        result.setName(string);
+        result.setNumber(isNumber);
+        return result;
     }
 }

@@ -52,7 +52,7 @@ public class Comment {
 
     @Override
     public String toString() {
-        return getUser().getFullName() + " said:\n" + text + "\n" +
+        return "Title: "+ this.title + "\n" + getUser().getFullName() + " said:\n" + text + "\n" +
                 "has bought this product: " +
                 (bought ? "yes" : "no");
     }
