@@ -3,6 +3,7 @@ package view;
 import java.util.HashMap;
 
 public class Filler {
+    //<String fieldName, Boolean isOptional>
     public static void fillSellerEditProductFields(HashMap<String, Boolean> fields) {
         fields.put("Old fields", false);
     }
@@ -16,5 +17,11 @@ public class Filler {
         fields.put("product id", true);
         fields.put("percent", true);
         fields.put("maximum amount", true);
+    }
+
+    public static void fillPurchaseInformationReceiver(HashMap<String, Boolean> fields) {
+        fields.put("street", false); //It's necessity can be obtained using the last information
+        fields.put("building number", false);
+        fields.put("phone number", true);
     }
 }

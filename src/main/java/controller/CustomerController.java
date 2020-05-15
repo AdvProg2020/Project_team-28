@@ -10,9 +10,11 @@ import java.util.HashMap;
 public class CustomerController extends UserController {
     private Customer customerLoggedOn;
 
-    public CustomerController(User user) {
+    public CustomerController(User user) throws Exception {
         if (user instanceof Customer)
             this.customerLoggedOn = (Customer) user;
+        else
+            throw new Exception("User logged on is not a customer :|");
     }
 
     private String viewPersonalInfo() {
@@ -68,7 +70,7 @@ public class CustomerController extends UserController {
         return totalPrice;
     }
 
-    public boolean validateDiscountCode (String code) {
+    public boolean validateDiscountCode(String code) {
         Discount discount = Database.getDiscountByCode(code);
         if (discount != null) {
             return customerLoggedOn.hasDiscount(discount);
@@ -76,4 +78,43 @@ public class CustomerController extends UserController {
         return false;
     }
 
+    public String viewBalance() {
+        //TODO complete function
+        return "This is the balance";
+    }
+
+    public String viewDiscountCodes() {
+        //TODO complete function
+        return "These are your discount codes";
+    }
+
+    public String viewOrders() {
+        //TODO complete function
+        return "These are History of your orders";
+    }
+
+    public String showOrder(String orderId) {
+        //TODO complete function
+        return "This is the product number " + orderId;
+    }
+
+    public void rateProduct(String productId, String rate) throws Exception {
+        //TODO complete function
+        throw new Exception(productId + " rated " + rate);
+    }
+
+    public void addAddress(HashMap<String, String> fields) throws Exception {
+        //TODO adding address information for purchasing
+        throw new Exception("Address is " + fields);
+    }
+
+    public void useDiscuontCode(String discountCode) throws Exception {
+        //TODO It's been checked and it just needs to be performed on the current cart
+        throw new Exception("Using discount code " + discountCode);
+    }
+
+    public String getPaymentCheck() {
+        //TODO finalizing the purchase
+        return "purchase was failed :D";
+    }
 }

@@ -21,14 +21,14 @@ public class Conversation {
             return res;
         }
         String key = keys.get(stateNumber);
-        System.out.print("Please enter " + key +": ");
+        System.out.print("Please enter " + key + ": ");
         String input = Menu.scanner.nextLine();
 
         Matcher emptyMatcher = Menu.getMatcher(input, "^\\s*$");
         try {
             if (!emptyMatcher.find() || fields.get(key)) {
-                res.put(key,input);
-                stateNumber ++;
+                res.put(key, input);
+                stateNumber++;
             } else {
                 throw new Exception("Required field can't be left empty.");
             }
