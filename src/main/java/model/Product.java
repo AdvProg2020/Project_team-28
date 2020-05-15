@@ -43,6 +43,14 @@ public class Product {
         return (Seller) Database.getUserById(seller);
     }
 
+    public ArrayList<Property> getAllProperties() {
+        ArrayList<Property> result = new ArrayList<>();
+        for (String property : this.allProperties) {
+            result.add(Database.getPropertyById(property));
+        }
+        return result;
+    }
+
     public void setCategory(Category category) {
         this.category = category.getId();
         allSpecialProperties = new ArrayList<>();

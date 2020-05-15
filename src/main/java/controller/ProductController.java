@@ -1,14 +1,13 @@
 package controller;
 
-import model.Category;
-import model.Comment;
-import model.Product;
-import model.Seller;
+import model.*;
 
 import java.util.ArrayList;
 
 public class ProductController extends UserController {
     private static Product currentProduct;
+    private Filter currentFilter = new Filter();
+
     public ProductController () {
 
     }
@@ -43,5 +42,13 @@ public class ProductController extends UserController {
             categoryNames.add(category.getName());
         }
         return categoryNames;
+    }
+
+    public String showAvailableFilters () {
+        return null;
+    }
+
+    public ArrayList<Product> filterProducts () {
+        return null;
     }
 }
