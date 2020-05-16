@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class ProductController extends UserController {
     private static Product currentProduct;
+    private static Category currentCategory;
     private Filter currentFilter = new Filter();
 
     public ProductController () {
@@ -45,10 +46,24 @@ public class ProductController extends UserController {
     }
 
     public String showAvailableFilters () {
-        return null;
+        StringBuilder result = new StringBuilder();
+        result.append("Name\nBrand\nIn stock\nPrice\n");
+        for (Property property : currentCategory.getSpecialProperties()) {
+            result.append(property.getName()).append("\n");
+        }
+        return result.toString();
     }
 
     public ArrayList<Product> filterProducts () {
-        return null;
+        ArrayList<Product> result = new ArrayList<>();
+        for (Product product : Database.getAllProducts()) {
+            if (validateCategory(product) && currentFilter.isValid(product))
+                result.add(product);
+        }
+        return result;
+    }
+
+    public boolean validateCategory (Product product) {
+        return currentCategory.equals(product.getCategory());
     }
 }

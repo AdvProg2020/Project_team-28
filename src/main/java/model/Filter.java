@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public class Filter {
     private ArrayList<Property> properties;
-    private Category filteredCategory;
     private String filteredName;
     private boolean inStock;
     private String brand;
@@ -21,7 +20,7 @@ public class Filter {
 
     public boolean isValid(Product product) {
         boolean result = validateName(product);
-        result = result && validateCategory(product) && validateProperties(product);
+        result = result && validateProperties(product);
         result = result && validateInStock(product) && validatePrice(product);
         result = result && validateBrand(product);
         return result;
@@ -38,11 +37,6 @@ public class Filter {
         return result;
     }
 
-    public boolean validateCategory (Product product) {
-        if (filteredCategory != null)
-            return this.filteredCategory.equals(product.getCategory());
-        return true;
-    }
 
     public boolean validateName (Product product) {
         if (this.filteredName != null)
@@ -67,10 +61,6 @@ public class Filter {
             return (product.getPrice() >= this.minPrice) && (product.getPrice() <= this.maxPrice);
         }
         return true;
-    }
-
-    public void addRestriction(Category category) {
-        this.filteredCategory = category;
     }
 
     public void addRestriction(String property, boolean isNumber) {

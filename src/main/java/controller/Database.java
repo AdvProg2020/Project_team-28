@@ -123,6 +123,10 @@ public class Database { //jaaye in tu model nist? :thinking:
         return allCategories;
     }
 
+    public static ArrayList<Product> getAllProducts() {
+        return allProducts;
+    }
+
     public void update(Object object) {
 
     }
