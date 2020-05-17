@@ -22,7 +22,7 @@ public class DiscountCodeReceiver {
 
         if (controller.validateDiscountCode(input)) {
             try {
-                controller.useDiscuontCode(input);
+                controller.useDiscountCode(input);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }

@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Customer extends User {
+    private HashMap<String, String> address;
     private HashMap<String, Integer> cart = new HashMap<>(); //<productId, Number>
+    private Discount discountUsed;
     private ArrayList<String> purchaseHistory;
     private ArrayList<String> discountCodes;
 
@@ -17,6 +19,14 @@ public class Customer extends User {
     @Override
     public String getType() {
         return super.getType();
+    }
+
+    public Discount getDiscountUsed() {
+        return discountUsed;
+    }
+
+    public void setAddress(HashMap<String, String> address) {
+        this.address = address;
     }
 
     public boolean hasDiscount (Discount discount) {
@@ -35,6 +45,11 @@ public class Customer extends User {
         if (isProductInCart(productId)) {
             cart.put(productId, cart.get(productId) + 1);
         }
+    }
+
+    public void useDiscount (Discount discount) throws Exception{
+        discount.useCode();
+        discountUsed = discount;
     }
 
     public int decreaseNumberInCart (String productId) {

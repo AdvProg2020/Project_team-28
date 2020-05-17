@@ -28,7 +28,11 @@ public class CustomerController extends UserController {
         super.changePersonalInfo(infoToSet);
     }
 
-    public String viewProducts() {
+    public void addAddress(HashMap<String, String> information) {
+        customerLoggedOn.setAddress(information);
+    }
+
+    public String viewCartProducts() {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();
@@ -78,14 +82,12 @@ public class CustomerController extends UserController {
         return false;
     }
 
-    public void rateProduct(String productId, String rate) throws Exception {
-        //TODO complete function
-        throw new Exception(productId + " rated " + rate);
-    }
-
-    public void addAddress(HashMap<String, String> fields) throws Exception {
-        //TODO adding address information for purchasing
-        throw new Exception("Address is " + fields);
+    public void useDiscountCode(String code) throws Exception {
+        Discount thisDiscount = Database.getDiscountByCode(code);
+        if (thisDiscount == null)
+            throw new Exception("Not a valid discount Code");
+        if (customerLoggedOn.hasDiscount(thisDiscount))
+            customerLoggedOn.useDiscount(thisDiscount);
     }
 
     public void useDiscuontCode(String discountCode) throws Exception {
@@ -133,8 +135,8 @@ public class CustomerController extends UserController {
             return "Not a valid id";
     }
 
-    public void rateProduct (String productId, int score) {
-        Score newScore = new Score(customerLoggedOn, score, Database.getProductById(productId));
+    public void rateProduct (String productId, String score) {
+        Score newScore = new Score(customerLoggedOn, Integer.parseInt(score), Database.getProductById(productId));
         Database.add(newScore);
         Database.getProductById(productId).addScore(newScore);
     }
