@@ -77,4 +77,11 @@ public class Discount {
     public void setUsers(ArrayList<User> users) {
 
     }
+
+    public void useCode () throws Exception {
+        if (this.repetitionNumber > 0)
+            this.repetitionNumber -= 1;
+        else
+            throw new Exception("Code Expired");
+    }
 }

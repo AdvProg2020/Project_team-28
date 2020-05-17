@@ -1,9 +1,6 @@
 package controller;
 
-import model.Customer;
-import model.Discount;
-import model.Product;
-import model.User;
+import model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,7 +9,7 @@ import java.util.HashMap;
 public class CustomerController extends UserController {
     private Customer customerLoggedOn;
 
-    public CustomerController(User user) {
+    public CustomerController(User user) throws Exception {
         if (user instanceof Customer)
             this.customerLoggedOn = (Customer) user;
         else
@@ -28,6 +25,14 @@ public class CustomerController extends UserController {
 
     private void changePersonalInfo() {
 
+    }
+
+    public void addAddress(HashMap<String, String> information) {
+        customerLoggedOn.setAddress(information);
+    }
+
+    public String getPaymentCheck() {
+        return "";
     }
 
     public String viewCartProducts() {
@@ -69,6 +74,8 @@ public class CustomerController extends UserController {
         for (Product product : customerLoggedOn.getCart().keySet()) {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
         }
+        if (customerLoggedOn.getDiscountUsed() != null)
+            totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) /100;
         return totalPrice;
     }
 
@@ -78,6 +85,14 @@ public class CustomerController extends UserController {
             return customerLoggedOn.hasDiscount(discount);
         }
         return false;
+    }
+
+    public void useDiscountCode(String code) throws Exception {
+        Discount thisDiscount = Database.getDiscountByCode(code);
+        if (thisDiscount == null)
+            throw new Exception("Not a valid discount Code");
+        if (customerLoggedOn.hasDiscount(thisDiscount))
+            customerLoggedOn.useDiscount(thisDiscount);
     }
 
     public void purchase() {
@@ -116,8 +131,8 @@ public class CustomerController extends UserController {
             return "Not a valid id";
     }
 
-    public void rateProduct (String productId, int score) {
-        Score newScore = new Score(customerLoggedOn, score, Database.getProductById(productId));
+    public void rateProduct (String productId, String score) {
+        Score newScore = new Score(customerLoggedOn, Integer.parseInt(score), Database.getProductById(productId));
         Database.add(newScore);
         Database.getProductById(productId).addScore(newScore);
     }
