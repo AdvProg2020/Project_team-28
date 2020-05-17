@@ -85,7 +85,7 @@ public class ProductController extends UserController {
         Database.remove(Database.getProductById(productId));
     }
 
-    public static void addFilter (Property property) {
+    public static void addFilter(String property, String value) {
         currentFilter.addRestriction(property);
     }
 
@@ -141,10 +141,14 @@ public class ProductController extends UserController {
         result.append(first.getName()).append("\t").append(second.getName()).append("\n");
         ArrayList<String> firstAttributes = getAttributes(first);
         ArrayList<String> secondAttributes = getAttributes(second);
-        for (int i = 0 ; i < firstAttributes.size() ; i++) {
+        for (int i = 0; i < firstAttributes.size(); i++) {
             result.append(firstAttributes.get(i)).append("\t").
                     append(secondAttributes.get(i)).append("\n");
         }
         return result.toString();
+    }
+
+    public String getCategories() {
+        return "These are categories";
     }
 }

@@ -38,14 +38,14 @@ public class SortingMenu extends Menu {
             } else if (backMatcher.find()) {
                 return false;
             } else if (showAvailableSortsMatcher.find()) {
-                context = controller.showAvailableSorts();
+                context = controller.showAvailableSorts().toString();
             } else if (sortMatcher.find()) {
-                controller.setSort(input.split(" ")[1]);
+                ProductController.setSort(input.split(" ")[1]);
                 error = "set has been set to " + input.split(" ")[1];
             } else if (currentSortMatcher.find()) {
-                context = controller.getCurrentSort();
+                context = ProductController.getCurrentSort();
             } else if (disableSortMatcher.find()) {
-                controller.setSort("view-count");
+                ProductController.setSort("view-count");
                 error = "Sort has been set to view-count";
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +

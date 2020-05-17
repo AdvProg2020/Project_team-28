@@ -34,7 +34,7 @@ public class ProductsMenu extends Menu {
         Matcher filteringMatcher = Menu.getMatcher(input, "^filtering$");
         Matcher sortingMatcher = Menu.getMatcher(input, "^sorting$");
         Matcher showProductsMatcher = Menu.getMatcher(input, "^show products$");
-        Matcher showProductMatcher = Menu.getMatcher(input, "^show product \\S+$");
+        Matcher showProductMatcher = Menu.getMatcher(input, "^show product \\S$");
 
         try {
             if (helpMatcher.find()) {

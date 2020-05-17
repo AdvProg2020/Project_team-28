@@ -4,9 +4,6 @@ import model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
@@ -34,9 +31,6 @@ public class CustomerController extends UserController {
         customerLoggedOn.setAddress(information);
     }
 
-    public void addAddress(HashMap<String, String> information) {
-        customerLoggedOn.setAddress(information);
-    }
 
     public String getPaymentCheck() {
         return "";
