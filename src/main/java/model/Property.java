@@ -5,8 +5,8 @@ import java.util.UUID;
 public class Property {
     private String name;
     private boolean isNumber;
-    private int valueInt;
-    private String valueString;
+    private long valueLong = 0;
+    private String valueString = "";
     private String id;
 
     public Property() {
@@ -17,6 +17,8 @@ public class Property {
         this.name = property.getName();
         this.isNumber = property.isNumber();
         this.id = UUID.randomUUID().toString();
+        this.valueLong = 0;
+        this.valueString = "";
     }
 
     public String getId() {
@@ -25,9 +27,10 @@ public class Property {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Property && ((Property) obj).isNumber == this.isNumber) {
+        if (obj instanceof Property && ((Property) obj).isNumber == this.isNumber &&
+                ((Property) obj).getName().equals(this.name)) {
             if (isNumber) {
-                return this.valueInt == ((Property) obj).valueInt;
+                return this.valueLong == ((Property) obj).valueLong;
             }else {
                 return this.valueString.compareTo(((Property) obj).valueString) == 0;
             }
@@ -51,18 +54,24 @@ public class Property {
         return isNumber;
     }
 
-    public void setValueInt(int valueInt) {
-        this.valueInt = valueInt;
+    public void setValueLong(int valueLong) {
+        this.valueLong = valueLong;
     }
 
     public void setValueString(String valueString) {
         this.valueString = valueString;
     }
 
-    public static Property createPropertyFromString (String string, boolean isNumber) {
-        Property result = new Property();
-        result.setName(string);
-        result.setNumber(isNumber);
-        return result;
+    public long getValueLong() {
+        return valueLong;
+    }
+
+    public String getValueString() {
+        return valueString;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + ": " + (isNumber ? this.valueLong : this.valueString);
     }
 }

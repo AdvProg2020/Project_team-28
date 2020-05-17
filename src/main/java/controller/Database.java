@@ -47,6 +47,10 @@ public class Database { //jaaye in tu model nist? :thinking:
         allPurchaseLogs.add(log);
     }
 
+    public static void remove (Product product) {
+        allProducts.remove(product);
+    }
+
     public static Product getProductById(String id) {
         for (Product product : allProducts) {
             if (product.getId().equals(id))

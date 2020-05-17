@@ -6,12 +6,8 @@ import java.util.UUID;
 
 public class Filter {
     private ArrayList<Property> properties;
-    private String filteredName;
-    private boolean inStock;
-    private String brand;
-    private long maxPrice;
-    private long minPrice;
-    private boolean isPriceFiltered = false;
+    //some other properties are:
+    //category, name, inStock(number property), brand, maxPrice, minPrice
     private String id;
 
     public Filter() {
@@ -19,67 +15,22 @@ public class Filter {
     }
 
     public boolean isValid(Product product) {
-        boolean result = validateName(product);
-        result = result && validateProperties(product);
-        result = result && validateInStock(product) && validatePrice(product);
-        result = result && validateBrand(product);
-        return result;
-    }
-
-    public boolean validateProperties (Product product) {
-        boolean result = true;
         for (Property property : properties) {
-            if (!product.hasProperty(property)) {
-                result = false;
-                break;
-            }
-        }
-        return result;
-    }
-
-
-    public boolean validateName (Product product) {
-        if (this.filteredName != null)
-            return product.getName().contains(filteredName);
-        return true;
-    }
-
-    public boolean validateBrand (Product product) {
-        if (this.brand != null)
-            return product.getBrand().equals(brand);
-        return true;
-    }
-
-    public boolean validateInStock (Product product) {
-        if (inStock)
-            return product.isInStock();
-        return true;
-    }
-
-    public boolean validatePrice (Product product) {
-        if (isPriceFiltered) {
-            return (product.getPrice() >= this.minPrice) && (product.getPrice() <= this.maxPrice);
+            if (!product.hasProperty(property))
+                return false;
         }
         return true;
     }
 
-    public void addRestriction(String property, boolean isNumber) {
-        this.properties.add(Property.createPropertyFromString(property, isNumber));
+    public void addRestriction (Property property) {
+        this.properties.add(property);
     }
 
-    public void addRestriction (String name, String brand) {
-        this.filteredName = name;
-        this.brand = brand;
+    public void removeRestriction (String property) {
+        properties.removeIf(thisProperty -> thisProperty.getName().equals(property));
     }
 
-    public void addRestriction (boolean inStock) {
-        this.inStock = true;
+    public ArrayList<Property> getProperties() {
+        return properties;
     }
-
-    public void addRestriction (long minPrice, long maxPrice) {
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
-        isPriceFiltered = true;
-    }
-
 }

@@ -70,6 +70,8 @@ public class Category {
     public boolean equals (Object object) {
         if (object instanceof Category)
             return ((Category) object).getName().equals(this.name);
+        else if (object instanceof String)
+            return object.equals(this.name);
         return false;
     }
 }
