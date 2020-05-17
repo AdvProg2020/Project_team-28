@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Menu {
-    protected final static Scanner scanner = new Scanner(System.in);
+    public final static Scanner scanner = new Scanner(System.in);
 
     protected String title;
     protected String fortune;

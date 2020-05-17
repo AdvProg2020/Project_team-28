@@ -1,6 +1,5 @@
 package view;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -12,7 +11,7 @@ public class Conversation {
     ArrayList<String> keys = new ArrayList<>();
     private String error;
 
-    Conversation(HashMap<String, Boolean> fields) {
+    public Conversation(HashMap<String, Boolean> fields) {
         this.fields = fields;
         keys.addAll(fields.keySet());
     }
@@ -22,14 +21,14 @@ public class Conversation {
             return res;
         }
         String key = keys.get(stateNumber);
-        System.out.print("Please enter " + key +": ");
+        System.out.print("Please enter " + key + ": ");
         String input = Menu.scanner.nextLine();
 
         Matcher emptyMatcher = Menu.getMatcher(input, "^\\s*$");
         try {
             if (!emptyMatcher.find() || fields.get(key)) {
-                res.put(key,input);
-                stateNumber ++;
+                res.put(key, input);
+                stateNumber++;
             } else {
                 throw new Exception("Required field can't be left empty.");
             }

@@ -1,7 +1,7 @@
-package view;
+package view.manager;
 
 import controller.ManagerController;
-import model.Manager;
+import view.Menu;
 
 import java.util.regex.Matcher;
 
@@ -27,15 +27,17 @@ public class ProductEditorMenu extends Menu {
 
         Matcher backMatcher = Menu.getMatcher(input, "^back$");
         Matcher helpMatcher = Menu.getMatcher(input, "^help$");
+        Matcher removeMatcher = Menu.getMatcher(input, "^remove \\S+$");
 
         try {
             if (backMatcher.find()) {
                 return false;
             } else if (helpMatcher.find()) {
                 help();
-            }
-
-            else {
+            } else if (removeMatcher.find()) {
+                controller.removeProduct(input.split(" ")[1]);
+                error = "product with id " + input.split(" ")[1] + " is removed";
+            } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");
             }

@@ -1,6 +1,9 @@
 package controller;
 
-import model.*;
+import model.Customer;
+import model.Discount;
+import model.Product;
+import model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +15,8 @@ public class CustomerController extends UserController {
     public CustomerController(User user) {
         if (user instanceof Customer)
             this.customerLoggedOn = (Customer) user;
+        else
+            throw new Exception("User logged on is not a customer :|");
     }
 
     private String viewPersonalInfo() {
@@ -21,11 +26,11 @@ public class CustomerController extends UserController {
                 "Phone number: " + customerLoggedOn.getPhoneNumber() + "\n";
     }
 
-    public void changePersonalInfo(HashMap<String, String> infoToSet) {
-        super.changePersonalInfo(infoToSet);
+    private void changePersonalInfo() {
+
     }
 
-    public String viewProducts() {
+    public String viewCartProducts() {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();

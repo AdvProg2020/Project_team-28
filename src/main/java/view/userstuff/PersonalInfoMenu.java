@@ -1,17 +1,18 @@
-package view;
+package view.userstuff;
 
-import controller.ManagerController;
-import model.Manager;
+import controller.UserController;
+import view.Conversation;
+import view.Menu;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class PersonalInfoMenu extends Menu {
-    ManagerController controller;
+    UserController controller;
 
-    public PersonalInfoMenu(ManagerController managerController) {
+    public PersonalInfoMenu(UserController controller) {
         super();
-        controller = managerController;
+        this.controller = controller;
         hint = "";
         title = "";
         fortune = "";

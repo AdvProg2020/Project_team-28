@@ -1,6 +1,8 @@
-package view;
+package view.manager;
 
 import controller.ManagerController;
+import view.Conversation;
+import view.Menu;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -47,11 +49,10 @@ public class UserEditorMenu extends Menu {
                 String username = input.split(" ")[3];
                 HashMap<String, Boolean> fields = fillForProperties();
                 HashMap<String, String> data = new Conversation(fields).execute();
-                data.put("username",username);
+                data.put("username", username);
                 data.put("type", "manager");
                 controller.registerAccount(data);
-            }
-            else {
+            } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");
             }
