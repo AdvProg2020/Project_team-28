@@ -4,6 +4,9 @@ import model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
@@ -23,8 +26,12 @@ public class CustomerController extends UserController {
                 "Phone number: " + customerLoggedOn.getPhoneNumber() + "\n";
     }
 
-    private void changePersonalInfo() {
+    public void changePersonalInfo(HashMap<String, String> infoToSet) {
+        super.changePersonalInfo(infoToSet);
+    }
 
+    public void addAddress(HashMap<String, String> information) {
+        customerLoggedOn.setAddress(information);
     }
 
     public void addAddress(HashMap<String, String> information) {
@@ -79,7 +86,7 @@ public class CustomerController extends UserController {
         return totalPrice;
     }
 
-    public boolean validateDiscountCode (String code) {
+    public boolean validateDiscountCode(String code) {
         Discount discount = Database.getDiscountByCode(code);
         if (discount != null) {
             return customerLoggedOn.hasDiscount(discount);
