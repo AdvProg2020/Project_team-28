@@ -5,6 +5,8 @@ import model.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
@@ -30,6 +32,14 @@ public class CustomerController extends UserController {
 
     public void addAddress(HashMap<String, String> information) {
         customerLoggedOn.setAddress(information);
+    }
+
+    public void addAddress(HashMap<String, String> information) {
+        customerLoggedOn.setAddress(information);
+    }
+
+    public String getPaymentCheck() {
+        return "";
     }
 
     public String viewCartProducts() {
@@ -71,6 +81,8 @@ public class CustomerController extends UserController {
         for (Product product : customerLoggedOn.getCart().keySet()) {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
         }
+        if (customerLoggedOn.getDiscountUsed() != null)
+            totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) /100;
         return totalPrice;
     }
 
@@ -90,15 +102,6 @@ public class CustomerController extends UserController {
             customerLoggedOn.useDiscount(thisDiscount);
     }
 
-    public void useDiscuontCode(String discountCode) throws Exception {
-        //TODO It's been checked and it just needs to be performed on the current cart
-        throw new Exception("Using discount code " + discountCode);
-    }
-
-    public String getPaymentCheck() {
-        //TODO finalizing the purchase
-        return "purchase was failed :D";
-    }
     public void purchase() {
         customerLoggedOn.payCredit(getTotalPrice());
         purchaseLog newLog = createPurchaseLog();
