@@ -93,12 +93,12 @@ public class ProductController extends UserController {
         currentFilter.removeRestriction(property);
     }
 
-    public static ArrayList<String> currentFilters () {
+    public static String getCurrentFilters () {
         ArrayList<String> result = new ArrayList<>();
         for (Property property : currentFilter.getProperties()) {
             result.add(property.toString());
         }
-        return result;
+        return result.toString();
     }
 
     public static void setSort (String sortType) {
