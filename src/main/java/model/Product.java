@@ -3,6 +3,7 @@ package model;
 import controller.Database;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class Product {
@@ -14,9 +15,11 @@ public class Product {
     private boolean inStock;
     private String category;
     private String description;
+    private int viewed = 0;
     private ArrayList<String> allScores;
     private ArrayList<String> allComments;
     private ArrayList<String> allProperties;
+    private ArrayList<String> allSpecialProperties;
     private String id;
 
     public Product() {
@@ -42,12 +45,46 @@ public class Product {
         return (Seller) Database.getUserById(seller);
     }
 
+    public void addViewed () {
+        this.viewed += 1;
+    }
+
+    public int getViewed() {
+        return viewed;
+    }
+
+    public ArrayList<Property> getAllProperties() {
+        ArrayList<Property> result = new ArrayList<>();
+        for (String property : this.allProperties) {
+            result.add(Database.getPropertyById(property));
+        }
+        return result;
+    }
+
+    public ArrayList<Property> getAllSpecialProperties() {
+        ArrayList<Property> result = new ArrayList<>();
+        for (String property : allSpecialProperties) {
+            result.add(Database.getPropertyById(property));
+        }
+        return result;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category.getId();
+        allSpecialProperties = new ArrayList<>();
+        for (Property property : category.getSpecialProperties()) {
+            Property clonedProperty = new Property(property);
+            allSpecialProperties.add(clonedProperty.getId());
+            Database.add(clonedProperty);
+        }
+    }
+
     public boolean isInStock() {
         return inStock;
     }
 
-    public String getCategory() {
-        return category;
+    public Category getCategory() {
+        return Database.getCategoryById(this.category);
     }
 
     public String getDescription() {
@@ -67,6 +104,36 @@ public class Product {
 
     public void addScore (Score score) {
         allScores.add(score.getId());
+    }
+
+    public void addComment (Comment comment) {
+        allComments.add(comment.getId());
+    }
+
+    public boolean hasProperty (Property property) {
+        switch (property.getName()) {
+            case "category":
+                return this.category.equals(property.getValueString());
+            case "name":
+                return this.name.contains(property.getValueString());
+            case "inStock":
+                return property.getValueLong() == 1;
+            case "brand":
+                return this.brand.equals(property.getValueString());
+            case "maxPrice":
+                return this.price <= property.getValueLong();
+            case "minPrice":
+                return this.price >= property.getValueLong();
+        }
+        for (String thisProperty : allProperties) {
+            if (property.equals(Database.getPropertyById(thisProperty)))
+                return true;
+        }
+        for (String specialProperty : allSpecialProperties) {
+            if (property.equals(Database.getPropertyById(specialProperty)))
+                return true;
+        }
+        return false;
     }
 
     public long getPrice() {

@@ -47,6 +47,10 @@ public class Database { //jaaye in tu model nist? :thinking:
         allPurchaseLogs.add(log);
     }
 
+    public static void remove (Product product) {
+        allProducts.remove(product);
+    }
+
     public static Product getProductById(String id) {
         for (Product product : allProducts) {
             if (product.getId().equals(id))
@@ -109,6 +113,22 @@ public class Database { //jaaye in tu model nist? :thinking:
                 return discountCode;
         }
         return null;
+    }
+
+    public static Property getPropertyByName (String name) {
+        for (Property property : allProperties) {
+            if (property.getName().equals(name))
+                return property;
+        }
+        return null;
+    }
+
+    public static ArrayList<Category> getAllCategories() {
+        return allCategories;
+    }
+
+    public static ArrayList<Product> getAllProducts() {
+        return allProducts;
     }
 
     public void update(Object object) {

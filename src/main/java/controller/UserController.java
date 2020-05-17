@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserController {
-    protected User userLoggedOn;
+    protected static User userLoggedOn;
 
     public void loginUser(String username, String password) {
         System.out.println("Logging in with " + username + " and " + password);
     }
 
-    public User getUser() {
+    public static User getUser() {
         return userLoggedOn;
     }
 

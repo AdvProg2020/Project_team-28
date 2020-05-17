@@ -1,11 +1,13 @@
 package model;
 
+
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class Filter {
-    private ArrayList<String> properties;
-    private Category filteredCategory;
+    private ArrayList<Property> properties;
+    //some other properties are:
+    //category, name, inStock(number property), brand, maxPrice, minPrice
     private String id;
 
     public Filter() {
@@ -13,14 +15,22 @@ public class Filter {
     }
 
     public boolean isValid(Product product) {
+        for (Property property : properties) {
+            if (!product.hasProperty(property))
+                return false;
+        }
         return true;
     }
 
-    public void addRestriction(Category category) {
-
+    public void addRestriction (Property property) {
+        this.properties.add(property);
     }
 
-    public void addRestriction(ArrayList<Property> properties) {
+    public void removeRestriction (String property) {
+        properties.removeIf(thisProperty -> thisProperty.getName().equals(property));
+    }
 
+    public ArrayList<Property> getProperties() {
+        return properties;
     }
 }
