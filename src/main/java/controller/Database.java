@@ -214,12 +214,12 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
-    public static User getUserByUsername(String username) {
+    public static User getUserByUsername(String username) throws Exception{
         for (User user : allUsers) {
             if (user.getUsername().equals(username))
                 return user;
         }
-        return null;
+        throw new Exception("Username not found");
     }
 
     public static Category getCategoryByName(String name) {

@@ -100,4 +100,12 @@ public class Customer extends User {
         }
         return toReturn;
     }
+
+    public boolean hasBoughtProduct (Product product) {
+        for (String log : purchaseHistory) {
+            if (Database.getPurchaseLogById(log).getProducts().containsKey(product.getId()))
+                return true;
+        }
+        return false;
+    }
 }

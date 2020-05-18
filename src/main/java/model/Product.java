@@ -3,7 +3,6 @@ package model;
 import controller.Database;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.UUID;
 
 public class Product {
@@ -11,7 +10,7 @@ public class Product {
     private String name;
     private String brand;
     private long price;
-    private String seller;
+    private ArrayList<String> sellers;
     private boolean inStock;
     private String category;
     private String off;
@@ -42,8 +41,12 @@ public class Product {
         return brand;
     }
 
-    public Seller getSeller() {
-        return (Seller) Database.getUserById(seller);
+    public ArrayList<Seller> getSellers() {
+        ArrayList<Seller> allSellers = new ArrayList<>();
+        for (String seller : this.sellers) {
+            allSellers.add((Seller) Database.getUserById(seller));
+        }
+        return allSellers;
     }
 
     public void addViewed () {
@@ -145,12 +148,16 @@ public class Product {
         return false;
     }
 
+    public void setMainSeller (Seller seller) {
+        this.sellers.add(0,seller.getId());
+    }
+
     public long getPrice() {
         return price;
     }
 
     @Override
     public String toString() {
-        return id + "\t" + name + "\t" + this.getSeller().getFullName() + "\t" + price;
+        return id + "\t" + name + "\t" + this.getSellers().get(0).getFullName() + "\t" + price;
     }
 }

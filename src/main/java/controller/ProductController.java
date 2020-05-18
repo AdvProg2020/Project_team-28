@@ -30,7 +30,7 @@ public class ProductController {
         Product product = Database.getProductById(productId);
         assert product != null;
         product.addViewed();
-        Seller seller = product.getSeller();
+        Seller seller = product.getSellers().get(0);
         assert seller != null;
         return "Product name:\t" + product.getName() + "\n" +
                 "Price:\t" + product.getPrice() + "\n" +
@@ -163,8 +163,8 @@ public class ProductController {
         return result.toString();
     }
 
-    public void setProductSeller(String sellerName) {
-        //TODO set currentProduct seller
+    public void setProductSeller(String sellerName) throws Exception {
+        this.currentProduct.setMainSeller((Seller) Database.getUserByUsername(sellerName));
     }
 
     public ArrayList<String> viewAttributes() {

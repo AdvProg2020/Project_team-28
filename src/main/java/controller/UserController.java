@@ -90,8 +90,14 @@ public class UserController {
         }
     }
 
-    public void addReview(String title, String text, boolean hasBought) {
-        Comment thisComment = new Comment(this.userLoggedOn, productController.getCurrentProduct(), title, text, hasBought);
+    public void addReview(String title, String text) {
+        boolean hasBought;
+        if (userLoggedOn instanceof Customer)
+            hasBought = ((Customer) userLoggedOn).hasBoughtProduct(productController.getCurrentProduct());
+        else
+            hasBought = false;
+        Comment thisComment = new Comment(this.userLoggedOn, productController.getCurrentProduct(),
+                title, text, hasBought);
         Database.add(thisComment);
         productController.getCurrentProduct().addComment(thisComment);
     }

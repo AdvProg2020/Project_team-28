@@ -18,8 +18,10 @@ public class CustomerController extends UserController {
     }
 
     public static Customer newDefaultUser() {
-        //TODO returns a default user to work without login
-        return null;
+        Customer defaultCustomer = new Customer("","Anonymous User","",
+                "username@example.com","+98xxxxxxxxxx","",0);
+        defaultCustomer.setUsername(defaultCustomer.getId());
+        return defaultCustomer;
     }
 
     private String viewPersonalInfo() {
