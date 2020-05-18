@@ -8,8 +8,14 @@ import java.util.HashMap;
 public class UserController {
     protected static User userLoggedOn;
 
-    public void loginUser(String username, String password) {
-        System.out.println("Logging in with " + username + " and " + password);
+    public void loginUser(String username, String password) throws Exception{
+        User thisUser = Database.getUserByUsername(username);
+        if (thisUser == null)
+            throw new Exception("Username not found");
+        if (thisUser.validatePassword(password))
+            userLoggedOn = thisUser;
+        else
+            throw new Exception("Wrong password");
     }
 
     public static User getUser() {

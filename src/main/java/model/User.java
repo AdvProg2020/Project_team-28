@@ -81,4 +81,8 @@ public class User {
     public long getCredit() {
         return credit;
     }
+
+    public boolean validatePassword (String password) {
+        return this.password.equals(password);
+    }
 }
