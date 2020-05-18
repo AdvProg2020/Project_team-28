@@ -61,7 +61,7 @@ public class ProductMenu extends Menu {
                 HashMap<String, Boolean> fields = new HashMap<>();
                 Filler.fillForCommenting(fields);
                 HashMap<String, String> res = new Conversation(fields).execute();
-                (CustomerController) controller.addReview(res.get("title"), res.get("comment"));
+                controller.addReview(res.get("title"), res.get("comment"));
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");
