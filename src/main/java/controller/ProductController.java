@@ -141,12 +141,14 @@ public class ProductController {
         return attributes;
     }
 
-    public String compareToProducts (Product first, Product second) {
+    public String compareToProducts(String productId) {
+        Product first = getCurrentProduct();
+        Product second = Database.getProductById(productId);
         StringBuilder result = new StringBuilder();
         result.append(first.getName()).append("\t").append(second.getName()).append("\n");
         ArrayList<String> firstAttributes = getAttributes(first);
         ArrayList<String> secondAttributes = getAttributes(second);
-        for (int i = 0 ; i < firstAttributes.size() ; i++) {
+        for (int i = 0; i < firstAttributes.size(); i++) {
             result.append(firstAttributes.get(i)).append("\t").
                     append(secondAttributes.get(i)).append("\n");
         }
@@ -163,5 +165,13 @@ public class ProductController {
 
     public void setProductSeller(String sellerName) {
         //TODO set currentProduct seller
+    }
+
+    public ArrayList<String> viewAttributes() {
+        return getAttributes(currentProduct);
+    }
+
+    public String getReviews() {
+        return "These are reviews of the current product";
     }
 }

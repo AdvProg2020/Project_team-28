@@ -2,8 +2,11 @@ package view.product;
 
 import controller.CustomerController;
 import controller.UserController;
+import view.Conversation;
+import view.Filler;
 import view.Menu;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class ProductMenu extends Menu {
@@ -47,7 +50,18 @@ public class ProductMenu extends Menu {
                 ((CustomerController) controller).purchase();
             } else if (selectSellerMatcher.find()) {
                 Menu.productController.setProductSeller(input.split(" ")[2]);
+                error = "seller set to " + input.split(" ")[2];
             } else if (attributesMatcher.find()) {
+                context = Menu.productController.viewAttributes().toString();
+            } else if (compareMatcher.find()) {
+                context = Menu.productController.compareToProducts(input.split(" ")[1]);
+            } else if (commentsMatcher.find()) {
+                context = Menu.productController.getReviews();
+            } else if (addCommentMatcher.find()) {
+                HashMap<String, Boolean> fields = new HashMap<>();
+                Filler.fillForCommenting(fields);
+                HashMap<String, String> res = new Conversation(fields).execute();
+                (CustomerController) controller.addReview(res.get("title"), res.get("comment"));
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");

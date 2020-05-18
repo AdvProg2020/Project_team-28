@@ -36,4 +36,9 @@ public class Filler {
             fields.put("companyName", true);
         }
     }
+
+    public static void fillForCommenting(HashMap<String, Boolean> fields) {
+        fields.put("title", false);
+        fields.put("comment", false);
+    }
 }
