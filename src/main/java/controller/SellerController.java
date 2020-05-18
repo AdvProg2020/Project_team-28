@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SellerController extends UserController {
-    public SellerController(User user) {
-        super();
-        userLoggedOn = user;
+    public SellerController(User user, ProductController productController) {
+        super(user, productController);
     }
 
     public String viewCompanyInfo() {

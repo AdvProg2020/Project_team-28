@@ -10,9 +10,8 @@ public class ManagerController extends UserController {
     private Discount selectedDiscount;
     private Gson selectedRequest;
 
-    public ManagerController(User user) {
-        super();
-        userLoggedOn = user;
+    public ManagerController(User user, ProductController productController) {
+        super(user, productController);
     }
 
     public void createDiscount(HashMap<String, String> data) throws Exception {

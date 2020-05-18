@@ -9,6 +9,9 @@ public class UserController {
     protected ProductController productController;
 
     public UserController(User userLoggedOn, ProductController productController) {
+        if (userLoggedOn == null) {
+            userLoggedOn = CustomerController.newDefaultUser();
+        }
         this.userLoggedOn = userLoggedOn;
         this.productController = productController;
     }

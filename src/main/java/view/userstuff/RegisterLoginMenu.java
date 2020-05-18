@@ -58,14 +58,14 @@ public class RegisterLoginMenu extends Menu {
                 fields.put("password", false);
                 String password = new Conversation(fields).execute().get("password");
                 controller.loginUser(username, password);
-                context = UserController.getUser().getType();
-                if ("manager".equals(UserController.getUser().getType())) {
-                    new ManagerMenu(new ManagerController(UserController.getUser()));
-                } else if ("customer".equals(UserController.getUser().getType())) {
-                    new CustomerMenu(new CustomerController(UserController.getUser()));
+                context = controller.getUser().getType();
+                if ("manager".equals(controller.getUser().getType())) {
+                    new ManagerMenu(new ManagerController(controller.getUser(), Menu.productController));
+                } else if ("customer".equals(controller.getUser().getType())) {
+                    new CustomerMenu(new CustomerController(controller.getUser(), Menu.productController));
                     //TODO renew default account
-                } else if ("seller".equals(UserController.getUser().getType())) {
-                    new SellerMenu(new SellerController(UserController.getUser()));
+                } else if ("seller".equals(controller.getUser().getType())) {
+                    new SellerMenu(new SellerController(controller.getUser(), Menu.productController));
                 }
             } else if (backMatcher.find()) {
                 return false;

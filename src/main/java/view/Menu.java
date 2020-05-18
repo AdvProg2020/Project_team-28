@@ -1,5 +1,7 @@
 package view;
 
+import controller.ProductController;
+
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
 
 public abstract class Menu {
     public final static Scanner scanner = new Scanner(System.in);
+    public final static ProductController productController = new ProductController();
 
     protected String title;
     protected String fortune;

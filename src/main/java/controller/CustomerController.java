@@ -17,6 +17,11 @@ public class CustomerController extends UserController {
             throw new Exception("User logged on is not a customer :|");
     }
 
+    public static Customer newDefaultUser() {
+        //TODO returns a default user to work without login
+        return null;
+    }
+
     private String viewPersonalInfo() {
         return "Username: " + customerLoggedOn.getUsername() + "\n" +
                 "Full name: " + customerLoggedOn.getFullName() + "\n" +
