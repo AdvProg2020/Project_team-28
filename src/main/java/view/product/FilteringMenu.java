@@ -40,11 +40,12 @@ public class FilteringMenu extends Menu {
             } else if (showAvailableFiltersMatcher.find()) {
                 context = controller.showAvailableFilters();
             } else if (filterMatcher.find()) {
-                context = controller.filterProducts(input.split(" ")[1]);
+                ProductController.addFilter(input.split(" ")[1], input.split(" ")[1]);
+                context = controller.filterProducts().toString();
             } else if (currentFiltersMatcher.find()) {
-                context = controller.getCurrentFilters();
+                context = ProductController.getCurrentFilters();
             } else if (disableFilterMatcher.find()) {
-                controller.removeFilter(input.split(" ")[1]);
+                ProductController.removeFilter(input.split(" ")[1]);
                 error = "filter " + input.split(" ")[1] + " has been removed";
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +

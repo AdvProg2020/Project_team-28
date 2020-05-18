@@ -164,4 +164,8 @@ public class ProductController extends UserController {
         }
         return result.toString();
     }
+
+    public String getCategories() {
+        return "These are categories";
+    }
 }
