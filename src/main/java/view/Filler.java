@@ -24,4 +24,15 @@ public class Filler {
         fields.put("building number", false);
         fields.put("phone number", true);
     }
+
+    public static void fillForRegisterProperties(HashMap<String, Boolean> fields, String type) {
+        fields.put("password", false);
+        fields.put("name", true);
+        fields.put("surname", true);
+        fields.put("email", true);
+        fields.put("phoneNumber", true);
+        if (type.equals("seller")) {
+            fields.put("companyName", true);
+        }
+    }
 }

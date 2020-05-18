@@ -5,6 +5,7 @@ import controller.ManagerController;
 import controller.SellerController;
 import controller.UserController;
 import view.Conversation;
+import view.Filler;
 import view.Menu;
 import view.customer.CustomerMenu;
 import view.manager.ManagerMenu;
@@ -45,7 +46,8 @@ public class RegisterLoginMenu extends Menu {
             } else if (registerMatcher.find()) {
                 String type = input.split(" ")[2];
                 String username = input.split(" ")[3];
-                HashMap<String, Boolean> fields = fillForProperties();
+                HashMap<String, Boolean> fields = new HashMap<>();
+                Filler.fillForRegisterProperties(fields, type);
                 HashMap<String, String> data = new Conversation(fields).execute();
                 data.put("username", username);
                 data.put("type", type);
@@ -56,13 +58,13 @@ public class RegisterLoginMenu extends Menu {
                 fields.put("password", false);
                 String password = new Conversation(fields).execute().get("password");
                 controller.loginUser(username, password);
-                if ("manager".equals(controller.getUser().getType())) {
-                    new ManagerMenu(new ManagerController(controller.getUser()));
-                } else if ("customer".equals(controller.getUser().getType())) {
-                    new CustomerMenu(new CustomerController(controller.getUser()));
+                if ("manager".equals(UserController.getUser().getType())) {
+                    new ManagerMenu(new ManagerController(UserController.getUser()));
+                } else if ("customer".equals(UserController.getUser().getType())) {
+                    new CustomerMenu(new CustomerController(UserController.getUser()));
                     //TODO renew default account
-                } else if ("seller".equals(controller.getUser().getType())) {
-                    new SellerMenu(new SellerController(controller.getUser()));
+                } else if ("seller".equals(UserController.getUser().getType())) {
+                    new SellerMenu(new SellerController(UserController.getUser()));
                 }
             } else if (backMatcher.find()) {
                 return false;
@@ -74,12 +76,5 @@ public class RegisterLoginMenu extends Menu {
             error = e.toString();
         }
         return true;
-    }
-
-    private HashMap<String, Boolean> fillForProperties() {
-        HashMap<String, Boolean> fields = new HashMap<>();
-        fields.put("password", false);
-        fields.put("rest:D", true);
-        return fields;
     }
 }
