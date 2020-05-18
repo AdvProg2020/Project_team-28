@@ -1,6 +1,9 @@
 package controller;
 
-import model.*;
+import model.Product;
+import model.SellLog;
+import model.Seller;
+import model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +72,11 @@ public class SellerController extends UserController {
         return "This is the Off number: " + offId;
     }
 
-    public void editOff(String offId) throws Exception {
-        throw new Exception("Editing the off number " + offId);
+    public void editOff(HashMap<String, String> data) throws Exception {
+        throw new Exception("Editing the off " + data);
+    }
+
+    public void addOff(HashMap<String, String> data) throws Exception {
+        throw new Exception("Adding off: " + data);
     }
 }

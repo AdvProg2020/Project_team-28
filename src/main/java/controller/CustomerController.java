@@ -60,7 +60,8 @@ public class CustomerController extends UserController {
         return "Not a Valid Id";
     }
 
-    public void addToCart(String productId) {
+    public void addToCart() {
+        String productId = productController.getCurrentProduct().getId();
         if (customerLoggedOn.isProductInCart(productId))
             customerLoggedOn.increaseNumberInCart(productId);
         else
@@ -126,13 +127,12 @@ public class CustomerController extends UserController {
         return log;
     }
 
-    public String viewOrders () {
-        //format: logId     amount paid     date
+    public ArrayList<String> viewOrders() {
         ArrayList<String> result = new ArrayList<>();
         for (PurchaseLog log : customerLoggedOn.getPurchaseHistory()) {
             result.add(log.getId() + "\t" + log.getAmountPaid() + "\t" + log.getDate());
         }
-        return result.toString();
+        return result;
     }
 
     public String showOrder(String orderId) {

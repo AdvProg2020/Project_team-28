@@ -42,4 +42,10 @@ public class Filler {
         fields.put("title", false);
         fields.put("comment", false);
     }
+
+    public static void fillSellerEditOffFields(HashMap<String, Boolean> fields) {
+        fields.put("product id", true);
+        fields.put("percent", true);
+        fields.put("maximum amount", true);
+    }
 }

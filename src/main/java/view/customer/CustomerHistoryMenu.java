@@ -2,7 +2,9 @@ package view.customer;
 
 import controller.CustomerController;
 import view.Menu;
+import view.Table;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 public class CustomerHistoryMenu extends Menu {
@@ -14,10 +16,10 @@ public class CustomerHistoryMenu extends Menu {
         hint = "";
         title = "";
         fortune = "";
-        context = controller.viewOrders();
+        context = new Table(Arrays.asList("logId", "amount paid", "date"), controller.viewOrders()).toString();
         do {
             show();
-            context = controller.viewOrders();
+            context = new Table(Arrays.asList("logId", "amount paid", "date"), controller.viewOrders()).toString();
         } while (execute());
     }
 

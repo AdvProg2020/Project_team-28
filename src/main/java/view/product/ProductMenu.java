@@ -47,7 +47,7 @@ public class ProductMenu extends Menu {
             } else if (digestMatcher.find()) {
                 context = Menu.productController.digest();
             } else if (addToCartMatcher.find()) {
-                ((CustomerController) controller).purchase();
+                ((CustomerController) controller).addToCart();
             } else if (selectSellerMatcher.find()) {
                 Menu.productController.setProductSeller(input.split(" ")[2]);
                 error = "seller set to " + input.split(" ")[2];

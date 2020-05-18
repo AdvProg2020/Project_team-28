@@ -44,11 +44,17 @@ public class OffManagerMenu extends Menu {
             } else if (viewMatcher.find()) {
                 context = controller.viewOff(input.split(" ")[1]);
             } else if (editMatcher.find()) {
-                controller.editOff(input.split(" ")[1]);
+                HashMap<String, Boolean> fields = new HashMap<>();
+                Filler.fillSellerEditOffFields(fields);
+                HashMap<String, String> res = new Conversation(fields).execute();
+                res.put("offId", input.split(" ")[1]);
+                controller.editOff(res);
+                error = "off edited!";
             } else if (addOffMatcher.find()) {
                 HashMap<String, Boolean> fields = new HashMap<>();
                 Filler.fillSellerNewOffFields(fields);
                 HashMap<String, String> res = new Conversation(fields).execute();
+                controller.addOff(res);
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");
