@@ -49,7 +49,8 @@ public class UserController {
                         data.get("password"),Long.parseLong(data.get("credit")),data.get("companyName"));
                 Database.add(seller);
                 break;
-
+            default:
+                throw new Exception("Invalid type");
         }
     }
 
