@@ -39,7 +39,7 @@ public class ProductController extends UserController {
                 "Description:\n" + product.getDescription();
     }
 
-    public static String showProducts () {
+    public static String showProducts() {
         StringBuilder result = new StringBuilder();
         result.append("id\tname\tseller\tprice\n");
         for (Product product : Database.getAllProducts()) {
@@ -48,13 +48,17 @@ public class ProductController extends UserController {
         return result.toString();
     }
 
-    public void addReview (String title, String text , boolean hasBought) {
+    public static String digest() {
+        return showProduct(currentProduct.getId());
+    }
+
+    public void addReview(String title, String text, boolean hasBought) {
         Comment thisComment = new Comment(UserController.getUser(), currentProduct, title, text, hasBought);
         Database.add(thisComment);
         currentProduct.addComment(thisComment);
     }
 
-    public ArrayList<String> viewCategories () {
+    public ArrayList<String> viewCategories() {
         ArrayList<Category> allCategories = Database.getAllCategories();
         ArrayList<String> categoryNames = new ArrayList<>();
         for (Category category : allCategories) {
