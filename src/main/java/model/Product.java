@@ -20,6 +20,7 @@ public class Product {
     private ArrayList<String> allComments;
     private ArrayList<String> allProperties;
     private ArrayList<String> allSpecialProperties;
+    private ArrayList<String> allBuyers;
     private String id;
 
     public Product() {
@@ -53,8 +54,20 @@ public class Product {
         this.viewed += 1;
     }
 
+    public void addBuyer (Customer customer) {
+        allBuyers.add(customer.getId());
+    }
+
     public int getViewed() {
         return viewed;
+    }
+
+    public ArrayList<Customer> getAllBuyers () {
+        ArrayList<Customer> result = new ArrayList<>();
+        for (String buyer : allBuyers) {
+            result.add((Customer) Database.getUserById(buyer));
+        }
+        return result;
     }
 
     public Off getOff() {

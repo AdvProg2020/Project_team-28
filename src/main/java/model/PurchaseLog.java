@@ -53,7 +53,7 @@ public class PurchaseLog {
 
     }
 
-    public HashMap<Product, Integer> getProducts() {
+    public HashMap<Product, Integer> getProducts() throws Exception{
         HashMap<Product, Integer> toReturn = new HashMap<>();
         for (String product : products.keySet()) {
             toReturn.put(Database.getProductById(product), products.get(product) );
@@ -75,7 +75,12 @@ public class PurchaseLog {
     @Override
     public String toString() {
         StringBuilder toReturn = new StringBuilder();
-        HashMap<Product, Integer> allProducts = this.getProducts();
+        HashMap<Product, Integer> allProducts;
+        try {
+            allProducts = this.getProducts();
+        }catch (Exception e){
+            return e.getMessage();
+        }
         toReturn.append("Log id: ").append(this.id).append("\n")
                 .append("Date and time: ").append(this.date).append("\n")
                 .append("List of Products:").append("\n")

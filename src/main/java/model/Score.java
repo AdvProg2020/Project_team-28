@@ -26,7 +26,7 @@ public class Score {
         return score;
     }
 
-    public Product getProduct() {
+    public Product getProduct() throws Exception{
         return Database.getProductById(product);
     }
 

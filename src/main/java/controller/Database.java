@@ -152,12 +152,12 @@ public class Database { //jaaye in tu model nist? :thinking:
         writeObject(product, product.getId());
     }
 
-    public static Product getProductById(String id) {
+    public static Product getProductById(String id) throws Exception{
         for (Product product : allProducts) {
             if (product.getId().equals(id))
                 return product;
         }
-        return null;
+        throw new Exception("product id not found");
     }
 
     public static User getUserById(String id) {

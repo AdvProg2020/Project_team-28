@@ -43,7 +43,7 @@ public class CustomerController extends UserController {
         return "";
     }
 
-    public String viewCartProducts() {
+    public String viewCartProducts() throws Exception{
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();
@@ -53,7 +53,7 @@ public class CustomerController extends UserController {
         return stringToReturn.toString();
     }
 
-    public String showProduct(String productId) {
+    public String showProduct(String productId) throws Exception {
         if (customerLoggedOn.isProductInCart(productId)) {
             return productController.showProduct(productId);
         }
@@ -77,7 +77,7 @@ public class CustomerController extends UserController {
             removeFromCart(productId);
     }
 
-    public long getTotalPrice() {
+    public long getTotalPrice() throws Exception{
         long totalPrice = 0;
         for (Product product : customerLoggedOn.getCart().keySet()) {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
@@ -103,15 +103,22 @@ public class CustomerController extends UserController {
             customerLoggedOn.useDiscount(thisDiscount);
     }
 
-    public void purchase() {
+    public void purchase() throws Exception{
         customerLoggedOn.payCredit(getTotalPrice());
         PurchaseLog newLog = createPurchaseLog();
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
+        this.addCustomerToProducts();
         customerLoggedOn.emptyCart();
     }
 
-    private PurchaseLog createPurchaseLog () {
+    public void addCustomerToProducts () throws Exception {
+        for (Product product : this.customerLoggedOn.getCart().keySet()) {
+            product.addBuyer(this.customerLoggedOn);
+        }
+    }
+
+    private PurchaseLog createPurchaseLog () throws Exception{
         PurchaseLog log = new PurchaseLog();
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
@@ -119,13 +126,13 @@ public class CustomerController extends UserController {
         return log;
     }
 
-    public ArrayList<String> viewOrders () {
+    public String viewOrders () {
         //format: logId     amount paid     date
         ArrayList<String> result = new ArrayList<>();
         for (PurchaseLog log : customerLoggedOn.getPurchaseHistory()) {
             result.add(log.getId() + "\t" + log.getAmountPaid() + "\t" + log.getDate());
         }
-        return result;
+        return result.toString();
     }
 
     public String showOrder(String orderId) {
@@ -136,7 +143,7 @@ public class CustomerController extends UserController {
             return "Not a valid id";
     }
 
-    public void rateProduct (String productId, String score) {
+    public void rateProduct (String productId, String score) throws Exception{
         Score newScore = new Score(customerLoggedOn, Integer.parseInt(score), Database.getProductById(productId));
         Database.add(newScore);
         Database.getProductById(productId).addScore(newScore);

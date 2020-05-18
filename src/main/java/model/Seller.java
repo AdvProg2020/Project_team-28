@@ -33,6 +33,14 @@ public class Seller extends User {
         return result;
     }
 
+    public ArrayList<Product> getProductsToSell () throws Exception {
+        ArrayList<Product> result = new ArrayList<>();
+        for (String product : productsToSell) {
+            result.add(Database.getProductById(product));
+        }
+        return result;
+    }
+
     @Override
     public String getType() {
         return "seller";

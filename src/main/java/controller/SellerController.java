@@ -29,16 +29,20 @@ public class SellerController extends UserController {
         return result;
     }
 
-    public String viewProducts() {
-        return "This is all seller's products";
+    public String viewProducts() throws Exception{
+        ArrayList<String> result = new ArrayList<>();
+        for (Product product : currentSeller.getProductsToSell()) {
+            result.add(product.getId() + "\t" + product.getName() + "\t" + product.getPrice());
+        }
+        return result.toString();
     }
 
-    public String viewProduct(String productId) {
-        return "This is the product number " + productId;
+    public String viewProduct(String productId) throws Exception{
+        return productController.showProduct(productId);
     }
 
-    public String viewBuyers(String productId) {
-        return "These are buyers of product " + productId;
+    public String viewBuyers(String productId) throws Exception{
+        return Database.getProductById(productId).getAllBuyers().toString();
     }
 
     public void editProduct(String productId, HashMap<String, String> fields) throws Exception {

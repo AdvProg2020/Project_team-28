@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 public class ProductEditorMenu extends Menu {
     SellerController controller;
 
-    public ProductEditorMenu(SellerController sellerController) {
+    public ProductEditorMenu(SellerController sellerController) throws Exception {
         super();
         controller = sellerController;
         hint = "";

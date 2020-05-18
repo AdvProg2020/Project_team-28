@@ -65,7 +65,7 @@ public class UserController {
         }
     }
 
-    public void addReview(String title, String text) {
+    public void addReview(String title, String text) throws Exception{
         boolean hasBought;
         if (userLoggedOn instanceof Customer)
             hasBought = ((Customer) userLoggedOn).hasBoughtProduct(productController.getCurrentProduct());

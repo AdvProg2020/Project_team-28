@@ -51,7 +51,7 @@ public class Category {
         return finalList;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<Product> getProducts() throws Exception{
         ArrayList<Product> finalList = new ArrayList<>();
         for (String product : products) {
             finalList.add(Database.getProductById(product));

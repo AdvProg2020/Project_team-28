@@ -69,7 +69,7 @@ public class Customer extends User {
         this.cart = new HashMap<>();
     }
 
-    public HashMap<Product, Integer> getCart() {
+    public HashMap<Product, Integer> getCart() throws Exception {
         HashMap<Product, Integer> finalCart = new HashMap<>();
         for (String item : cart.keySet()) {
             finalCart.put(Database.getProductById(item), cart.get(item));
@@ -101,7 +101,7 @@ public class Customer extends User {
         return toReturn;
     }
 
-    public boolean hasBoughtProduct (Product product) {
+    public boolean hasBoughtProduct (Product product) throws Exception {
         for (String log : purchaseHistory) {
             if (Database.getPurchaseLogById(log).getProducts().containsKey(product.getId()))
                 return true;

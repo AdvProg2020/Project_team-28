@@ -26,7 +26,7 @@ public class ProductController {
         this.allComparators.add(new sortByScore());
     }
 
-    public String showProduct(String productId) {
+    public String showProduct(String productId) throws Exception{
         Product product = Database.getProductById(productId);
         assert product != null;
         product.addViewed();
@@ -48,7 +48,7 @@ public class ProductController {
         return result.toString();
     }
 
-    public String digest() {
+    public String digest() throws Exception{
         return showProduct(this.currentProduct.getId());
     }
 
@@ -90,7 +90,7 @@ public class ProductController {
         return result;
     }
 
-    public void removeProduct (String productId) {
+    public void removeProduct (String productId) throws Exception {
         Database.remove(Database.getProductById(productId));
     }
 
@@ -141,7 +141,7 @@ public class ProductController {
         return attributes;
     }
 
-    public String compareToProducts(String productId) {
+    public String compareToProducts(String productId) throws Exception{
         Product first = getCurrentProduct();
         Product second = Database.getProductById(productId);
         StringBuilder result = new StringBuilder();

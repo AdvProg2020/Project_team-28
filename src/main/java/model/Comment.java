@@ -30,7 +30,7 @@ public class Comment {
         return Database.getUserById(user);
     }
 
-    public Product getProduct() {
+    public Product getProduct() throws Exception{
         return Database.getProductById(product);
     }
 
