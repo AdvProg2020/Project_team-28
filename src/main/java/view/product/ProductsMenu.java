@@ -1,6 +1,6 @@
 package view.product;
 
-import controller.ProductController;
+import controller.UserController;
 import model.Product;
 import view.Menu;
 
@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class ProductsMenu extends Menu {
+    UserController controller;
 
-    ProductController controller;
-
-    public ProductsMenu(ProductController productController) {
+    public ProductsMenu(UserController userController) {
         super();
-        controller = productController;
+        controller = userController;
         hint = "You can:\n";
         title = "Who's The Boss?";
         fortune = "You truly have tremendous charisma";
@@ -42,11 +41,15 @@ public class ProductsMenu extends Menu {
             } else if (backMatcher.find()) {
                 return false;
             } else if (viewCategoriesMatcher.find()) {
-                context = controller.getCategories();
+                context = Menu.productController.getCategories();
             } else if (filteringMatcher.find()) {
                 new FilteringMenu(controller);
             } else if (sortingMatcher.find()) {
                 new SortingMenu(controller);
+            } else if (showProductsMatcher.find()) {
+                context = Menu.productController.showProducts();
+            } else if (showProductMatcher.find()) {
+                new ProductMenu(controller);
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");

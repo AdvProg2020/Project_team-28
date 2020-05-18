@@ -160,4 +160,8 @@ public class ProductController {
         }
         return result.toString();
     }
+
+    public void setProductSeller(String sellerName) {
+        //TODO set currentProduct seller
+    }
 }

@@ -1,16 +1,16 @@
 package view.product;
 
-import controller.ProductController;
+import controller.UserController;
 import view.Menu;
 
 import java.util.regex.Matcher;
 
 public class FilteringMenu extends Menu {
-    ProductController controller;
+    UserController controller;
 
-    public FilteringMenu(ProductController productController) {
+    public FilteringMenu(UserController userController) {
         super();
-        controller = productController;
+        controller = userController;
         hint = "You can:\n";
         title = "Who's The Boss?";
         fortune = "You truly have tremendous charisma";
@@ -38,14 +38,14 @@ public class FilteringMenu extends Menu {
             } else if (backMatcher.find()) {
                 return false;
             } else if (showAvailableFiltersMatcher.find()) {
-                context = controller.showAvailableFilters();
+                context = Menu.productController.showAvailableFilters();
             } else if (filterMatcher.find()) {
-                ProductController.addFilter(input.split(" ")[1], input.split(" ")[1]);
-                context = controller.filterProducts().toString();
+                Menu.productController.addFilter(input.split(" ")[1], input.split(" ")[1]);
+                context = Menu.productController.filterProducts().toString();
             } else if (currentFiltersMatcher.find()) {
-                context = ProductController.getCurrentFilters();
+                context = Menu.productController.getCurrentFilters();
             } else if (disableFilterMatcher.find()) {
-                ProductController.removeFilter(input.split(" ")[1]);
+                Menu.productController.removeFilter(input.split(" ")[1]);
                 error = "filter " + input.split(" ")[1] + " has been removed";
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
