@@ -119,15 +119,13 @@ public class CustomerController extends UserController {
         return log;
     }
 
-    public String viewOrders () {
-        StringBuilder stringToReturn = new StringBuilder();
-        stringToReturn.append("Order ID\tAmount paid\tDate\n");
+    public ArrayList<String> viewOrders () {
+        //format: logId     amount paid     date
+        ArrayList<String> result = new ArrayList<>();
         for (PurchaseLog log : customerLoggedOn.getPurchaseHistory()) {
-            stringToReturn.append(log.getId()).append("\t")
-                    .append(log.getAmountPaid()).append("\t")
-                    .append(log.getDate()).append("\n");
+            result.add(log.getId() + "\t" + log.getAmountPaid() + "\t" + log.getDate());
         }
-        return stringToReturn.toString();
+        return result;
     }
 
     public String showOrder(String orderId) {

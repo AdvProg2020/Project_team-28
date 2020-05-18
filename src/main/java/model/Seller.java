@@ -1,5 +1,7 @@
 package model;
 
+import controller.Database;
+
 import java.util.ArrayList;
 
 public class Seller extends User {
@@ -17,6 +19,18 @@ public class Seller extends User {
 
     public String getCompanyName() {
         return companyName;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public ArrayList<SellLog> getSalesHistory() {
+        ArrayList<SellLog> result = new ArrayList<>();
+        for (String log : this.salesHistory) {
+            result.add(Database.getSellLogById(log));
+        }
+        return result;
     }
 
     @Override

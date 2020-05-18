@@ -1,23 +1,32 @@
 package controller;
 
-import model.User;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SellerController extends UserController {
-    public SellerController(User user, ProductController productController) {
+    private Seller currentSeller;
+    public SellerController(User user, ProductController productController) throws Exception{
         super(user, productController);
+        if (user instanceof Seller)
+            this.currentSeller = (Seller) user;
+        else
+            throw new Exception("User logged on is not a seller :|");
     }
 
     public String viewCompanyInfo() {
-        return "This is the company information";
+        return "company name: " + currentSeller.getCompanyName() + "\n"
+                + currentSeller.getCompanyInfo();
     }
 
     public ArrayList<String> viewSalesHistory() {
-        ArrayList<String> res = new ArrayList<>();
-        res.add("This a sale record");
-        return res;
+        //format: logId     amount received     date
+        ArrayList<String> result = new ArrayList<>();
+        for (SellLog log : currentSeller.getSalesHistory()) {
+            result.add(log.getId() + "\t" + log.getAmountReceived() + "\t" +log.getDate());
+        }
+        return result;
     }
 
     public String viewProducts() {

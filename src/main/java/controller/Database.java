@@ -17,6 +17,7 @@ public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<Property> allProperties = new ArrayList<>();
     private static ArrayList<Score> allScores = new ArrayList<>();
     private static ArrayList<PurchaseLog> allPurchaseLogs = new ArrayList<>();
+    private static ArrayList<SellLog> allSellLogs = new ArrayList<>();
     private static ArrayList<Off> allOffs = new ArrayList<>();
 
 
@@ -136,6 +137,11 @@ public class Database { //jaaye in tu model nist? :thinking:
         writeObject(log, log.getId());
     }
 
+    public static void add (SellLog log) {
+        allSellLogs.add(log);
+        writeObject(log, log.getId());
+    }
+
     public static void add(Off off) {
         allOffs.add(off);
         writeObject(off, off.getId());
@@ -208,6 +214,14 @@ public class Database { //jaaye in tu model nist? :thinking:
 
     public static PurchaseLog getPurchaseLogById(String id) {
         for (PurchaseLog log : allPurchaseLogs) {
+            if (log.getId().equals(id))
+                return log;
+        }
+        return null;
+    }
+
+    public static SellLog getSellLogById (String id) {
+        for (SellLog log : allSellLogs) {
             if (log.getId().equals(id))
                 return log;
         }
