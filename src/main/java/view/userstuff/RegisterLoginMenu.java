@@ -58,6 +58,7 @@ public class RegisterLoginMenu extends Menu {
                 fields.put("password", false);
                 String password = new Conversation(fields).execute().get("password");
                 controller.loginUser(username, password);
+                context = UserController.getUser().getType();
                 if ("manager".equals(UserController.getUser().getType())) {
                     new ManagerMenu(new ManagerController(UserController.getUser()));
                 } else if ("customer".equals(UserController.getUser().getType())) {
@@ -73,7 +74,7 @@ public class RegisterLoginMenu extends Menu {
                         "else, close the application Immediately.");
             }
         } catch (Exception e) {
-            error = e.toString();
+            error = "error: " + e.toString();
         }
         return true;
     }

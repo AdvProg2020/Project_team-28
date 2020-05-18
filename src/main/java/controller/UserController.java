@@ -5,8 +5,6 @@ import model.Manager;
 import model.Seller;
 import model.User;
 
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserController {
@@ -27,16 +25,19 @@ public class UserController {
     }
 
     public void registerAccount(HashMap<String, String> data) {
+        if (data.get("credit").equals("")) {
+            data.replace("credit", "0");
+        }
         switch (data.get("type")) {
             case "customer":
                 Customer customer = new Customer(data.get("username"),
-                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
-                        data.get("password"),Long.parseLong(data.get("credit")));
+                        data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
+                        data.get("password"), Long.parseLong(data.get("credit")));
                 Database.add(customer);
                 break;
             case "manager":
                 Manager manager = new Manager(data.get("username"),
-                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
+                        data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
                         data.get("password"),Long.parseLong(data.get("credit")));
                 Database.add(manager);
                 break;

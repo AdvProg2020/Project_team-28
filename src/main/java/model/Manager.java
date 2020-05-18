@@ -7,6 +7,6 @@ public class Manager extends User {
 
     @Override
     public String getType() {
-        return super.getType();
+        return "manager";
     }
 }

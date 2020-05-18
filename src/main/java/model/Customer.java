@@ -18,7 +18,7 @@ public class Customer extends User {
 
     @Override
     public String getType() {
-        return super.getType();
+        return "customer";
     }
 
     public Discount getDiscountUsed() {

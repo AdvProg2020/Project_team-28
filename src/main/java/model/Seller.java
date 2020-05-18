@@ -19,6 +19,6 @@ public class Seller extends User {
 
     @Override
     public String getType() {
-        return super.getType();
+        return "seller";
     }
 }

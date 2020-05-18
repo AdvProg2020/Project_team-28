@@ -31,6 +31,7 @@ public class Filler {
         fields.put("surname", true);
         fields.put("email", true);
         fields.put("phoneNumber", true);
+        fields.put("credit", true);
         if (type.equals("seller")) {
             fields.put("companyName", true);
         }
