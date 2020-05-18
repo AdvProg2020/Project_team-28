@@ -24,7 +24,9 @@ public class UserController {
         return userLoggedOn;
     }
 
-    public void registerAccount(HashMap<String, String> data) {
+    public void registerAccount(HashMap<String, String> data) throws Exception {
+        if (Database.getUserByUsername(data.get("username")) != null)
+            throw new Exception("Duplicated Username");
         if (data.get("credit").equals("")) {
             data.replace("credit", "0");
         }
