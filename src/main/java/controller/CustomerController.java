@@ -68,11 +68,18 @@ public class CustomerController extends UserController {
             customerLoggedOn.addToCart(productId);
     }
 
+    public void addToCart(String productId) {
+        if (customerLoggedOn.isProductInCart(productId))
+            customerLoggedOn.increaseNumberInCart(productId);
+        else
+            customerLoggedOn.addToCart(productId);
+    }
+
     public void removeFromCart(String productId) {
         customerLoggedOn.removeFromCart(productId);
     }
 
-    public void decreaseNumberOfProduct (String productId) {
+    public void decreaseNumberOfProduct(String productId) {
         int newNum = customerLoggedOn.decreaseNumberInCart(productId);
         if (newNum == 0)
             removeFromCart(productId);
