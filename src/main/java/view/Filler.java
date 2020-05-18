@@ -34,6 +34,7 @@ public class Filler {
         fields.put("credit", true);
         if (type.equals("seller")) {
             fields.put("companyName", true);
+            fields.put("companyInfo", true);
         }
     }
 

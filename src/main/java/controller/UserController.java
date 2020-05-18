@@ -1,6 +1,8 @@
 package controller;
 
-import model.*;
+import model.Comment;
+import model.Customer;
+import model.User;
 
 import java.util.HashMap;
 
@@ -18,8 +20,6 @@ public class UserController {
 
     public void loginUser(String username, String password) throws Exception{
         User thisUser = Database.getUserByUsername(username);
-        if (thisUser == null)
-            throw new Exception("Username not found");
         if (thisUser.validatePassword(password))
             userLoggedOn = thisUser;
         else
@@ -31,33 +31,8 @@ public class UserController {
     }
 
     public void registerAccount(HashMap<String, String> data) throws Exception {
-        if (Database.getUserByUsername(data.get("username")) != null)
-            throw new Exception("Duplicated Username");
-        if (data.get("credit").equals("")) {
-            data.replace("credit", "0");
-        }
-        switch (data.get("type")) {
-            case "customer":
-                Customer customer = new Customer(data.get("username"),
-                        data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
-                        data.get("password"), Long.parseLong(data.get("credit")));
-                Database.add(customer);
-                break;
-            case "manager":
-                Manager manager = new Manager(data.get("username"),
-                        data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
-                        data.get("password"),Long.parseLong(data.get("credit")));
-                Database.add(manager);
-                break;
-            case "seller":
-                Seller seller = new Seller(data.get("username"),
-                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
-                        data.get("password"),Long.parseLong(data.get("credit")),data.get("companyName"));
-                Database.add(seller);
-                break;
-            default:
-                throw new Exception("Invalid type");
-        }
+        Database.getUserByUsername(data.get("username"));
+        throw new Exception("Duplicated Username");
     }
 
     public String getPersonalInfo() {
