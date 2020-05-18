@@ -9,13 +9,21 @@ public class ProductController extends UserController {
     private static Product currentProduct;
     private static Category currentCategory;
     private static Comparator<Product> comparator;
+    private static ArrayList<Comparator<Product>> allComparators;
     private static Filter currentFilter = new Filter();
 
     public ProductController () {
-
+        allComparators = new ArrayList<>();
+        allComparators.add(new sortByViewed());
+        allComparators.add(new sortByTime());
+        allComparators.add(new sortByScore());
     }
     public ProductController (Product currentProduct) {
         ProductController.currentProduct = currentProduct;
+        allComparators = new ArrayList<>();
+        allComparators.add(new sortByViewed());
+        allComparators.add(new sortByTime());
+        allComparators.add(new sortByScore());
     }
 
     public static String showProduct(String productId) {
@@ -119,27 +127,14 @@ public class ProductController extends UserController {
     }
 
     public static void setSort (String sortType) {
-        switch (sortType) {
-            case "sortByTime":
-                comparator = new sortByTime();
-                break;
-            case "sortByScore":
-                comparator = new sortByScore();
-                break;
-            case "sortByViewed":
-                comparator = new sortByTime();
-                break;
+        for (Comparator<Product> productComparator : allComparators) {
+            if (productComparator.getClass().getName().equals(sortType))
+                comparator = productComparator;
         }
     }
 
     public static String getCurrentSort () {
-        if (comparator instanceof sortByScore)
-            return "sort by score";
-        else if (comparator instanceof sortByTime)
-            return "sort by time";
-        else if (comparator instanceof sortByViewed)
-            return "sort by viewed";
-        return "";
+        return comparator.getClass().getName();
     }
 
     public static ArrayList<String> getAttributes (Product product) {
