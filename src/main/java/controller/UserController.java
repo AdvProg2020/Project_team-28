@@ -1,7 +1,11 @@
 package controller;
 
+import model.Customer;
+import model.Manager;
+import model.Seller;
 import model.User;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,8 +26,28 @@ public class UserController {
         return userLoggedOn;
     }
 
-    public void registerAccount(HashMap<String, String> data) throws Exception{
-        throw new Exception("Registering with " + data);
+    public void registerAccount(HashMap<String, String> data) {
+        switch (data.get("type")) {
+            case "customer":
+                Customer customer = new Customer(data.get("username"),
+                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
+                        data.get("password"),Long.parseLong(data.get("credit")));
+                Database.add(customer);
+                break;
+            case "manager":
+                Manager manager = new Manager(data.get("username"),
+                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
+                        data.get("password"),Long.parseLong(data.get("credit")));
+                Database.add(manager);
+                break;
+            case "seller":
+                Seller seller = new Seller(data.get("username"),
+                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
+                        data.get("password"),Long.parseLong(data.get("credit")),data.get("companyName"));
+                Database.add(seller);
+                break;
+
+        }
     }
 
     public String getPersonalInfo() {
