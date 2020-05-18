@@ -56,12 +56,20 @@ public class ProductController extends UserController {
     }
 
     public String showAvailableFilters () {
+        setCategoryForFilter();
         StringBuilder result = new StringBuilder();
         result.append("Name\nBrand\nIn stock\nPrice\n");
         for (Property property : currentCategory.getSpecialProperties()) {
             result.append(property.getName()).append("\n");
         }
         return result.toString();
+    }
+
+    public void setCategoryForFilter () {
+        for (Property property : currentFilter.getProperties()) {
+            if (property.getName().equals("category"))
+                currentCategory = Database.getCategoryByName(property.getValueString());
+        }
     }
 
     public ArrayList<Product> filterProducts () {
@@ -85,8 +93,17 @@ public class ProductController extends UserController {
         Database.remove(Database.getProductById(productId));
     }
 
-    public static void addFilter (Property property) {
-        currentFilter.addRestriction(property);
+    public static void addFilter (String name, String value) {
+        Property restriction = new Property();
+        restriction.setName(name);
+        if (value.matches("\\d+")) {
+            restriction.setNumber(true);
+            restriction.setValueLong(Long.parseLong(value));
+        }else {
+            restriction.setNumber(false);
+            restriction.setValueString(value);
+        }
+        currentFilter.addRestriction(restriction);
     }
 
     public static void removeFilter (String property) {

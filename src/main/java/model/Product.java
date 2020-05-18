@@ -14,6 +14,7 @@ public class Product {
     private String seller;
     private boolean inStock;
     private String category;
+    private String off;
     private String description;
     private int viewed = 0;
     private ArrayList<String> allScores;
@@ -51,6 +52,14 @@ public class Product {
 
     public int getViewed() {
         return viewed;
+    }
+
+    public Off getOff() {
+        return Database.getOffById(off);
+    }
+
+    public void setOff(String off) {
+        this.off = off;
     }
 
     public ArrayList<Property> getAllProperties() {

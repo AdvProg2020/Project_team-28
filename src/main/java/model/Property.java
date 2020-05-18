@@ -54,7 +54,7 @@ public class Property {
         return isNumber;
     }
 
-    public void setValueLong(int valueLong) {
+    public void setValueLong(long valueLong) {
         this.valueLong = valueLong;
     }
 

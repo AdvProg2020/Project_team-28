@@ -15,6 +15,7 @@ public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<Property> allProperties = new ArrayList<>();
     private static ArrayList<Score> allScores = new ArrayList<>();
     private static ArrayList<purchaseLog> allPurchaseLogs = new ArrayList<>();
+    private static ArrayList<Off> allOffs = new ArrayList<>();
 
     public void loadAllData() {
 
@@ -45,6 +46,9 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
     public static void add (purchaseLog log) {
         allPurchaseLogs.add(log);
+    }
+    public static void add (Off off) {
+        allOffs.add(off);
     }
 
     public static void remove (Product product) {
@@ -95,6 +99,13 @@ public class Database { //jaaye in tu model nist? :thinking:
         }
         return null;
     }
+    public static Off getOffById (String id) {
+        for (Off off : allOffs) {
+            if (off.getId().equals(id))
+                return off;
+        }
+        return null;
+    }
     public static purchaseLog getPurchaseLogById (String id) {
         for (purchaseLog log : allPurchaseLogs) {
             if (log.getId().equals(id))
@@ -104,6 +115,14 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
 
     public User getUserByUsername(String username) {
+        return null;
+    }
+
+    public static Category getCategoryByName (String name) {
+        for (Category category : allCategories) {
+            if (category.getName().equals(name))
+                return category;
+        }
         return null;
     }
 
