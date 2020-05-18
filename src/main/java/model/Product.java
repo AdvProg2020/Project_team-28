@@ -129,13 +129,15 @@ public class Product {
             case "name":
                 return this.name.contains(property.getValueString());
             case "inStock":
-                return property.getValueLong() == 1;
+                return (this.inStock ? 1 : 0) == property.getValueLong();
             case "brand":
                 return this.brand.equals(property.getValueString());
             case "maxPrice":
                 return this.price <= property.getValueLong();
             case "minPrice":
                 return this.price >= property.getValueLong();
+            case "hasOff":
+                return ((this.hasOff()) ? 1 : 0) == property.getValueLong();
         }
         for (String thisProperty : allProperties) {
             if (property.equals(Database.getPropertyById(thisProperty)))
@@ -153,7 +155,14 @@ public class Product {
     }
 
     public long getPrice() {
-        return price;
+        if (this.hasOff())
+            return price * (100 - this.getOff().getDiscountAmount())/100;
+        else
+            return price;
+    }
+
+    public boolean hasOff () {
+        return this.off != null;
     }
 
     @Override
