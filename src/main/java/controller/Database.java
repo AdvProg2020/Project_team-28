@@ -3,10 +3,9 @@ package controller;
 import com.google.gson.Gson;
 import model.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<User> allUsers = new ArrayList<>();
@@ -27,7 +26,9 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
 
     private static void makeDirectories() {
-        makeDirectory(User.class);
+        makeDirectory(Manager.class);
+        makeDirectory(Seller.class);
+        makeDirectory(Customer.class);
         makeDirectory(Product.class);
         makeDirectory(Gson.class);
         makeDirectory(Discount.class);
@@ -40,7 +41,9 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
 
     private static void loadLists() {
-        loadList(allUsers, User.class);
+        loadList(allUsers, Manager.class);
+        loadList(allUsers, Seller.class);
+        loadList(allUsers, Customer.class);
         loadList(allProducts, Product.class);
         loadList(allRequests, Gson.class);
         loadList(allDiscountCodes, Discount.class);
@@ -56,11 +59,15 @@ public class Database { //jaaye in tu model nist? :thinking:
         return "Database\\" + cls.getSimpleName() + "\\";
     }
 
+    private static <T> String getPath(Object object) {
+        return "Database\\" + object.getClass().getSimpleName() + "\\";
+    }
+
     private static <T> void makeDirectory(Class<T> cls) {
         new File(getPath(cls)).mkdirs();
     }
 
-    private static <T> void loadList (ArrayList<T> list, Class<T> cls) {
+    private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls) {
         for (final File fileEntry : new File(getPath(cls)).listFiles()) {
             try {
                 Object object = new Gson().fromJson(new FileReader(fileEntry), cls);
@@ -71,39 +78,72 @@ public class Database { //jaaye in tu model nist? :thinking:
         }
     }
 
-    public static void add (User user) {
-        allUsers.add(user);
-    }
-    public static void add (Product product) {
-        allProducts.add(product);
-    }
-    public static void add (Gson request) {
-        allRequests.add(request);
-    }
-    public static void add (Discount discount) {
-        allDiscountCodes.add(discount);
-    }
-    public static void add (Category category) {
-        allCategories.add(category);
-    }
-    public static void add (Comment comment) {
-        allComments.add(comment);
-    }
-    public static void add (Property property) {
-        allProperties.add(property);
-    }
-    public static void add (Score score) {
-        allScores.add(score);
-    }
-    public static void add (purchaseLog log) {
-        allPurchaseLogs.add(log);
-    }
-    public static void add (Off off) {
-        allOffs.add(off);
+    private static void writeObject(Object object, String id) {
+        String fileName = getPath(object) + id + ".json";
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(fileName);
+            new Gson().toJson(object, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void remove (Product product) {
+
+    public static void add(User user) {
+        allUsers.add(user);
+        writeObject(user, user.getId());
+    }
+
+    public static void add(Product product) {
+        allProducts.add(product);
+        writeObject(product, product.getId());
+    }
+
+    public static void add(Gson request) {
+        allRequests.add(request);
+        writeObject(request, UUID.randomUUID().toString());
+    }
+
+    public static void add(Discount discount) {
+        allDiscountCodes.add(discount);
+        writeObject(discount, discount.getId());
+    }
+
+    public static void add(Category category) {
+        allCategories.add(category);
+        writeObject(category, category.getId());
+    }
+
+    public static void add(Comment comment) {
+        allComments.add(comment);
+        writeObject(comment, comment.getId());
+    }
+
+    public static void add(Property property) {
+        allProperties.add(property);
+        writeObject(property, property.getId());
+    }
+
+    public static void add(Score score) {
+        allScores.add(score);
+        writeObject(score, score.getId());
+    }
+
+    public static void add(purchaseLog log) {
+        allPurchaseLogs.add(log);
+        writeObject(log, log.getId());
+    }
+
+    public static void add(Off off) {
+        allOffs.add(off);
+        writeObject(off, off.getId());
+    }
+
+    public static void remove(Product product) {
         allProducts.remove(product);
+        writeObject(product, product.getId());
     }
 
     public static Product getProductById(String id) {
@@ -113,6 +153,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         }
         return null;
     }
+
     public static User getUserById(String id) {
         for (User user : allUsers) {
             if (user.getId().equals(id))
@@ -120,44 +161,52 @@ public class Database { //jaaye in tu model nist? :thinking:
         }
         return null;
     }
+
     public static Gson getRequestById(String id) {
         return null;
     }
-    public static Discount getDiscountById (String id) {
+
+    public static Discount getDiscountById(String id) {
         for (Discount discountCode : allDiscountCodes) {
             if (discountCode.getId().equals(id))
                 return discountCode;
         }
         return null;
     }
-    public static Category getCategoryById (String id) {
+
+    public static Category getCategoryById(String id) {
         return null;
     }
-    public static Comment getCommentById (String id) {
+
+    public static Comment getCommentById(String id) {
         return null;
     }
-    public static Property getPropertyById (String id) {
+
+    public static Property getPropertyById(String id) {
         for (Property property : allProperties) {
             if (property.getId().equals(id))
                 return property;
         }
         return null;
     }
-    public static Score getScoreById (String id) {
+
+    public static Score getScoreById(String id) {
         for (Score score : allScores) {
             if (score.getId().equals(id))
                 return score;
         }
         return null;
     }
-    public static Off getOffById (String id) {
+
+    public static Off getOffById(String id) {
         for (Off off : allOffs) {
             if (off.getId().equals(id))
                 return off;
         }
         return null;
     }
-    public static purchaseLog getPurchaseLogById (String id) {
+
+    public static purchaseLog getPurchaseLogById(String id) {
         for (purchaseLog log : allPurchaseLogs) {
             if (log.getId().equals(id))
                 return log;
@@ -173,7 +222,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
-    public static Category getCategoryByName (String name) {
+    public static Category getCategoryByName(String name) {
         for (Category category : allCategories) {
             if (category.getName().equals(name))
                 return category;
@@ -181,7 +230,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
-    public static Discount getDiscountByCode (String code) {
+    public static Discount getDiscountByCode(String code) {
         for (Discount discountCode : allDiscountCodes) {
             if (discountCode.getCode().equals(code))
                 return discountCode;
@@ -189,7 +238,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
-    public static Property getPropertyByName (String name) {
+    public static Property getPropertyByName(String name) {
         for (Property property : allProperties) {
             if (property.getName().equals(name))
                 return property;
