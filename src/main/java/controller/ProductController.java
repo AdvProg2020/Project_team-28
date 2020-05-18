@@ -161,6 +161,10 @@ public class ProductController extends UserController {
     }
 
     public String getCategories() {
-        return "These are categories";
+        StringBuilder result = new StringBuilder();
+        for (Category category : Database.getAllCategories()) {
+            result.append(category.getName()).append("\n");
+        }
+        return result.toString();
     }
 }
