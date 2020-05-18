@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class purchaseLog {
+public class PurchaseLog {
     private LocalDateTime date;
     private long amountPaid;
     private String discount;
@@ -16,7 +16,7 @@ public class purchaseLog {
     deliveryStatus status = deliveryStatus.InStock;
     private String id;
 
-    public purchaseLog() {
+    public PurchaseLog() {
         this.products = new HashMap<>();
         this.id = UUID.randomUUID().toString();
     }

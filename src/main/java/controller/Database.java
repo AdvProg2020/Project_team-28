@@ -16,7 +16,7 @@ public class Database { //jaaye in tu model nist? :thinking:
     private static ArrayList<Comment> allComments = new ArrayList<>();
     private static ArrayList<Property> allProperties = new ArrayList<>();
     private static ArrayList<Score> allScores = new ArrayList<>();
-    private static ArrayList<purchaseLog> allPurchaseLogs = new ArrayList<>();
+    private static ArrayList<PurchaseLog> allPurchaseLogs = new ArrayList<>();
     private static ArrayList<Off> allOffs = new ArrayList<>();
 
 
@@ -36,7 +36,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         makeDirectory(Comment.class);
         makeDirectory(Property.class);
         makeDirectory(Score.class);
-        makeDirectory(purchaseLog.class);
+        makeDirectory(PurchaseLog.class);
         makeDirectory(Off.class);
     }
 
@@ -51,7 +51,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         loadList(allComments, Comment.class);
         loadList(allProperties, Property.class);
         loadList(allScores, Score.class);
-        loadList(allPurchaseLogs, purchaseLog.class);
+        loadList(allPurchaseLogs, PurchaseLog.class);
         loadList(allOffs, Off.class);
     }
 
@@ -131,7 +131,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         writeObject(score, score.getId());
     }
 
-    public static void add(purchaseLog log) {
+    public static void add(PurchaseLog log) {
         allPurchaseLogs.add(log);
         writeObject(log, log.getId());
     }
@@ -206,8 +206,8 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
-    public static purchaseLog getPurchaseLogById(String id) {
-        for (purchaseLog log : allPurchaseLogs) {
+    public static PurchaseLog getPurchaseLogById(String id) {
+        for (PurchaseLog log : allPurchaseLogs) {
             if (log.getId().equals(id))
                 return log;
         }

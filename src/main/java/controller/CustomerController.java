@@ -5,8 +5,6 @@ import model.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
@@ -100,15 +98,15 @@ public class CustomerController extends UserController {
 
     public void purchase() {
         customerLoggedOn.payCredit(getTotalPrice());
-        purchaseLog newLog = createPurchaseLog();
+        PurchaseLog newLog = createPurchaseLog();
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
         customerLoggedOn.emptyCart();
 
     }
 
-    private purchaseLog createPurchaseLog () {
-        purchaseLog log = new purchaseLog();
+    private PurchaseLog createPurchaseLog () {
+        PurchaseLog log = new PurchaseLog();
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
         log.setProducts(customerLoggedOn.getCart());
@@ -118,7 +116,7 @@ public class CustomerController extends UserController {
     public String viewOrders () {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Order ID\tAmount paid\tDate\n");
-        for (purchaseLog log : customerLoggedOn.getPurchaseHistory()) {
+        for (PurchaseLog log : customerLoggedOn.getPurchaseHistory()) {
             stringToReturn.append(log.getId()).append("\t")
                     .append(log.getAmountPaid()).append("\t")
                     .append(log.getDate()).append("\n");
@@ -127,7 +125,7 @@ public class CustomerController extends UserController {
     }
 
     public String showOrder(String orderId) {
-        purchaseLog thisLog = Database.getPurchaseLogById(orderId);
+        PurchaseLog thisLog = Database.getPurchaseLogById(orderId);
         if (thisLog != null)
             return thisLog.toString();
         else

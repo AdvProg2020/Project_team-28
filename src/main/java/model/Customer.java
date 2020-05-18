@@ -33,7 +33,7 @@ public class Customer extends User {
         return discountCodes.contains(discount.getId());
     }
 
-    public void addToPurchaseHistory(purchaseLog purchaseLog) {
+    public void addToPurchaseHistory(PurchaseLog purchaseLog) {
         purchaseHistory.add(purchaseLog.getId());
     }
 
@@ -85,8 +85,8 @@ public class Customer extends User {
         this.setCredit(this.getCredit() - cost);
     }
 
-    public ArrayList<purchaseLog> getPurchaseHistory() {
-        ArrayList<purchaseLog> purchaseLogs = new ArrayList<>();
+    public ArrayList<PurchaseLog> getPurchaseHistory() {
+        ArrayList<PurchaseLog> purchaseLogs = new ArrayList<>();
         for (String log : this.purchaseHistory) {
             purchaseLogs.add(Database.getPurchaseLogById(log));
         }
