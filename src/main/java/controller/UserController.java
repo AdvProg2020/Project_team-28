@@ -1,14 +1,17 @@
 package controller;
 
-import model.Customer;
-import model.Manager;
-import model.Seller;
-import model.User;
+import model.*;
 
 import java.util.HashMap;
 
 public class UserController {
-    protected static User userLoggedOn;
+    protected User userLoggedOn;
+    protected ProductController productController;
+
+    public UserController(User userLoggedOn, ProductController productController) {
+        this.userLoggedOn = userLoggedOn;
+        this.productController = productController;
+    }
 
     public void loginUser(String username, String password) throws Exception{
         User thisUser = Database.getUserByUsername(username);
@@ -20,7 +23,7 @@ public class UserController {
             throw new Exception("Wrong password");
     }
 
-    public static User getUser() {
+    public User getUser() {
         return userLoggedOn;
     }
 
@@ -82,5 +85,11 @@ public class UserController {
                     break;
             }
         }
+    }
+
+    public void addReview(String title, String text, boolean hasBought) {
+        Comment thisComment = new Comment(this.userLoggedOn, productController.getCurrentProduct(), title, text, hasBought);
+        Database.add(thisComment);
+        productController.getCurrentProduct().addComment(thisComment);
     }
 }

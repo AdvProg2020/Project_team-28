@@ -9,7 +9,8 @@ import java.util.HashMap;
 public class CustomerController extends UserController {
     private Customer customerLoggedOn;
 
-    public CustomerController(User user) throws Exception {
+    public CustomerController(User user, ProductController productController) throws Exception {
+        super(user, productController);
         if (user instanceof Customer)
             this.customerLoggedOn = (Customer) user;
         else
@@ -47,7 +48,7 @@ public class CustomerController extends UserController {
 
     public String showProduct(String productId) {
         if (customerLoggedOn.isProductInCart(productId)) {
-            return ProductController.showProduct(productId);
+            return productController.showProduct(productId);
         }
         return "Not a Valid Id";
     }

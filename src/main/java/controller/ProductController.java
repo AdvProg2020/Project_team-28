@@ -5,28 +5,28 @@ import model.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class ProductController extends UserController {
-    private static Product currentProduct;
-    private static Category currentCategory;
-    private static Comparator<Product> comparator;
-    private static ArrayList<Comparator<Product>> allComparators;
-    private static Filter currentFilter = new Filter();
+public class ProductController {
+    private Product currentProduct;
+    private Category currentCategory;
+    private Comparator<Product> comparator;
+    private ArrayList<Comparator<Product>> allComparators;
+    private Filter currentFilter = new Filter();
 
     public ProductController () {
-        allComparators = new ArrayList<>();
-        allComparators.add(new sortByViewed());
-        allComparators.add(new sortByTime());
-        allComparators.add(new sortByScore());
+        this.allComparators = new ArrayList<>();
+        this.allComparators.add(new sortByViewed());
+        this.allComparators.add(new sortByTime());
+        this.allComparators.add(new sortByScore());
     }
     public ProductController (Product currentProduct) {
-        ProductController.currentProduct = currentProduct;
-        allComparators = new ArrayList<>();
-        allComparators.add(new sortByViewed());
-        allComparators.add(new sortByTime());
-        allComparators.add(new sortByScore());
+        this.currentProduct = currentProduct;
+        this.allComparators = new ArrayList<>();
+        this.allComparators.add(new sortByViewed());
+        this.allComparators.add(new sortByTime());
+        this.allComparators.add(new sortByScore());
     }
 
-    public static String showProduct(String productId) {
+    public String showProduct(String productId) {
         Product product = Database.getProductById(productId);
         assert product != null;
         product.addViewed();
@@ -39,7 +39,7 @@ public class ProductController extends UserController {
                 "Description:\n" + product.getDescription();
     }
 
-    public static String showProducts() {
+    public String showProducts () {
         StringBuilder result = new StringBuilder();
         result.append("id\tname\tseller\tprice\n");
         for (Product product : Database.getAllProducts()) {
@@ -48,23 +48,12 @@ public class ProductController extends UserController {
         return result.toString();
     }
 
-    public static String digest() {
-        return showProduct(currentProduct.getId());
+    public String digest() {
+        return showProduct(this.currentProduct.getId());
     }
 
-    public void addReview(String title, String text, boolean hasBought) {
-        Comment thisComment = new Comment(UserController.getUser(), currentProduct, title, text, hasBought);
-        Database.add(thisComment);
-        currentProduct.addComment(thisComment);
-    }
-
-    public ArrayList<String> viewCategories() {
-        ArrayList<Category> allCategories = Database.getAllCategories();
-        ArrayList<String> categoryNames = new ArrayList<>();
-        for (Category category : allCategories) {
-            categoryNames.add(category.getName());
-        }
-        return categoryNames;
+    public Product getCurrentProduct() {
+        return currentProduct;
     }
 
     public String showAvailableFilters () {
@@ -101,11 +90,11 @@ public class ProductController extends UserController {
         return result;
     }
 
-    public static void removeProduct (String productId) {
+    public void removeProduct (String productId) {
         Database.remove(Database.getProductById(productId));
     }
 
-    public static void addFilter (String name, String value) {
+    public void addFilter (String name, String value) {
         Property restriction = new Property();
         restriction.setName(name);
         if (value.matches("\\d+")) {
@@ -118,11 +107,11 @@ public class ProductController extends UserController {
         currentFilter.addRestriction(restriction);
     }
 
-    public static void removeFilter (String property) {
+    public void removeFilter (String property) {
         currentFilter.removeRestriction(property);
     }
 
-    public static String getCurrentFilters () {
+    public String getCurrentFilters () {
         ArrayList<String> result = new ArrayList<>();
         for (Property property : currentFilter.getProperties()) {
             result.add(property.toString());
@@ -130,18 +119,18 @@ public class ProductController extends UserController {
         return result.toString();
     }
 
-    public static void setSort (String sortType) {
+    public void setSort (String sortType) {
         for (Comparator<Product> productComparator : allComparators) {
             if (productComparator.getClass().getName().equals(sortType))
                 comparator = productComparator;
         }
     }
 
-    public static String getCurrentSort () {
-        return comparator.getClass().getName();
+    public String getCurrentSort () {
+        return this.comparator.getClass().getName();
     }
 
-    public static ArrayList<String> getAttributes (Product product) {
+    public ArrayList<String> getAttributes (Product product) {
         ArrayList<String> attributes = new ArrayList<>();
         for (Property property : product.getAllProperties()) {
             attributes.add(property.toString());
@@ -152,7 +141,7 @@ public class ProductController extends UserController {
         return attributes;
     }
 
-    public static String compareToProducts (Product first, Product second) {
+    public String compareToProducts (Product first, Product second) {
         StringBuilder result = new StringBuilder();
         result.append(first.getName()).append("\t").append(second.getName()).append("\n");
         ArrayList<String> firstAttributes = getAttributes(first);
