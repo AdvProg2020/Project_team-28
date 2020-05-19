@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import model.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Database {
@@ -170,7 +173,7 @@ public class Database {
 
     public static void remove(JsonElement jsonElement) {
         allProducts.remove(jsonElement);
-        writeObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
+        deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
     }
 
     public static Product getProductById(String id) throws Exception {
