@@ -160,12 +160,12 @@ public class CustomerController extends UserController {
         return result;
     }
 
-    public String showOrder(String orderId) {
+    public String showOrder(String orderId) throws Exception {
         PurchaseLog thisLog = Database.getPurchaseLogById(orderId);
         if (thisLog != null)
             return thisLog.toString();
         else
-            return "Not a valid id";
+            throw new Exception("Invalid log id");
     }
 
     public void rateProduct (String productId, String score) throws Exception{

@@ -37,7 +37,7 @@ public class Product {
         this.brand = brand;
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
-        this.category = category; //TODO this isn't right. it should be a category id
+        this.category = Database.getCategoryByName(category).getId();
     }
 
     public String getId() {
@@ -151,6 +151,14 @@ public class Product {
 
     public void addComment (Comment comment) {
         allComments.add(comment.getId());
+    }
+
+    public ArrayList<Comment> getAllComments() {
+        ArrayList<Comment> result = new ArrayList<>();
+        for (String comment : allComments) {
+            result.add(Database.getCommentById(comment));
+        }
+        return result;
     }
 
     public boolean hasProperty (Property property) {
