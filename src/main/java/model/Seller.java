@@ -41,6 +41,10 @@ public class Seller extends User {
         return result;
     }
 
+    public void addSellLog (SellLog log) {
+        this.salesHistory.add(log.getId());
+    }
+
     @Override
     public String getType() {
         return "seller";

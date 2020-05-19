@@ -60,7 +60,9 @@ public class CustomerController extends UserController {
         return "Not a Valid Id";
     }
 
-    public void addToCart() {
+    public void addToCart() throws Exception{
+        if (!productController.getCurrentProduct().isInStock())
+            throw new Exception("Product is unavailable");
         String productId = productController.getCurrentProduct().getId();
         if (customerLoggedOn.isProductInCart(productId))
             customerLoggedOn.increaseNumberInCart(productId);
@@ -91,7 +93,7 @@ public class CustomerController extends UserController {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
         }
         if (customerLoggedOn.getDiscountUsed() != null)
-            totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) /100;
+            totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) / 100;
         return totalPrice;
     }
 
@@ -114,6 +116,12 @@ public class CustomerController extends UserController {
     public void purchase() throws Exception{
         customerLoggedOn.payCredit(getTotalPrice());
         PurchaseLog newLog = createPurchaseLog();
+        for (Product product : customerLoggedOn.getCart().keySet()) {
+            SellLog log = product.createSellLog();
+            log.setCustomer(customerLoggedOn);
+            product.getSellers().get(0).addSellLog(log);
+        }
+        customerLoggedOn.deleteDiscount();
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
         this.addCustomerToProducts();
@@ -130,6 +138,7 @@ public class CustomerController extends UserController {
         PurchaseLog log = new PurchaseLog();
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
+        log.setDiscount(customerLoggedOn.getDiscountUsed());
         log.setProducts(customerLoggedOn.getCart());
         return log;
     }

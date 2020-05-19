@@ -25,6 +25,10 @@ public class Customer extends User {
         return discountUsed;
     }
 
+    public void deleteDiscount () {
+        this.discountUsed = null;
+    }
+
     public void setAddress(HashMap<String, String> address) {
         this.address = address;
     }

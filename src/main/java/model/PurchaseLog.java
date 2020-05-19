@@ -46,11 +46,11 @@ public class PurchaseLog {
     }
 
     public Discount getDiscount() {
-        return null;
+        return Database.getDiscountById(discount);
     }
 
     public void setDiscount(Discount discount) {
-
+        this.discount = discount.getId();
     }
 
     public HashMap<Product, Integer> getProducts() throws Exception{
@@ -62,6 +62,10 @@ public class PurchaseLog {
     }
 
     public void setProducts(HashMap<Product, Integer> products) {
+        this.products = new HashMap<>();
+        for (Product product : products.keySet()) {
+            this.products.put(product.getId(), products.get(product));
+        }
     }
 
     public String getStatus() {

@@ -2,6 +2,7 @@ package model;
 
 import controller.Database;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -185,6 +186,16 @@ public class Product {
 
     public boolean hasOff () {
         return this.off != null;
+    }
+
+    public SellLog createSellLog () {
+        SellLog log = new SellLog();
+        Database.add(log);
+        log.setSoldProduct(this);
+        log.setDate(LocalDateTime.now());
+        log.setAmountReceived(this.getPrice());
+        log.setAmountReduced(this.price - this.getPrice());
+        return log;
     }
 
     @Override
