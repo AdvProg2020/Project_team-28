@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import model.Discount;
+import model.Manager;
 import model.User;
 import model.exception.UserNotFoundException;
 
@@ -15,6 +16,14 @@ public class ManagerController extends UserController {
 
     public ManagerController(User user, ProductController productController) {
         super(user, productController);
+    }
+
+    public static boolean managerExists() {
+        for (User user : Database.getAllUsers()) {
+            if (user.getClass() == Manager.class)
+                return true;
+        }
+        return false;
     }
 
     public void createDiscount(HashMap<String, String> data) throws Exception {

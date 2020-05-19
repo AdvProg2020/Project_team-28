@@ -31,7 +31,7 @@ public class UserController {
         return userLoggedOn;
     }
 
-    public void registerAccount(HashMap<String, String> data) throws Exception {
+    public void registerAccount(HashMap<String, String> data, boolean newManagerAllowed) throws Exception {
         if (Database.getUserByUsername(data.get("username")) != null)
             throw new Exception("Duplicated Username");
         if (data.get("credit").equals("")) {
@@ -45,6 +45,8 @@ public class UserController {
                 Database.add(customer);
                 break;
             case "manager":
+                if (!newManagerAllowed && ManagerController.managerExists())
+                    throw new Exception("You can't create a manager account");
                 Manager manager = new Manager(data.get("username"),
                         data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
                         data.get("password"),Long.parseLong(data.get("credit")));

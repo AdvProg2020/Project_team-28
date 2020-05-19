@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 
 public class RegisterLoginMenu extends Menu {
     private UserController controller;
+    private boolean managerAllowed;
 
     public RegisterLoginMenu(UserController controller) {
         super();
@@ -52,7 +53,7 @@ public class RegisterLoginMenu extends Menu {
                 HashMap<String, String> data = new Conversation(fields).execute();
                 data.put("username", username);
                 data.put("type", type);
-                controller.registerAccount(data);
+                controller.registerAccount(data, false);
             }
             else if (loginMatcher.find()) {
                 String username = input.split(" ")[1];
