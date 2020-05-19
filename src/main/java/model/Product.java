@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Product {
-    private enum productStatus  {A, B}
+    private enum productStatus  {WaitingForProduction, WaitingForEdition, Confirmed}
+    private productStatus status = productStatus.WaitingForProduction;
     private String name;
     private String brand;
     private long price;
@@ -23,11 +24,19 @@ public class Product {
     private ArrayList<String> allBuyers;
     private String id;
 
-    public Product() {
+    public Product(String name, String brand, String price, String seller, String category) {
         allScores = new ArrayList<>();
         allComments = new ArrayList<>();
         allProperties = new ArrayList<>();
+        allBuyers = new ArrayList<>();
+        sellers = new ArrayList<>();
         this.id = UUID.randomUUID().toString();
+
+        this.name = name;
+        this.brand = brand;
+        this.price = Long.parseLong(price);
+        this.sellers.add(seller);
+        this.category = category; //TODO this isn't right. it should be a category id
     }
 
     public String getId() {
@@ -78,6 +87,14 @@ public class Product {
         this.off = off;
     }
 
+    public String getStatus() {
+        return status.toString();
+    }
+
+    public void setStatus(String status) {
+        this.status = productStatus.valueOf(status);
+    }
+
     public ArrayList<Property> getAllProperties() {
         ArrayList<Property> result = new ArrayList<>();
         for (String property : this.allProperties) {
@@ -124,7 +141,7 @@ public class Product {
     }
 
     public void addProperty(Property property) {
-
+        allProperties.add(property.getId());
     }
 
     public void addScore (Score score) {
