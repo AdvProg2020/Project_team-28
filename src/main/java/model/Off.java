@@ -53,10 +53,6 @@ public class Off {
         return null;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-
-    }
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -83,6 +79,18 @@ public class Off {
 
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public void setProducts(ArrayList<String> products) {
+        this.products = products;
+    }
+
+    public OffStatus getOffStatus() {
+        return offStatus;
+    }
+
+    public void setOffStatus(String offStatus) {
+        this.offStatus = (offStatus.equals("A") ? OffStatus.A : OffStatus.B);
     }
 
     @Override

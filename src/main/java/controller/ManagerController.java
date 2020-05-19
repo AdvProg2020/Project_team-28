@@ -1,11 +1,14 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import model.Discount;
+import model.Off;
 import model.User;
 import model.exception.UserNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,11 +76,58 @@ public class ManagerController extends UserController {
         return Database.getRequestById(requestId).toString();
     }
 
-    public void evaluateRequest(String requestId, boolean isAccepted) {
-        //not complete
+    public void evaluateRequest(String requestId, boolean isAccepted) throws Exception {
+        //TODO not complete
         JsonElement jsonElement = Database.getRequestById(requestId);
         if (!isAccepted) {
             Database.remove(jsonElement);
+        } else {
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+            switch (jsonElement.getAsJsonObject().get("request-type").getAsString()) {
+                case "add off":
+                    addOff(jsonElement);
+                    break;
+                case "edit off":
+                    editOff(jsonElement);
+                    break;
+                case "add product":
+                    break;
+                case "edit product":
+                    break;
+                default:
+            }
+        }
+    }
+
+    private void addOff(JsonElement jsonElement) throws Exception {
+        Gson gson = new Gson();
+        Off off = gson.fromJson(jsonElement.getAsJsonObject().get("off").toString(), Off.class);
+        Database.add(off);
+    }
+
+    private void editOff(JsonElement jsonElement) throws Exception {
+        Gson gson = new Gson();
+        Off off = Database.getOffById(jsonElement.getAsJsonObject().get("offId").getAsString());
+        if (off == null) {
+            throw new Exception("off not found");
+        } else {
+            if (!jsonElement.getAsJsonObject().get("offStatus").getAsString().equals("")) {
+                off.setOffStatus(jsonElement.getAsJsonObject().get("offStatus").getAsString());
+            }
+            if (!jsonElement.getAsJsonObject().get("startTime").getAsString().equals("")) {
+                off.setStartTime(LocalDateTime.parse(jsonElement.getAsJsonObject().get("startTime").getAsString()));
+            }
+            if (!jsonElement.getAsJsonObject().get("finishTime").getAsString().equals("")) {
+                off.setFinishTime(LocalDateTime.parse(jsonElement.getAsJsonObject().get("finishTime").getAsString()));
+            }
+            if (!jsonElement.getAsJsonObject().get("discountAmount").getAsString().equals("")) {
+                off.setDiscountAmount(Integer.parseInt(jsonElement.getAsJsonObject().get("discountAmount").getAsString()));
+            }
+            if (!jsonElement.getAsJsonObject().get("currentSeller").getAsString().equals("")) {
+                off.setSellerId(jsonElement.getAsJsonObject().get("currentSeller").getAsString());
+            }
         }
     }
 

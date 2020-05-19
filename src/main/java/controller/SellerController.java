@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import model.*;
 
 import java.util.ArrayList;
@@ -94,22 +95,28 @@ public class SellerController extends UserController {
 
     public void editOff(HashMap<String, String> data) throws Exception {
         Gson request = new Gson();
-        Off off = new Off(Arrays.asList(data.get("products").split("\\s*,\\s+")), data.get("offStatus"),
-                data.get("startTime"), data.get("finishTime"), data.get("discountAmount"), currentSeller.getId());
-        JsonElement jsonElement = request.toJsonTree(off);
-        jsonElement.getAsJsonObject().addProperty("request-type", "edit off");
-        jsonElement.getAsJsonObject().addProperty("offId", data.get("offId"));
-        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
-        Database.add(jsonElement);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("product ids", data.get("product ids"));
+        jsonObject.addProperty("offStatus", data.get("offStatus"));
+        jsonObject.addProperty("startTime", data.get("startTime"));
+        jsonObject.addProperty("finishTime", data.get("finishTime"));
+        jsonObject.addProperty("discountAmount", data.get("discountAmount"));
+        jsonObject.addProperty("currentSeller", currentSeller.getId());
+        jsonObject.addProperty("request-type", "edit off");
+        jsonObject.addProperty("offId", data.get("offId"));
+        jsonObject.addProperty("id", UUID.randomUUID().toString());
+        Database.add(jsonObject);
     }
 
     public void addOff(HashMap<String, String> data) throws Exception {
-        Off off = new Off(Arrays.asList(data.get("products").split("\\s*,\\s+")), data.get("offStatus"),
+        Off off = new Off(Arrays.asList(data.get("product ids").split("\\s*,\\s+")), data.get("offStatus"),
                 data.get("startTime"), data.get("finishTime"), data.get("discountAmount"), currentSeller.getId());
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(off);
-        jsonElement.getAsJsonObject().addProperty("request-type", "add off");
-        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
-        Database.add(jsonElement);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("off", jsonElement);
+        jsonObject.addProperty("request-type", "add off");
+        jsonObject.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        Database.add(jsonObject);
     }
 }
