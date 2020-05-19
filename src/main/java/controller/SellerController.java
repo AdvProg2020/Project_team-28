@@ -7,6 +7,7 @@ import model.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SellerController extends UserController {
     private Seller currentSeller;
@@ -49,15 +50,26 @@ public class SellerController extends UserController {
     }
 
     public void editProduct(String productId, HashMap<String, String> fields) throws Exception {
-        throw new Exception("product with productId: " + productId + " edited with fields " + fields);
+        Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), currentSeller.getId(), fields.get("category"));
+        Gson request = new Gson();
+        JsonElement jsonElement = request.toJsonTree(product);
+        jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
+        jsonElement.getAsJsonObject().addProperty("productId", productId);
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        Database.add(jsonElement);
     }
 
     public void addProduct(HashMap<String, String> fields) throws Exception {
-        throw new Exception("new product with fields: " + fields);
+        Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), currentSeller.getId(), fields.get("category"));
+        Gson request = new Gson();
+        JsonElement jsonElement = request.toJsonTree(product);
+        jsonElement.getAsJsonObject().addProperty("request-type", "add product");
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        Database.add(jsonElement);
     }
 
     public void deleteProduct(String productId) throws Exception {
-        throw new Exception("product with productId: " + productId + " removed");
+        Database.remove(Database.getProductById(productId));
     }
 
     public String viewCategories() {
@@ -87,15 +99,17 @@ public class SellerController extends UserController {
         JsonElement jsonElement = request.toJsonTree(off);
         jsonElement.getAsJsonObject().addProperty("request-type", "edit off");
         jsonElement.getAsJsonObject().addProperty("offId", data.get("offId"));
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement);
     }
 
     public void addOff(HashMap<String, String> data) throws Exception {
-        Gson request = new Gson();
         Off off = new Off(Arrays.asList(data.get("products").split("\\s*,\\s+")), data.get("offStatus"),
                 data.get("startTime"), data.get("finishTime"), data.get("discountAmount"), currentSeller.getId());
+        Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(off);
         jsonElement.getAsJsonObject().addProperty("request-type", "add off");
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement);
     }
 }

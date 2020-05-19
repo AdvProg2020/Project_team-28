@@ -49,4 +49,20 @@ public class Seller extends User {
     public String getType() {
         return "seller";
     }
+
+    @Override
+    public String toString() {
+        return getType() + "{" +
+                "username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", credit=" + credit +
+                ", id='" + id + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", companyInfo='" + companyInfo + '\'' +
+                '}';
+    }
 }

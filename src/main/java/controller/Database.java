@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import model.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Database {
     private static final ArrayList<User> allUsers = new ArrayList<>();
@@ -72,9 +74,11 @@ public class Database {
     private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls) {
         for (final File fileEntry : new File(getPath(cls)).listFiles()) {
             try {
-                Object object = new Gson().fromJson(new FileReader(fileEntry), cls);
+                FileReader fileReader = new FileReader(fileEntry);
+                Object object = new Gson().fromJson(fileReader, cls);
                 list.add(cls.cast(object));
-            } catch (FileNotFoundException e) {
+                fileReader.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -92,6 +96,14 @@ public class Database {
         }
     }
 
+    private static void deleteObject(Object object, String id) {
+        try {
+            File file = new File(getPath(object) + id + ".json");
+            file.delete();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void add(User user) {
         allUsers.add(user);
@@ -105,7 +117,7 @@ public class Database {
 
     public static void add(JsonElement request) {
         allRequests.add(request);
-        writeObject(request, UUID.randomUUID().toString());
+        writeObject(request, request.getAsJsonObject().get("id").getAsString());
     }
 
     public static void add(Discount discount) {
@@ -149,12 +161,22 @@ public class Database {
         writeObject(off, off.getId());
     }
 
-    public static void remove(Product product) {
-        allProducts.remove(product);
-        writeObject(product, product.getId());
+    public static void remove(User user) {
+        allUsers.remove(user);
+        deleteObject(user, user.getId());
     }
 
-    public static Product getProductById(String id) throws Exception{
+    public static void remove(Product product) {
+        allProducts.remove(product);
+        deleteObject(product, product.getId());
+    }
+
+    public static void remove(JsonElement jsonElement) {
+        allProducts.remove(jsonElement);
+        deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
+    }
+
+    public static Product getProductById(String id) throws Exception {
         for (Product product : allProducts) {
             if (product.getId().equals(id))
                 return product;
@@ -170,7 +192,12 @@ public class Database {
         return null;
     }
 
-    public static Gson getRequestById(String id) {
+    public static JsonElement getRequestById(String id) {
+        for (JsonElement jsonElement : allRequests) {
+            if (jsonElement.getAsJsonObject().get("id").getAsString().equals(id)) {
+                return jsonElement;
+            }
+        }
         return null;
     }
 

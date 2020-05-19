@@ -25,11 +25,19 @@ public class Product {
     private ArrayList<String> allBuyers;
     private String id;
 
-    public Product() {
+    public Product(String name, String brand, String price, String seller, String category) {
         allScores = new ArrayList<>();
         allComments = new ArrayList<>();
         allProperties = new ArrayList<>();
+        allBuyers = new ArrayList<>();
+        sellers = new ArrayList<>();
         this.id = UUID.randomUUID().toString();
+
+        this.name = name;
+        this.brand = brand;
+        this.price = Long.parseLong(price);
+        this.sellers.add(seller);
+        this.category = category; //TODO this isn't right. it should be a category id
     }
 
     public String getId() {

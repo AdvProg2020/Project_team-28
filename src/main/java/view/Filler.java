@@ -5,12 +5,17 @@ import java.util.HashMap;
 public class Filler {
     //<String fieldName, Boolean isOptional>
     public static void fillSellerEditProductFields(HashMap<String, Boolean> fields) {
-        fields.put("Old fields", false);
+        fields.put("name", true);
+        fields.put("brand", true);
+        fields.put("price", true);
+        fields.put("category", true);
     }
 
     public static void fillSellerNewProductFields(HashMap<String, Boolean> fields) {
         fields.put("name", true);
-        fields.put("some fields for new product", false);
+        fields.put("brand", true);
+        fields.put("price", false);
+        fields.put("category", true);
     }
 
     public static void fillSellerNewOffFields(HashMap<String, Boolean> fields) {
