@@ -176,4 +176,17 @@ public class ProductController {
     public String getReviews() {
         return "These are reviews of the current product";
     }
+
+    public void addPropertyToCurrentProduct (String name, String value) {
+        Property property = new Property();
+        property.setName(name);
+        if (value.matches("\\d+")) {
+            property.setValueLong(Long.parseLong(value));
+            property.setNumber(true);
+        }else {
+            property.setValueString(value);
+            property.setNumber(false);
+        }
+        currentProduct.addProperty(property);
+    }
 }

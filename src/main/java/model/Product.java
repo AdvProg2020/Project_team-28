@@ -133,7 +133,7 @@ public class Product {
     }
 
     public void addProperty(Property property) {
-
+        allProperties.add(property.getId());
     }
 
     public void addScore (Score score) {
