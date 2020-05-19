@@ -7,6 +7,7 @@ import model.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SellerController extends UserController {
     private Seller currentSeller;
@@ -54,6 +55,7 @@ public class SellerController extends UserController {
         JsonElement jsonElement = request.toJsonTree(product);
         jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
         jsonElement.getAsJsonObject().addProperty("productId", productId);
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement);
     }
 
@@ -62,6 +64,7 @@ public class SellerController extends UserController {
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(product);
         jsonElement.getAsJsonObject().addProperty("request-type", "add product");
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement);
     }
 
@@ -96,6 +99,7 @@ public class SellerController extends UserController {
         JsonElement jsonElement = request.toJsonTree(off);
         jsonElement.getAsJsonObject().addProperty("request-type", "edit off");
         jsonElement.getAsJsonObject().addProperty("offId", data.get("offId"));
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement);
     }
 
@@ -105,6 +109,7 @@ public class SellerController extends UserController {
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(off);
         jsonElement.getAsJsonObject().addProperty("request-type", "add off");
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement);
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import model.Discount;
 import model.User;
 
@@ -49,14 +50,23 @@ public class ManagerController extends UserController {
     }
 
     public String viewRequests() {
-        return "These are requests";
+        StringBuilder res = new StringBuilder();
+        for (JsonElement jsonElement : Database.getAllRequests()) {
+            res.append(jsonElement.toString());
+        }
+        return res.toString();
     }
 
     public String viewRequest(String requestId) {
-        return "Viewing request with ID " + requestId;
+        return Database.getRequestById(requestId).toString();
     }
 
     public void evaluateRequest(String requestId, boolean isAccepted) {
+        //not complete
+        JsonElement jsonElement = Database.getRequestById(requestId);
+        if (!isAccepted) {
+            Database.remove(jsonElement);
+        }
     }
 
     public String viewCategories() {

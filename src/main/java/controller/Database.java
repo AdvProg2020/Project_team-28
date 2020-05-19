@@ -6,7 +6,6 @@ import model.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Database {
     private static final ArrayList<User> allUsers = new ArrayList<>();
@@ -105,7 +104,7 @@ public class Database {
 
     public static void add(JsonElement request) {
         allRequests.add(request);
-        writeObject(request, UUID.randomUUID().toString());
+        writeObject(request, request.getAsJsonObject().get("id").getAsString());
     }
 
     public static void add(Discount discount) {
@@ -154,7 +153,12 @@ public class Database {
         writeObject(product, product.getId());
     }
 
-    public static Product getProductById(String id) throws Exception{
+    public static void remove(JsonElement jsonElement) {
+        allProducts.remove(jsonElement);
+        writeObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
+    }
+
+    public static Product getProductById(String id) throws Exception {
         for (Product product : allProducts) {
             if (product.getId().equals(id))
                 return product;
@@ -170,7 +174,12 @@ public class Database {
         return null;
     }
 
-    public static Gson getRequestById(String id) {
+    public static JsonElement getRequestById(String id) {
+        for (JsonElement jsonElement : allRequests) {
+            if (jsonElement.getAsJsonObject().get("id").getAsString().equals(id)) {
+                return jsonElement;
+            }
+        }
         return null;
     }
 
