@@ -85,8 +85,11 @@ public class Customer extends User {
         return this.cart.containsKey(productId);
     }
 
-    public void payCredit (long cost) {
-        this.setCredit(this.getCredit() - cost);
+    public void payCredit (long cost) throws Exception{
+        if (this.credit >= cost)
+            this.setCredit(this.getCredit() - cost);
+        else
+            throw new Exception("Not enough credit");
     }
 
     public ArrayList<PurchaseLog> getPurchaseHistory() {

@@ -40,7 +40,14 @@ public class CustomerController extends UserController {
     }
 
     public String getPaymentCheck() {
-        return "";
+        try {
+            long totalPrice = purchase();
+            return "Succesfully purchased\n" +
+                    "Total price: " + totalPrice + "\n" +
+                    "Your current credit: " + customerLoggedOn.getCredit();
+        }catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     public String viewCartProducts() throws Exception{
@@ -113,8 +120,9 @@ public class CustomerController extends UserController {
             customerLoggedOn.useDiscount(thisDiscount);
     }
 
-    public void purchase() throws Exception{
-        customerLoggedOn.payCredit(getTotalPrice());
+    public long purchase() throws Exception{
+        long totalPrice = getTotalPrice();
+        customerLoggedOn.payCredit(totalPrice);
         PurchaseLog newLog = createPurchaseLog();
         for (Product product : customerLoggedOn.getCart().keySet()) {
             SellLog log = product.createSellLog();
@@ -126,6 +134,7 @@ public class CustomerController extends UserController {
         customerLoggedOn.addToPurchaseHistory(newLog);
         this.addCustomerToProducts();
         customerLoggedOn.emptyCart();
+        return totalPrice;
     }
 
     public void addCustomerToProducts () throws Exception {
