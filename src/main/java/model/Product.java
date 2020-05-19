@@ -2,6 +2,7 @@ package model;
 
 import controller.Database;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class Product {
         this.brand = brand;
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
-        this.category = category; //TODO this isn't right. it should be a category id
+        this.category = Database.getCategoryByName(category).getId();
     }
 
     public String getId() {
@@ -152,6 +153,14 @@ public class Product {
         allComments.add(comment.getId());
     }
 
+    public ArrayList<Comment> getAllComments() {
+        ArrayList<Comment> result = new ArrayList<>();
+        for (String comment : allComments) {
+            result.add(Database.getCommentById(comment));
+        }
+        return result;
+    }
+
     public boolean hasProperty (Property property) {
         switch (property.getName()) {
             case "category":
@@ -193,6 +202,16 @@ public class Product {
 
     public boolean hasOff () {
         return this.off != null;
+    }
+
+    public SellLog createSellLog () {
+        SellLog log = new SellLog();
+        Database.add(log);
+        log.setSoldProduct(this);
+        log.setDate(LocalDateTime.now());
+        log.setAmountReceived(this.getPrice());
+        log.setAmountReduced(this.price - this.getPrice());
+        return log;
     }
 
     @Override

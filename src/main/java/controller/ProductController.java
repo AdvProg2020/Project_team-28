@@ -175,7 +175,11 @@ public class ProductController {
     }
 
     public String getReviews() {
-        return "These are reviews of the current product";
+        ArrayList<String> result = new ArrayList<>();
+        for (Comment comment : currentProduct.getAllComments()) {
+            result.add(comment.toString());
+        }
+        return result.toString();
     }
 
     public void addPropertyToCurrentProduct (String name, String value) {
