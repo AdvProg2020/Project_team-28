@@ -43,7 +43,7 @@ public class UserEditorMenu extends Menu {
             } else if (viewMatcher.find()) {
                 context = controller.viewUser(input.split(" ")[1]);
             } else if (deleteUserMatcher.find()) {
-                controller.deleteUser(input.split(" ")[1]);
+                controller.deleteUser(input.split(" ")[2]);
             } else if (createManagerProfileMatcher.find()) {
                 String type = input.split(" ")[2];
                 String username = input.split(" ")[3];

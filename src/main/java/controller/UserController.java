@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.exception.UserNotFoundException;
 
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ public class UserController {
     public void loginUser(String username, String password) throws Exception{
         User thisUser = Database.getUserByUsername(username);
         if (thisUser == null)
-            throw new Exception("Username not found");
+            throw new UserNotFoundException();
         if (thisUser.validatePassword(password))
             userLoggedOn = thisUser;
         else
@@ -61,7 +62,7 @@ public class UserController {
     }
 
     public String getPersonalInfo() {
-        return "You are what you are";
+        return userLoggedOn.toString();
     }
 
     public void changePersonalInfo(HashMap<String, String> infoToSet) {

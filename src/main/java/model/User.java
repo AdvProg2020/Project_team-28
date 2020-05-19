@@ -5,15 +5,15 @@ import controller.Database;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class User {
-    private String username;
-    private String name;
-    private String surname;
-    private String email;
-    private String phoneNumber;
-    private String password;
-    private long credit;
-    private String id;
+public abstract class User {
+    protected String username;
+    protected String name;
+    protected String surname;
+    protected String email;
+    protected String phoneNumber;
+    protected String password;
+    protected long credit;
+    protected String id;
 
     public User(String username, String name, String surname, String email, String phoneNumber, String password, long credit) {
         this.username = username;
@@ -84,5 +84,19 @@ public class User {
 
     public boolean validatePassword (String password) {
         return this.password.equals(password);
+    }
+
+    @Override
+    public String toString() {
+        return getType() + "{" +
+                "username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", credit=" + credit +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

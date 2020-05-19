@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.exception.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -165,7 +166,7 @@ public class ProductController {
 
     public void setProductSeller(String sellerName) throws Exception {
         if (Database.getUserByUsername(sellerName) == null)
-            throw new Exception("Username not found");
+            throw new UserNotFoundException();
         this.currentProduct.setMainSeller((Seller) Database.getUserByUsername(sellerName));
     }
 

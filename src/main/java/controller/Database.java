@@ -72,9 +72,11 @@ public class Database {
     private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls) {
         for (final File fileEntry : new File(getPath(cls)).listFiles()) {
             try {
-                Object object = new Gson().fromJson(new FileReader(fileEntry), cls);
+                FileReader fileReader = new FileReader(fileEntry);
+                Object object = new Gson().fromJson(fileReader, cls);
                 list.add(cls.cast(object));
-            } catch (FileNotFoundException e) {
+                fileReader.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -92,6 +94,14 @@ public class Database {
         }
     }
 
+    private static void deleteObject(Object object, String id) {
+        try {
+            File file = new File(getPath(object) + id + ".json");
+            file.delete();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void add(User user) {
         allUsers.add(user);
@@ -149,9 +159,14 @@ public class Database {
         writeObject(off, off.getId());
     }
 
+    public static void remove(User user) {
+        allUsers.remove(user);
+        deleteObject(user, user.getId());
+    }
+
     public static void remove(Product product) {
         allProducts.remove(product);
-        writeObject(product, product.getId());
+        deleteObject(product, product.getId());
     }
 
     public static Product getProductById(String id) throws Exception{
