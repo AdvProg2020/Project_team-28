@@ -32,7 +32,7 @@ public class Database {
         makeDirectory(Seller.class);
         makeDirectory(Customer.class);
         makeDirectory(Product.class);
-        makeDirectory(Gson.class);
+        makeDirectory(JsonElement.class);
         makeDirectory(Discount.class);
         makeDirectory(Category.class);
         makeDirectory(Comment.class);
