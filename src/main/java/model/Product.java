@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Product {
-    private enum productStatus  {A, B}
+    private enum productStatus  {WaitingForProduction, WaitingForEdition, Confirmed}
+    private productStatus status = productStatus.WaitingForProduction;
     private String name;
     private String brand;
     private long price;
@@ -86,6 +87,14 @@ public class Product {
         this.off = off;
     }
 
+    public String getStatus() {
+        return status.toString();
+    }
+
+    public void setStatus(String status) {
+        this.status = productStatus.valueOf(status);
+    }
+
     public ArrayList<Property> getAllProperties() {
         ArrayList<Property> result = new ArrayList<>();
         for (String property : this.allProperties) {
@@ -132,7 +141,7 @@ public class Product {
     }
 
     public void addProperty(Property property) {
-
+        allProperties.add(property.getId());
     }
 
     public void addScore (Score score) {

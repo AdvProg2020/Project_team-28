@@ -11,7 +11,6 @@ public class Discount {
     private int discountPercent;
     private long maximumAmount;
     private int repetitionNumber;
-    private ArrayList<String> users;
     private String id;
 
     public Discount() {
@@ -70,18 +69,14 @@ public class Discount {
         this.repetitionNumber = repetitionNumber;
     }
 
-    public ArrayList<User> getUsers() {
-        return null;
-    }
-
-    public void setUsers(ArrayList<User> users) {
-
-    }
-
     public void useCode () throws Exception {
-        if (this.repetitionNumber > 0)
+        if (this.repetitionNumber > 0 && validateTime())
             this.repetitionNumber -= 1;
         else
             throw new Exception("Code Expired");
+    }
+
+    public boolean validateTime () {
+        return startTime.isBefore(LocalDateTime.now()) && finishTime.isAfter(LocalDateTime.now());
     }
 }
