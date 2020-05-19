@@ -61,7 +61,7 @@ public class SellerController extends UserController {
     }
 
     public String viewCategories() {
-        return "These are all categories";
+        return productController.getCategories();
     }
 
     public String viewOffs() {
