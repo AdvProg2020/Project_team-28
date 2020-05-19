@@ -164,6 +164,8 @@ public class ProductController {
     }
 
     public void setProductSeller(String sellerName) throws Exception {
+        if (Database.getUserByUsername(sellerName) == null)
+            throw new Exception("Username not found");
         this.currentProduct.setMainSeller((Seller) Database.getUserByUsername(sellerName));
     }
 

@@ -43,7 +43,8 @@ public class RegisterLoginMenu extends Menu {
         try {
             if (helpMatcher.find()) {
                 help();
-            } else if (registerMatcher.find()) {
+            }
+            else if (registerMatcher.find()) {
                 String type = input.split(" ")[2];
                 String username = input.split(" ")[3];
                 HashMap<String, Boolean> fields = new HashMap<>();
@@ -52,7 +53,8 @@ public class RegisterLoginMenu extends Menu {
                 data.put("username", username);
                 data.put("type", type);
                 controller.registerAccount(data);
-            } else if (loginMatcher.find()) {
+            }
+            else if (loginMatcher.find()) {
                 String username = input.split(" ")[1];
                 HashMap<String, Boolean> fields = new HashMap<>();
                 fields.put("password", false);
@@ -67,9 +69,11 @@ public class RegisterLoginMenu extends Menu {
                 } else if ("seller".equals(controller.getUser().getType())) {
                     new SellerMenu(new SellerController(controller.getUser(), Menu.productController));
                 }
-            } else if (backMatcher.find()) {
+            }
+            else if (backMatcher.find()) {
                 return false;
-            } else {
+            }
+            else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");
             }

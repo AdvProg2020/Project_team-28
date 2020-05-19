@@ -7,18 +7,18 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Database { //jaaye in tu model nist? :thinking:
-    private static ArrayList<User> allUsers = new ArrayList<>();
-    private static ArrayList<Product> allProducts = new ArrayList<>();
-    private static ArrayList<Gson> allRequests = new ArrayList<>();
-    private static ArrayList<Discount> allDiscountCodes = new ArrayList<>();
-    private static ArrayList<Category> allCategories = new ArrayList<>();
-    private static ArrayList<Comment> allComments = new ArrayList<>();
-    private static ArrayList<Property> allProperties = new ArrayList<>();
-    private static ArrayList<Score> allScores = new ArrayList<>();
-    private static ArrayList<PurchaseLog> allPurchaseLogs = new ArrayList<>();
-    private static ArrayList<SellLog> allSellLogs = new ArrayList<>();
-    private static ArrayList<Off> allOffs = new ArrayList<>();
+public class Database {
+    private static final ArrayList<User> allUsers = new ArrayList<>();
+    private static final ArrayList<Product> allProducts = new ArrayList<>();
+    private static final ArrayList<Gson> allRequests = new ArrayList<>();
+    private static final ArrayList<Discount> allDiscountCodes = new ArrayList<>();
+    private static final ArrayList<Category> allCategories = new ArrayList<>();
+    private static final ArrayList<Comment> allComments = new ArrayList<>();
+    private static final ArrayList<Property> allProperties = new ArrayList<>();
+    private static final ArrayList<Score> allScores = new ArrayList<>();
+    private static final ArrayList<PurchaseLog> allPurchaseLogs = new ArrayList<>();
+    private static final ArrayList<SellLog> allSellLogs = new ArrayList<>();
+    private static final ArrayList<Off> allOffs = new ArrayList<>();
 
 
     public static void loadAllData() {
@@ -60,7 +60,7 @@ public class Database { //jaaye in tu model nist? :thinking:
         return "Database\\" + cls.getSimpleName() + "\\";
     }
 
-    private static <T> String getPath(Object object) {
+    private static String getPath(Object object) {
         return "Database\\" + object.getClass().getSimpleName() + "\\";
     }
 
@@ -81,7 +81,7 @@ public class Database { //jaaye in tu model nist? :thinking:
 
     private static void writeObject(Object object, String id) {
         String fileName = getPath(object) + id + ".json";
-        FileWriter writer = null;
+        FileWriter writer;
         try {
             writer = new FileWriter(fileName);
             new Gson().toJson(object, writer);
@@ -181,10 +181,18 @@ public class Database { //jaaye in tu model nist? :thinking:
     }
 
     public static Category getCategoryById(String id) {
+        for (Category category : allCategories) {
+            if (category.getId().equals(id))
+                return category;
+        }
         return null;
     }
 
     public static Comment getCommentById(String id) {
+        for (Comment comment : allComments) {
+            if (comment.getId().equals(id))
+                return comment;
+        }
         return null;
     }
 
@@ -228,12 +236,12 @@ public class Database { //jaaye in tu model nist? :thinking:
         return null;
     }
 
-    public static User getUserByUsername(String username) throws Exception{
+    public static User getUserByUsername(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username))
                 return user;
         }
-        throw new Exception("Username not found");
+        return null;
     }
 
     public static Category getCategoryByName(String name) {
@@ -268,7 +276,6 @@ public class Database { //jaaye in tu model nist? :thinking:
         return allProducts;
     }
 
-    public void update(Object object) {
-
+    public static void update(Object object) {
     }
 }
