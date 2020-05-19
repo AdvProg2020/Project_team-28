@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import model.Discount;
 import model.User;
+import model.exception.UserNotFoundException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ManagerController extends UserController {
@@ -20,15 +22,25 @@ public class ManagerController extends UserController {
     }
 
     public String viewAllUsers() {
-        return "Here are the Users";
+        ArrayList<String> result = new ArrayList<>();
+        for (User user : Database.getAllUsers()) {
+            result.add(user.getUsername());
+        }
+        return result.toString();
     }
 
-    public String viewUser(String username) {
-        return "This is your user " + username;
+    public String viewUser(String username) throws Exception {
+        User user = Database.getUserByUsername(username);
+        if (user == null)
+            throw new UserNotFoundException();
+        return user.toString();
     }
 
     public void deleteUser(String username) throws Exception {
-        throw new Exception("deleted user: " + username);
+        User user = Database.getUserByUsername(username);
+        if (user == null)
+            throw new UserNotFoundException();
+        Database.remove(user);
     }
 
     public String viewDiscounts() {
