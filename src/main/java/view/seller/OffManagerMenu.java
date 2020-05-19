@@ -55,6 +55,7 @@ public class OffManagerMenu extends Menu {
                 Filler.fillSellerNewOffFields(fields);
                 HashMap<String, String> res = new Conversation(fields).execute();
                 controller.addOff(res);
+                error = "off added!";
             } else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");

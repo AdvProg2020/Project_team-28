@@ -1,11 +1,11 @@
 package controller;
 
-import model.Product;
-import model.SellLog;
-import model.Seller;
-import model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class SellerController extends UserController {
@@ -65,18 +65,37 @@ public class SellerController extends UserController {
     }
 
     public String viewOffs() {
-        return "These are all offs of this seller";
+        StringBuilder res = new StringBuilder();
+        res.append("Offs of this seller:\n");
+        for (Off off : Database.getAllOffs()) {
+            if (off.getSellerId().equals(currentSeller.getId())) {
+                res.append(off.toString()).append("\n");
+            }
+        }
+        return res.toString();
     }
 
     public String viewOff(String offId) {
-        return "This is the Off number: " + offId;
+        Off off = Database.getOffById(offId);
+        return off.toString();
     }
 
     public void editOff(HashMap<String, String> data) throws Exception {
-        throw new Exception("Editing the off " + data);
+        Gson request = new Gson();
+        Off off = new Off(Arrays.asList(data.get("products").split("\\s*,\\s+")), data.get("offStatus"),
+                data.get("startTime"), data.get("finishTime"), data.get("discountAmount"), currentSeller.getId());
+        JsonElement jsonElement = request.toJsonTree(off);
+        jsonElement.getAsJsonObject().addProperty("request-type", "edit off");
+        jsonElement.getAsJsonObject().addProperty("offId", data.get("offId"));
+        Database.add(jsonElement);
     }
 
     public void addOff(HashMap<String, String> data) throws Exception {
-        throw new Exception("Adding off: " + data);
+        Gson request = new Gson();
+        Off off = new Off(Arrays.asList(data.get("products").split("\\s*,\\s+")), data.get("offStatus"),
+                data.get("startTime"), data.get("finishTime"), data.get("discountAmount"), currentSeller.getId());
+        JsonElement jsonElement = request.toJsonTree(off);
+        jsonElement.getAsJsonObject().addProperty("request-type", "add off");
+        Database.add(jsonElement);
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import model.*;
 
 import java.io.*;
@@ -10,7 +11,7 @@ import java.util.UUID;
 public class Database {
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Product> allProducts = new ArrayList<>();
-    private static final ArrayList<Gson> allRequests = new ArrayList<>();
+    private static final ArrayList<JsonElement> allRequests = new ArrayList<>();
     private static final ArrayList<Discount> allDiscountCodes = new ArrayList<>();
     private static final ArrayList<Category> allCategories = new ArrayList<>();
     private static final ArrayList<Comment> allComments = new ArrayList<>();
@@ -46,7 +47,7 @@ public class Database {
         loadList(allUsers, Seller.class);
         loadList(allUsers, Customer.class);
         loadList(allProducts, Product.class);
-        loadList(allRequests, Gson.class);
+        loadList(allRequests, JsonElement.class);
         loadList(allDiscountCodes, Discount.class);
         loadList(allCategories, Category.class);
         loadList(allComments, Comment.class);
@@ -102,7 +103,7 @@ public class Database {
         writeObject(product, product.getId());
     }
 
-    public static void add(Gson request) {
+    public static void add(JsonElement request) {
         allRequests.add(request);
         writeObject(request, UUID.randomUUID().toString());
     }
@@ -142,8 +143,9 @@ public class Database {
         writeObject(log, log.getId());
     }
 
-    public static void add(Off off) {
+    public static void add(Off off) throws Exception {
         allOffs.add(off);
+        off.putInDuty();
         writeObject(off, off.getId());
     }
 
@@ -274,6 +276,42 @@ public class Database {
 
     public static ArrayList<Product> getAllProducts() {
         return allProducts;
+    }
+
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
+
+    public static ArrayList<JsonElement> getAllRequests() {
+        return allRequests;
+    }
+
+    public static ArrayList<Discount> getAllDiscountCodes() {
+        return allDiscountCodes;
+    }
+
+    public static ArrayList<Comment> getAllComments() {
+        return allComments;
+    }
+
+    public static ArrayList<Property> getAllProperties() {
+        return allProperties;
+    }
+
+    public static ArrayList<Score> getAllScores() {
+        return allScores;
+    }
+
+    public static ArrayList<PurchaseLog> getAllPurchaseLogs() {
+        return allPurchaseLogs;
+    }
+
+    public static ArrayList<SellLog> getAllSellLogs() {
+        return allSellLogs;
+    }
+
+    public static ArrayList<Off> getAllOffs() {
+        return allOffs;
     }
 
     public static void update(Object object) {

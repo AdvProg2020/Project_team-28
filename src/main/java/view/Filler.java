@@ -14,9 +14,11 @@ public class Filler {
     }
 
     public static void fillSellerNewOffFields(HashMap<String, Boolean> fields) {
-        fields.put("product id", true);
-        fields.put("percent", true);
-        fields.put("maximum amount", true);
+        fields.put("product ids", false);
+        fields.put("startTime", false);
+        fields.put("finishTime", false);
+        fields.put("offStatus", false);
+        fields.put("Amount", false);
     }
 
     public static void fillPurchaseInformationReceiver(HashMap<String, Boolean> fields) {
@@ -44,8 +46,10 @@ public class Filler {
     }
 
     public static void fillSellerEditOffFields(HashMap<String, Boolean> fields) {
-        fields.put("product id", true);
-        fields.put("percent", true);
-        fields.put("maximum amount", true);
+        fields.put("product ids", false);
+        fields.put("startTime", false);
+        fields.put("finishTime", false);
+        fields.put("offStatus", false);
+        fields.put("Amount", false);
     }
 }

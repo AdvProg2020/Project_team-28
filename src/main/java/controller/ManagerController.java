@@ -56,7 +56,7 @@ public class ManagerController extends UserController {
         return "Viewing request with ID " + requestId;
     }
 
-    public void evaluateRequest(String requstId, boolean isAccepted) {
+    public void evaluateRequest(String requestId, boolean isAccepted) {
     }
 
     public String viewCategories() {
