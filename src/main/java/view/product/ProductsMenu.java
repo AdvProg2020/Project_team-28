@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 
 public class ProductsMenu extends Menu {
     UserController controller;
-
+    //TODO add to all pages
     public ProductsMenu(UserController userController) {
         super();
         controller = userController;
