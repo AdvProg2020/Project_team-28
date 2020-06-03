@@ -2,6 +2,7 @@ package view.manager;
 
 import controller.ManagerController;
 import view.Conversation;
+import view.Filler;
 import view.Menu;
 
 import java.util.HashMap;
@@ -38,35 +39,37 @@ public class UserEditorMenu extends Menu {
         try {
             if (backMatcher.find()) {
                 return false;
-            } else if (helpMatcher.find()) {
+            }
+            else if (helpMatcher.find()) {
                 help();
-            } else if (viewMatcher.find()) {
+            }
+            else if (viewMatcher.find()) {
                 context = controller.viewUser(input.split(" ")[1]);
-            } else if (deleteUserMatcher.find()) {
+            }
+            else if (deleteUserMatcher.find()) {
                 controller.deleteUser(input.split(" ")[2]);
-            } else if (createManagerProfileMatcher.find()) {
-                String type = input.split(" ")[2];
-                String username = input.split(" ")[3];
-                HashMap<String, Boolean> fields = fillForProperties();
+            }
+            else if (createManagerProfileMatcher.find()) {
+                HashMap<String, Boolean> fields = new HashMap<>();
+                fillForRegisterManager(fields);
                 HashMap<String, String> data = new Conversation(fields).execute();
-                data.put("username", username);
                 data.put("type", "manager");
-                controller.registerAccount(data);
-            } else {
+                controller.registerAccount(data, true);
+            }
+            else {
                 throw new Exception("Invalid command. Use help if you haven't yet, " +
                         "else, close the application Immediately.");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             error = e.toString();
         }
         return true;
     }
 
-    private HashMap<String, Boolean> fillForProperties() {
-        HashMap<String, Boolean> fields = new HashMap<>();
-        fields.put("password", false);
-        fields.put("rest:D", true);
-        return fields;
+    public static void fillForRegisterManager(HashMap<String, Boolean> fields) {
+        fields.put("username", false);
+        Filler.fillForRegisterProperties(fields, "manager");
     }
 }
 
