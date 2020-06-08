@@ -66,7 +66,7 @@ public class Main extends Application {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
 
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/MainMenu.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("Space Invaders");
         primaryStage.setScene(new Scene(root, 620, 450));

@@ -20,13 +20,13 @@
 
         <ImageView fitHeight="300.0" preserveRatio="true">
             <image>
-                <Image url="@big-logo.png"/>
+                <Image url="@../images/big-logo.png"/>
             </image>
         </ImageView>
 
         <stylesheets>
-            <URL value="@main.css"/>
-            <URL value="@MainMenu.css"/>
+            <URL value="@../stylesheets/main.css"/>
+            <URL value="@../stylesheets/MainMenu.css"/>
         </stylesheets>
 
     </HBox>

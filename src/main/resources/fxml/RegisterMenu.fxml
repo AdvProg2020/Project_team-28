@@ -56,7 +56,7 @@
 
     </VBox>
     <stylesheets>
-        <URL value="@main.css"/>
-        <URL value="@RegisterMenu.css"/>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/RegisterMenu.css"/>
     </stylesheets>
 </JFXScrollPane>

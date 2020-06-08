@@ -20,7 +20,7 @@
 
         <VBox alignment="CENTER" maxWidth="150.0" spacing="20.0">
             <ImageView fx:id="profilePicture" fitWidth="150.0" preserveRatio="true">
-                <Image url="@account-icon.png"/>
+                <Image url="@../images/account-icon.png"/>
             </ImageView>
             <JFXButton styleClass="simple-button" text="choose" onAction="#chooseProfilePicture"/>
         </VBox>
@@ -47,7 +47,7 @@
     </VBox>
 
     <stylesheets>
-        <URL value="@main.css"/>
-        <URL value="@AdditionalInfo.css"/>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/AdditionalInfo.css"/>
     </stylesheets>
 </JFXScrollPane>

@@ -85,7 +85,7 @@ public class RegisterMenu {
 
     public void additionalInfoPressed(ActionEvent actionEvent) throws Exception {
         registerAccount();
-        URL url = new File("src/main/resources/AdditionalInfo.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/AdditionalInfo.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage.setScene(new Scene(root, 300, 400));
     }

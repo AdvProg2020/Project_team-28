@@ -20,7 +20,7 @@ public class MainMenu {
     public void profileButtonPressed(ActionEvent actionEvent) throws IOException {
         System.out.println(Main.controller.getUser());
         if (Main.controller.getUser().getFullName().equals("Anonymous User ")) {
-            URL url = new File("src/main/resources/LoginMenu.fxml").toURI().toURL();
+            URL url = new File("src/main/resources/fxml/LoginMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Main.popupStage = new Stage();
             Main.popupStage.setScene(new Scene(root, 250, 250));

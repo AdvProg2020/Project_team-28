@@ -14,14 +14,14 @@
     <VBox alignment="CENTER">
         <HBox alignment="CENTER">
             <ImageView fitHeight="25.0" preserveRatio="true">
-                <Image url="@account-icon.png"/>
+                <Image url="@../images/account-icon.png"/>
             </ImageView>
             <JFXTextField fx:id="username" labelFloat="true" prefHeight="25.0" promptText="username"/>
         </HBox>
 
         <HBox alignment="CENTER">
             <ImageView fitHeight="25.0" preserveRatio="true">
-                <Image url="@password-icon.png"/>
+                <Image url="@../images/password-icon.png"/>
             </ImageView>
             <JFXPasswordField fx:id="password" labelFloat="true" prefHeight="25.0" promptText="password"/>
         </HBox>
@@ -32,7 +32,7 @@
     <Hyperlink text="Create new account" onAction="#createAccountPressed"/>
 
     <stylesheets>
-        <URL value="@main.css"/>
-        <URL value="@LoginMenu.css"/>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/LoginMenu.css"/>
     </stylesheets>
 </VBox>

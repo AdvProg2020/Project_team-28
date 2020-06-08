@@ -22,7 +22,7 @@ public class LoginMenu {
     }
 
     public void createAccountPressed(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/resources/RegisterMenu.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/RegisterMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage.setScene(new Scene(root, 300, 400));
     }
