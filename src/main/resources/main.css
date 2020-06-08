@@ -1,0 +1,61 @@
+.dark-primary-color {
+    -fx-background-color: #7B1FA2;
+}
+
+.default-primary-color {
+    background: #9C27B0;
+}
+
+.light-primary-color {
+    background: #E1BEE7;
+}
+
+.text-primary-color {
+    color: #FFFFFF;
+}
+
+.accent-color {
+    background: #00BCD4;
+}
+
+.primary-text-color {
+    color: #212121;
+}
+
+.secondary-text-color {
+    color: #757575;
+}
+
+.divider-color {
+    border-color: #BDBDBD;
+}
+
+.root {
+    -fx-background-color: #FEFEFE;
+}
+
+.title {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 20;
+    -fx-padding: 50px;
+    -fx-start-margin: 50px;
+    -fx-end-margin: 50px;
+    -fx-spacing: 50px;
+}
+
+.my-button {
+    -fx-start-margin: 20px 20px 20px 20px;
+    -fx-end-margin: 20px 20px 20px 20px;
+    -fx-vgap: 50px;
+    -fx-border-width: 10px;
+    -fx-padding: 5px 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Comic Sans MS";
+    -jfx-button-type: RAISED;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 60px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: WHITE;
+    -fx-background-color: #00BCD4;
+}
+

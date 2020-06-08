@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<FlowPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="350.0" prefWidth="600.0"
           xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.MainMenu">
-   <JFXButton mnemonicParsing="false" text="Button" GridPane.columnIndex="1"/>
-   <columnConstraints>
-      <ColumnConstraints/>
-      <ColumnConstraints/>
-      <ColumnConstraints maxWidth="18.0" minWidth="18.0" prefWidth="18.0"/>
-      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
-      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
-      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
-      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
-      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0"/>
-      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0"/>
-      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0"/>
-      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0"/>
-      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0"/>
-      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0"/>
-      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0"/>
-   </rowConstraints>
+    <HBox spacing="5.0">
+        <VBox alignment="CENTER" prefHeight="350.0" prefWidth="250.0">
+            <JFXButton mnemonicParsing="false" styleClass="button" text="Profile" onAction="#profileButtonPressed"/>
+            <JFXButton mnemonicParsing="false" styleClass="button" text="Products" onAction="#productsButtonPressed"/>
+        </VBox>
 
-</GridPane>
+        <Separator orientation="VERTICAL"/>
+
+        <ImageView fitHeight="300.0" preserveRatio="true">
+            <image>
+                <Image url="@big-logo.png"/>
+            </image>
+        </ImageView>
+
+        <stylesheets>
+            <URL value="@main.css"/>
+            <URL value="@MainMenu.css"/>
+        </stylesheets>
+
+    </HBox>
+</FlowPane>

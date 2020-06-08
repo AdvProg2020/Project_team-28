@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxWidth="250.0" prefHeight="250.0"
+               xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.RegisterMenu">
+    <VBox fx:id="mainBox" id="main-box" alignment="CENTER" prefWidth="250.0" maxWidth="250.0" spacing="20.0">
+
+        <Text styleClass="title" text="Create New Account"/>
+
+        <JFXComboBox fx:id="accountType" labelFloat="true" promptText="account type" minWidth="250.0"
+                     onAction="#accountTypeChanged">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Customer"/>
+                    <String fx:value="Seller"/>
+                    <String fx:value="Manager"/>
+                </FXCollections>
+            </items>
+        </JFXComboBox>
+
+        <Separator/>
+        <VBox fx:id="sellerBox" alignment="CENTER" prefWidth="250.0" maxWidth="250.0" spacing="20.0" managed="false"
+              visible="false">
+            <JFXTextField fx:id="companyName" promptText="company name" labelFloat="true"/>
+            <JFXTextArea fx:id="companyInfo" promptText="about company" labelFloat="true" prefHeight="40.0"/>
+        </VBox>
+
+        <VBox fx:id="managerBox" alignment="CENTER" prefWidth="250.0" maxWidth="250.0" spacing="20.0" managed="false"
+              visible="false">
+            <Text styleClass="secondary-text" wrappingWidth="250.0"
+                  text="You can register only if a manager has submitted your username before"/>
+        </VBox>
+        <Separator/>
+        <HBox spacing="10.0">
+            <JFXTextField fx:id="firstName" promptText="first name" labelFloat="true"/>
+            <JFXTextField fx:id="lastName" promptText="last name" labelFloat="true"/>
+        </HBox>
+
+        <JFXTextField fx:id="phoneNumber" promptText="phone number" labelFloat="true"/>
+
+        <JFXTextField fx:id="username" promptText="username" labelFloat="true"/>
+
+        <JFXPasswordField fx:id="password" promptText="password" labelFloat="true"/>
+
+        <JFXButton styleClass="my-button" text="Register Account" onAction="#registerPressed"/>
+
+        <Hyperlink text="Fill additional info now" onAction="#additionalInfoPressed"/>
+
+    </VBox>
+    <stylesheets>
+        <URL value="@main.css"/>
+        <URL value="@RegisterMenu.css"/>
+    </stylesheets>
+</JFXScrollPane>

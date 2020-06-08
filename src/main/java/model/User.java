@@ -1,8 +1,5 @@
 package model;
 
-import controller.Database;
-
-import java.util.HashMap;
 import java.util.UUID;
 
 public abstract class User {
@@ -14,6 +11,33 @@ public abstract class User {
     protected String password;
     protected long credit;
     protected String id;
+    protected String birthDate;
+    protected String gender;
+    protected String Address;
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
 
     public User(String username, String name, String surname, String email, String phoneNumber, String password, long credit) {
         this.username = username;

@@ -1,0 +1,15 @@
+#main-box {
+    -fx-padding: 25px;
+}
+
+.secondary-text {
+    -fx-text-fill: #757575;
+}
+
+.jfx-scroll-pane .main-header {
+    -fx-background-color: #9C27B0;
+}
+
+.jfx-scroll-pane .condensed-header {
+    -fx-background-color: #7B1FA2;
+}

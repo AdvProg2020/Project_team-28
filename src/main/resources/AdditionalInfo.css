@@ -1,0 +1,43 @@
+.jfx-date-picker > .jfx-text-field {
+    -jfx-label-float: true;
+}
+
+JFXDatePicker {
+    -jfx-default-color: #00BCD4;
+}
+
+JFXTextField {
+    -jfx-focus-color: #00BCD4;
+    -jfx-unfocus-color: #7B1FA2;
+}
+
+.jfx-combo-box {
+    -jfx-focus-color: #00BCD4;
+    -jfx-unfocus-color: #7B1FA2;
+}
+
+.simple-button {
+    -fx-start-margin: 20px 20px 20px 20px;
+    -fx-end-margin: 20px 20px 20px 20px;
+    -fx-vgap: 50px;
+    -fx-border-width: 10px;
+    -fx-padding: 5px 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Comic Sans MS";
+    -jfx-button-type: RAISED;
+    -fx-background-radius: 5px;
+    -fx-text-fill: WHITE;
+    -fx-background-color: #00BCD4;
+}
+
+.jfx-scroll-pane .main-header {
+    -fx-background-color: #9C27B0;
+}
+
+.jfx-scroll-pane .condensed-header {
+    -fx-background-color: #7B1FA2;
+}
+
+#main-box {
+    -fx-padding: 25px;
+}

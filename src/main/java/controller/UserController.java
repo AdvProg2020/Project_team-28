@@ -38,13 +38,13 @@ public class UserController {
             data.replace("credit", "0");
         }
         switch (data.get("type")) {
-            case "customer":
+            case "Customer":
                 Customer customer = new Customer(data.get("username"),
                         data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
                         data.get("password"), Long.parseLong(data.get("credit")));
                 Database.add(customer);
                 break;
-            case "manager":
+            case "Manager":
                 if (!newManagerAllowed && ManagerController.managerExists())
                     throw new Exception("You can't create a manager account");
                 Manager manager = new Manager(data.get("username"),
@@ -52,7 +52,7 @@ public class UserController {
                         data.get("password"),Long.parseLong(data.get("credit")));
                 Database.add(manager);
                 break;
-            case "seller":
+            case "Seller":
                 Seller seller = new Seller(data.get("username"),
                         data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
                         data.get("password"),Long.parseLong(data.get("credit")),data.get("companyName"),data.get("companyInfo"));
@@ -88,6 +88,15 @@ public class UserController {
                     break;
                 case "username":
                     userLoggedOn.setUsername(value);
+                    break;
+                case "address":
+                    userLoggedOn.setAddress(value);
+                    break;
+                case "gender":
+                    userLoggedOn.setGender(value);
+                    break;
+                case "birthDate":
+                    userLoggedOn.setBirthDate(value);
                     break;
             }
         }

@@ -1,0 +1,28 @@
+Separator {
+    -fx-color: #BDBDBD;
+}
+
+VBox {
+    -fx-spacing: 100px;
+}
+
+HBox {
+    -fx-padding: 50px 20px 50px 20px;
+    -fx-spacing: 20px;
+}
+
+.button {
+    -fx-start-margin: 20px 20px 20px 20px;
+    -fx-end-margin: 20px 20px 20px 20px;
+    -fx-vgap: 50px;
+    -fx-border-width: 10px;
+    -fx-padding: 5px 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: IranNastaliq;
+    -jfx-button-type: RAISED;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 60px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: WHITE;
+    -fx-background-color: #00BCD4;
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" maxWidth="250.0" prefHeight="250.0"
+               xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.AdditionalInfo">
+
+    <content>
+        <Text styleClass="title" text="User Info"/>
+    </content>
+    <VBox id="main-box" alignment="CENTER" maxWidth="250.0" spacing="20.0">
+
+        <Text styleClass="title" text="User Info"/>
+
+        <VBox alignment="CENTER" maxWidth="150.0" spacing="20.0">
+            <ImageView fx:id="profilePicture" fitWidth="150.0" preserveRatio="true">
+                <Image url="@account-icon.png"/>
+            </ImageView>
+            <JFXButton styleClass="simple-button" text="choose" onAction="#chooseProfilePicture"/>
+        </VBox>
+
+        <JFXTextField fx:id="email" labelFloat="true" promptText="email"/>
+
+
+        <JFXComboBox fx:id="gender" labelFloat="true" minWidth="250.0" promptText="gender">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Male"/>
+                    <String fx:value="Female"/>
+                    <String fx:value="Other"/>
+                    <String fx:value="Prefer not to say"/>
+                </FXCollections>
+            </items>
+        </JFXComboBox>
+
+        <JFXDatePicker fx:id="birthDate" minWidth="250.0" promptText="birth date"/>
+
+        <JFXTextArea fx:id="address" labelFloat="true" prefHeight="40.0" promptText="address"/>
+
+        <JFXButton prefWidth="Infinity" styleClass="simple-button" text="Submit" onAction="#submitButtonPressed"/>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@main.css"/>
+        <URL value="@AdditionalInfo.css"/>
+    </stylesheets>
+</JFXScrollPane>

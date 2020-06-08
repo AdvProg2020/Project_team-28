@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.LoginMenu">
+    <VBox alignment="CENTER">
+        <HBox alignment="CENTER">
+            <ImageView fitHeight="25.0" preserveRatio="true">
+                <Image url="@account-icon.png"/>
+            </ImageView>
+            <JFXTextField fx:id="username" labelFloat="true" prefHeight="25.0" promptText="username"/>
+        </HBox>
+
+        <HBox alignment="CENTER">
+            <ImageView fitHeight="25.0" preserveRatio="true">
+                <Image url="@password-icon.png"/>
+            </ImageView>
+            <JFXPasswordField fx:id="password" labelFloat="true" prefHeight="25.0" promptText="password"/>
+        </HBox>
+    </VBox>
+
+    <JFXButton styleClass="my-button" mnemonicParsing="false" text="Login" onAction="#SignInPressed"/>
+
+    <Hyperlink text="Create new account" onAction="#createAccountPressed"/>
+
+    <stylesheets>
+        <URL value="@main.css"/>
+        <URL value="@LoginMenu.css"/>
+    </stylesheets>
+</VBox>
