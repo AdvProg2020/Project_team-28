@@ -50,7 +50,7 @@ public class Main extends Application {
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         try {
-            URL url = new File("src/main/resources/Error.fxml").toURI().toURL();
+            URL url = new File("src/main/resources/fxml/Error.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             ((ErrorController) loader.getController()).setErrorText(errorMsg.toString());
@@ -66,9 +66,9 @@ public class Main extends Application {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
 
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/Profile.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        primaryStage.setTitle("Space Invaders");
+        primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 450));
         primaryStage.show();
     }

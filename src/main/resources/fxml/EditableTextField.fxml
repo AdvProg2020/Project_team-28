@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.HBox?>
+<?import java.net.URL?>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox">
+    <JFXTextField fx:id="textField" labelFloat="true" prefWidth="1000.0" editable="false"/>
+    <JFXButton fx:id="editButton" id="edit-button" onAction="#editPressed"/>
+    <JFXButton fx:id="submitButton" id="submit-button" onAction="#submitPressed" visible="false" managed="false"/>
+    <stylesheets>
+        <URL value="@../stylesheets/EditableTextField.css"/>
+    </stylesheets>
+</fx:root>

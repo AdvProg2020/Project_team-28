@@ -40,6 +40,8 @@ public class AdditionalInfo {
         if (selectedFile != null) {
             //TODO maintain a decent way to save image
             Image image = new Image(selectedFile.toURI().toURL().toString());
+            Main.controller.changePersonalInfo("profilePictureAddress", selectedFile.toURI().toURL().toString());
+            System.out.println(selectedFile.toURI().toURL().toString());
             profilePicture.imageProperty().setValue(image);
         }
     }

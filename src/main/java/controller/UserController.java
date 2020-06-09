@@ -54,8 +54,8 @@ public class UserController {
                 break;
             case "Seller":
                 Seller seller = new Seller(data.get("username"),
-                        data.get("name"),data.get("surname"),data.get("email"),data.get("phoneNumber"),
-                        data.get("password"),Long.parseLong(data.get("credit")),data.get("companyName"),data.get("companyInfo"));
+                        data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
+                        data.get("password"), Long.parseLong(data.get("credit")), data.get("companyName"), data.get("companyInfo"));
                 Database.add(seller);
                 break;
             default:
@@ -63,8 +63,48 @@ public class UserController {
         }
     }
 
-    public String getPersonalInfo() {
-        return userLoggedOn.toString();
+    public String getPersonalInfo(String field) {
+        try {
+            switch (field) {
+                case "firstName":
+                    return userLoggedOn.getFirstName();
+                case "surname":
+                    return userLoggedOn.getSurname();
+                case "username":
+                    return userLoggedOn.getUsername();
+                case "password":
+                    return userLoggedOn.getPassword();
+                case "gender":
+                    return userLoggedOn.getGender();
+                case "birthDate":
+                    return userLoggedOn.getBirthDate();
+                case "email":
+                    return userLoggedOn.getEmail();
+                case "phoneNumber":
+                    return userLoggedOn.getPhoneNumber();
+                case "address":
+                    return userLoggedOn.getAddress();
+                case "credit":
+                    return userLoggedOn.getCredit().toString();
+                case "companyName":
+                    return ((Seller) userLoggedOn).getCompanyName();
+                case "companyInfo":
+                    return ((Seller) userLoggedOn).getCompanyInfo();
+                case "profilePictureAddress":
+                    return userLoggedOn.getProfilePictureAddress();
+                default:
+                    return "not found";
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            return "";
+        }
+    }
+
+    public void changePersonalInfo(String field, String newValue) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(field, newValue);
+        changePersonalInfo(hashMap);
     }
 
     public void changePersonalInfo(HashMap<String, String> infoToSet) {
@@ -97,6 +137,12 @@ public class UserController {
                     break;
                 case "birthDate":
                     userLoggedOn.setBirthDate(value);
+                    break;
+                case "credit":
+                    userLoggedOn.setCredit(Long.parseLong(value));
+                    break;
+                case "profilePictureAddress":
+                    userLoggedOn.setProfilePictureAddress(value);
                     break;
             }
         }

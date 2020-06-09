@@ -17,7 +17,7 @@ public class PersonalInfoMenu extends Menu {
         title = "";
         fortune = "";
         do {
-            context = controller.getPersonalInfo();
+            context = controller.getPersonalInfo("name");
             show();
         } while (execute());
     }

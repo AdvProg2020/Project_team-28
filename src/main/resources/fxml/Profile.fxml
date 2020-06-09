@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import graphics.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<FlowPane xmlns:fx="http://javafx.com/fxml"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="graphics.ProfilePage"
+          prefHeight="400.0" prefWidth="600.0">
+    <HBox prefHeight="350.0" spacing="10.0" alignment="CENTER" style="-fx-padding: 30px 50px 50px 50px">
+        <VBox prefWidth="200.0" spacing="20.0" alignment="CENTER">
+            <VBox alignment="CENTER" maxWidth="150.0" spacing="20.0">
+                <ImageView fx:id="profilePicture" fitWidth="150.0" preserveRatio="true">
+                    <Image url="@../images/account-icon.png"/>
+                </ImageView>
+                <JFXButton styleClass="simple-button" text="choose" onAction="#chooseProfilePicture"/>
+            </VBox>
+            <HBox spacing="5.0">
+                <EditableTextField fx:id="firstName" promptText="firstName" onAction="#propertyChanged"/>
+                <EditableTextField fx:id="surname" promptText="surname" onAction="#propertyChanged"/>
+            </HBox>
+            <JFXDatePicker fx:id="birthDate" promptText="birthDate" onAction="#propertyChanged"/>
+            <JFXComboBox fx:id="gender" labelFloat="true" prefWidth="1000.0" promptText="gender"
+                         onAction="#propertyChanged">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Male"/>
+                        <String fx:value="Female"/>
+                        <String fx:value="Other"/>
+                        <String fx:value="Prefer not to say"/>
+                    </FXCollections>
+                </items>
+            </JFXComboBox>
+        </VBox>
+        <Separator orientation="VERTICAL"/>
+        <VBox prefWidth="300.0" spacing="20.0" alignment="CENTER">
+            <VBox fx:id="sellerBox" prefWidth="300.0" spacing="20.0" alignment="CENTER" visible="false" managed="false">
+                <EditableTextField fx:id="companyName" promptText="companyName" onAction="#propertyChanged"/>
+                <EditableTextArea fx:id="companyInfo" promptText="companyInfo" onAction="#propertyChanged"/>
+                <Separator/>
+            </VBox>
+            <EditableTextField fx:id="email" promptText="email" onAction="#propertyChanged"/>
+            <EditableTextField fx:id="phoneNumber" promptText="phoneNumber" onAction="#propertyChanged"/>
+            <EditablePasswordField fx:id="password" promptText="password" onAction="#propertyChanged"/>
+            <EditableTextField fx:id="username" promptText="username" onAction="#propertyChanged"/>
+            <EditableTextArea fx:id="address" promptText="address" onAction="#propertyChanged"/>
+            <EditableTextField fx:id="credit" promptText="credit" onAction="#propertyChanged"/>
+        </VBox>
+    </HBox>
+</FlowPane>

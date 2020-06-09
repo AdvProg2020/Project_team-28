@@ -1,0 +1,26 @@
+#edit-button {
+    -fx-background-image: url("../images/edit-icon.png");
+    -fx-background-size: 24px;
+    -fx-pref-width: 24px;
+    -fx-min-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-background-radius: 24px;
+    -fx-border-radius: 24px;
+}
+
+#submit-button {
+    -fx-background-image: url("../images/check-icon.png");
+    -fx-background-size: 24px;
+    -fx-pref-width: 24px;
+    -fx-min-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-background-radius: 24px;
+    -fx-border-radius: 24px;
+}
+
+.jfx-text-field {
+    -fx-text-fill: #212121;
+    -fx-prompt-text-fill: #757575;
+    -jfx-focus-color: #00BCD4;
+    -jfx-unfocus-color: #7B1FA2;
+}

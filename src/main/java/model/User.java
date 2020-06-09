@@ -11,9 +11,11 @@ public abstract class User {
     protected String password;
     protected long credit;
     protected String id;
-    protected String birthDate;
-    protected String gender;
+    protected String birthDate = "2007-12-03";
+    protected String gender = "Prefer not to say";
     protected String Address;
+
+    protected String profilePictureAddress = ""; //TODO ye jaii bayad dorost she vali kasi nemifahme
 
     public String getBirthDate() {
         return birthDate;
@@ -21,6 +23,14 @@ public abstract class User {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getProfilePictureAddress() {
+        return profilePictureAddress;
+    }
+
+    public void setProfilePictureAddress(String profilePictureAddress) {
+        this.profilePictureAddress = profilePictureAddress;
     }
 
     public String getGender() {
@@ -102,7 +112,7 @@ public abstract class User {
         this.credit = credit;
     }
 
-    public long getCredit() {
+    public Long getCredit() {
         return credit;
     }
 
@@ -122,5 +132,17 @@ public abstract class User {
                 ", credit=" + credit +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFirstName() {
+        return name;
     }
 }
