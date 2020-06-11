@@ -66,7 +66,8 @@ public class Main extends Application {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
 
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/Profile.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/SellerPage.fxml").toURI().toURL();
+        //System.out.println(new File("src/main/resources/video/virgool.mp4").toURI());
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 450));

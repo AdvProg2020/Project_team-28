@@ -1,0 +1,9 @@
+.dark-button {
+    -fx-opacity: .95;
+    -fx-border-color: WHITE;
+    -fx-text-fill: #DDDDDD;
+    -fx-background-color: BLACK;
+    -fx-border-width: 1;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 50px;
+}

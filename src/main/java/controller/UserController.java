@@ -66,6 +66,8 @@ public class UserController {
     public String getPersonalInfo(String field) {
         try {
             switch (field) {
+                case "type":
+                    return userLoggedOn.getType();
                 case "firstName":
                     return userLoggedOn.getFirstName();
                 case "surname":
