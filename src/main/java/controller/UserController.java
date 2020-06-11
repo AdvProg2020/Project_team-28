@@ -4,6 +4,7 @@ import model.*;
 import model.exception.UserNotFoundException;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class UserController {
     protected User userLoggedOn;
@@ -177,5 +178,13 @@ public class UserController {
 
     public void logout() {
         userLoggedOn = CustomerController.newDefaultUser();
+    }
+
+    public List<User> getAllUsers() {
+        return Database.getAllUsers();
+    }
+
+    public void removeUser(String username) {
+        Database.remove(Database.getUserByUsername(username));
     }
 }
