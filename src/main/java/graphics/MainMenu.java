@@ -29,8 +29,25 @@ public class MainMenu {
             Main.popupStage.initOwner(Main.mainStage);
             Main.popupStage.show();
         } else {
-            //TODO connect to profile page
-            System.out.println("Product section");
+            URL url;
+            switch (Main.controller.getPersonalInfo("type")) {
+                case "customer":
+                    url = new File("src/main/resources/fxml/Profile.fxml").toURI().toURL();
+                    break;
+                case "seller":
+                    url = new File("src/main/resources/fxml/SellerPage.fxml").toURI().toURL();
+                    break;
+                case "manager":
+                    url = new File("src/main/resources/fxml/ManagerPage.fxml").toURI().toURL();
+                    System.out.println("va");
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + Main.controller.getPersonalInfo("type"));
+            }
+            Parent root = FXMLLoader.load(url);
+            System.out.println("" + root + "\n");
+            Main.mainStage.setScene(new Scene(root, 620, 450));
+
         }
     }
 

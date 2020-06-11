@@ -161,4 +161,21 @@ public class UserController {
         Database.add(thisComment);
         productController.getCurrentProduct().addComment(thisComment);
     }
+
+    public void addManager(String username) throws Exception {
+        // TODO nemidunam chetori, vali mikham be un list-e all ha ezafe she ke badan beshe checkesh kard
+        User thisUser = Database.getUserByUsername(username);
+        if (thisUser != null)
+            throw new Exception("User already exists");
+        // TODO add...
+    }
+
+    public boolean canBeManager(String username) {
+        // TODO tuy-e listi ke tu @addManager goftam begarde, age bud true, na false
+        return true;
+    }
+
+    public void logout() {
+        userLoggedOn = CustomerController.newDefaultUser();
+    }
 }

@@ -21,6 +21,8 @@ public class AccountPage {
                 break;
             case "manager":
                 url = new File("src/main/resources/fxml/ManagerPage.fxml").toURI().toURL();
+                url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+                System.out.println("va");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + Main.controller.getPersonalInfo("type"));

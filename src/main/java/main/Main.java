@@ -66,11 +66,10 @@ public class Main extends Application {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
 
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/SellerPage.fxml").toURI().toURL();
-        //System.out.println(new File("src/main/resources/video/virgool.mp4").toURI());
+        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("");
-        primaryStage.setScene(new Scene(root, 620, 450));
+        primaryStage.setScene(new Scene(root, 620, 500));
         primaryStage.show();
     }
 }

@@ -31,14 +31,14 @@ public class RegisterMenu {
 
 
     public void registerPressed(ActionEvent actionEvent) throws Exception {
-        if (registerAccount()) return;
+        registerAccount();
         URL url = new File("src/main/resources/LoginMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage.setScene(new Scene(root, 250, 250));
         Main.popupStage.show();
     }
 
-    private boolean registerAccount() throws Exception {
+    private void registerAccount() throws Exception {
         String errorText = "Please provide following fields: \n";
 
         if (accountType.getValue() == null) {
@@ -76,11 +76,11 @@ public class RegisterMenu {
         if (!ManagerController.managerExists() && !accountType.getValue().toString().equals("Manager")) {
             throw (new Exception("Please register a manager first"));
         }
-        if (ManagerController.managerExists()) { //TODO check if can register
-
+        if (Main.controller.canBeManager(username.getText())) { //TODO check if can register
+            Main.controller.registerAccount(data, true);
+            return;
         }
-        Main.controller.registerAccount(data, true);
-        return false;
+        Main.controller.registerAccount(data, false);
     }
 
     public void additionalInfoPressed(ActionEvent actionEvent) throws Exception {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import graphics.TopBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -8,26 +9,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<FlowPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="350.0" prefWidth="600.0"
+<FlowPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="450.0" prefWidth="620.0"
           xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.MainMenu">
-    <HBox spacing="5.0">
-        <VBox alignment="CENTER" prefHeight="350.0" prefWidth="250.0">
-            <JFXButton mnemonicParsing="false" styleClass="button" text="Profile" onAction="#profileButtonPressed"/>
-            <JFXButton mnemonicParsing="false" styleClass="button" text="Products" onAction="#productsButtonPressed"/>
-        </VBox>
+    <VBox style="-fx-padding: 100px">
+        <TopBar/>
+        <HBox spacing="5.0">
+            <VBox alignment="CENTER" prefHeight="350.0" prefWidth="250.0">
+                <JFXButton mnemonicParsing="false" styleClass="button" text="Profile" onAction="#profileButtonPressed"/>
+                <JFXButton mnemonicParsing="false" styleClass="button" text="Products"
+                           onAction="#productsButtonPressed"/>
+            </VBox>
 
-        <Separator orientation="VERTICAL"/>
+            <Separator orientation="VERTICAL"/>
 
-        <ImageView fitHeight="300.0" preserveRatio="true">
-            <image>
-                <Image url="@../images/big-logo.png"/>
-            </image>
-        </ImageView>
+            <ImageView fitHeight="300.0" preserveRatio="true">
+                <image>
+                    <Image url="@../images/big-logo.png"/>
+                </image>
+            </ImageView>
 
-        <stylesheets>
-            <URL value="@../stylesheets/main.css"/>
-            <URL value="@../stylesheets/MainMenu.css"/>
-        </stylesheets>
+            <stylesheets>
+                <URL value="@../stylesheets/main.css"/>
+                <URL value="@../stylesheets/MainMenu.css"/>
+            </stylesheets>
 
-    </HBox>
+        </HBox>
+    </VBox>
 </FlowPane>

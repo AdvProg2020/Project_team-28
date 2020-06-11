@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.Rectangle?>
+<?import java.net.URL?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+           xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.ManagerPage">
+    <MediaView fx:id="backgroundMediaView">
+    </MediaView>
+    <Rectangle width="1000.0" height="1000.0" fill="#000000f9" opacity="0.85"/>
+    <FlowPane alignment="CENTER">
+        <VBox alignment="CENTER" spacing="30.0">
+            <JFXButton styleClass="dark-button" text="Profile Page" onAction="#profilePageButtonPressed"/>
+            <JFXButton styleClass="dark-button" text="Manage Requests" onAction="#manageRequestsButtonPressed"/>
+            <JFXButton styleClass="dark-button" text="Manage Users" onAction="#manageUsersButtonPressed"/>
+            <JFXButton styleClass="dark-button" text="Add New Manager" onAction="#addManagerButtonPressed"/>
+            <JFXButton styleClass="dark-button" text="Add New Discount" onAction="#addDiscountButtonPressed"/>
+            <JFXButton styleClass="dark-button" text="Remove Product" onAction="#removeProductPressed"/>
+        </VBox>
+        <stylesheets>
+            <URL value="@../stylesheets/main.css"/>
+            <URL value="@../stylesheets/SellerPage.css"/>
+        </stylesheets>
+    </FlowPane>
+</StackPane>

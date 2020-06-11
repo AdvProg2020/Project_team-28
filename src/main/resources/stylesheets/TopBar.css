@@ -1,0 +1,7 @@
+.root {
+    -fx-padding: 10 10 10 10;
+}
+
+.button {
+    -fx-pref-height: 25px;
+}
