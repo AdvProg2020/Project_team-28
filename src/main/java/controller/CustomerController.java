@@ -9,6 +9,10 @@ import java.util.HashMap;
 public class CustomerController extends UserController {
     private Customer customerLoggedOn;
 
+    public Customer getCustomerLoggedOn() {
+        return customerLoggedOn;
+    }
+
     public CustomerController(User user, ProductController productController) throws Exception {
         super(user, productController);
         if (user instanceof Customer)

@@ -1,5 +1,6 @@
 package model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controller.Database;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Product {
     private long price;
     private ArrayList<String> sellers;
     private boolean inStock;
+    private int quantity = 100;
     private String category;
     private String off;
     private String description;
@@ -38,6 +40,22 @@ public class Product {
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
         this.category = Database.getCategoryByName(category).getId();
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void decreaseQuantity (int num) {
+        this.quantity -= num;
+    }
+
+    public void increaseQuantity (int num) {
+        this.quantity += num;
     }
 
     public String getId() {
