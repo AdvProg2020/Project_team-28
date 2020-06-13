@@ -1,24 +1,30 @@
 package graphics;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXScrollPane;
 import com.jfoenix.controls.JFXTreeTableView;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import main.Main;
 import model.User;
 
-public class UserViewer {
-    public JFXScrollPane mainPane;
-    JFXTreeTableView<UserRow> treeTableView = new JFXTreeTableView<UserRow>();
+import java.io.File;
 
+public class UserViewer {
+    public VBox mainPane;
+
+    JFXTreeTableView<UserRow> treeTableView;
 
     public void initialize() {
+        treeTableView = new JFXTreeTableView<UserRow>();
         TreeItem<UserRow> customers = new TreeItem<>(new UserRow("customers"));
         TreeItem<UserRow> sellers = new TreeItem<>(new UserRow("sellers"));
         TreeItem<UserRow> managers = new TreeItem<>(new UserRow("managers"));
@@ -76,18 +82,31 @@ public class UserViewer {
                         btn.setOnAction((ActionEvent event) -> {
                             UserRow userRow = treeTableView.getTreeItem(getIndex()).getValue();
                             System.out.println("selectedUserRow: " + userRow);
+
+                            try {
+                                FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/Profile.fxml").toURI().toURL());
+                                Parent root = fxmlLoader.load();
+                                ((ProfilePage) fxmlLoader.getController()).user = userRow.getUsername();
+                                ((ProfilePage) fxmlLoader.getController()).initialize();
+                                Main.mainStage.setScene(new Scene(root, 620, 450));
+                                Main.mainStage.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         });
                         remove.setOnAction((ActionEvent event) -> {
                             UserRow userRow = treeTableView.getTreeItem(getIndex()).getValue();
                             Main.controller.removeUser(userRow.getUsername());
                             treeTableView.getTreeItem(getIndex()).valueProperty().set(null);
+                            mainPane.getChildren().remove(treeTableView);
+                            initialize();
                         });
                     }
 
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (empty) {
+                        if (empty || treeTableView.getTreeItem(getIndex()).getValue().getFirstName() == null) {
                             setGraphic(null);
                         } else {
                             setGraphic(new HBox(btn, remove));

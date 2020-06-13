@@ -42,6 +42,7 @@ public class AdditionalInfo {
             Image image = new Image(selectedFile.toURI().toURL().toString());
             Main.controller.changePersonalInfo("profilePictureAddress", selectedFile.toURI().toURL().toString());
             System.out.println(selectedFile.toURI().toURL().toString());
+            Main.controller.changePersonalInfo("profilePictureAddress", selectedFile.toURI().toURL().toString());
             profilePicture.imageProperty().setValue(image);
         }
     }

@@ -84,7 +84,7 @@ public class Database {
         }
     }
 
-    private static void writeObject(Object object, String id) {
+    static void writeObject(Object object, String id) {
         String fileName = getPath(object) + id + ".json";
         FileWriter writer;
         try {

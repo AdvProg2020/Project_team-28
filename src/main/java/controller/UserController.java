@@ -65,36 +65,45 @@ public class UserController {
     }
 
     public String getPersonalInfo(String field) {
+        return getString(field, userLoggedOn);
+    }
+
+    public String getPersonalInfo(String username, String field) {
+        User user = Database.getUserByUsername(username);
+        return getString(field, user);
+    }
+
+    private String getString(String field, User user) {
         try {
             switch (field) {
                 case "type":
-                    return userLoggedOn.getType();
+                    return user.getType();
                 case "firstName":
-                    return userLoggedOn.getFirstName();
+                    return user.getFirstName();
                 case "surname":
-                    return userLoggedOn.getSurname();
+                    return user.getSurname();
                 case "username":
-                    return userLoggedOn.getUsername();
+                    return user.getUsername();
                 case "password":
-                    return userLoggedOn.getPassword();
+                    return user.getPassword();
                 case "gender":
-                    return userLoggedOn.getGender();
+                    return user.getGender();
                 case "birthDate":
-                    return userLoggedOn.getBirthDate();
+                    return user.getBirthDate();
                 case "email":
-                    return userLoggedOn.getEmail();
+                    return user.getEmail();
                 case "phoneNumber":
-                    return userLoggedOn.getPhoneNumber();
+                    return user.getPhoneNumber();
                 case "address":
-                    return userLoggedOn.getAddress();
+                    return user.getAddress();
                 case "credit":
-                    return userLoggedOn.getCredit().toString();
-                case "companyName":
-                    return ((Seller) userLoggedOn).getCompanyName();
-                case "companyInfo":
-                    return ((Seller) userLoggedOn).getCompanyInfo();
+                    return user.getCredit().toString();
                 case "profilePictureAddress":
-                    return userLoggedOn.getProfilePictureAddress();
+                    return user.getProfilePictureAddress();
+                case "companyName":
+                    return ((Seller) user).getCompanyName();
+                case "companyInfo":
+                    return ((Seller) user).getCompanyInfo();
                 default:
                     return "not found";
             }
@@ -108,6 +117,55 @@ public class UserController {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(field, newValue);
         changePersonalInfo(hashMap);
+    }
+
+    public void changePersonalInfo(String username, String field, String newValue) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(field, newValue);
+        changePersonalInfo(username, hashMap);
+    }
+
+    public void changePersonalInfo(String username, HashMap<String, String> infoToSet) {
+        User user = Database.getUserByUsername(username);
+        for (String info : infoToSet.keySet()) {
+            String value = infoToSet.get(info);
+            switch (info) {
+                case "name":
+                    user.setName(value);
+                    break;
+                case "surname":
+                    user.setSurname(value);
+                    break;
+                case "email":
+                    user.setEmail(value);
+                    break;
+                case "phoneNumber":
+                    user.setPhoneNumber(value);
+                    break;
+                case "password":
+                    user.setPassword(value);
+                    break;
+                case "username":
+                    user.setUsername(value);
+                    break;
+                case "address":
+                    user.setAddress(value);
+                    break;
+                case "gender":
+                    user.setGender(value);
+                    break;
+                case "birthDate":
+                    user.setBirthDate(value);
+                    break;
+                case "credit":
+                    user.setCredit(Long.parseLong(value));
+                    break;
+                case "profilePictureAddress":
+                    user.setProfilePictureAddress(value);
+                    break;
+            }
+        }
+        Database.writeObject(user, user.getId());
     }
 
     public void changePersonalInfo(HashMap<String, String> infoToSet) {
@@ -149,6 +207,7 @@ public class UserController {
                     break;
             }
         }
+        Database.writeObject(userLoggedOn, userLoggedOn.getId());
     }
 
     public void addReview(String title, String text) throws Exception{
