@@ -52,8 +52,12 @@ public class ManagerPage {
         // TODO connect to discount manager menu
     }
 
-    public void manageUsersButtonPressed(ActionEvent actionEvent) {
-        // TODO connect to user manager menu
+    public void manageUsersButtonPressed(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/main/resources/fxml/UserViewer.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.mainStage.setTitle("Add new manager");
+        Main.mainStage.setScene(new Scene(root, 620, 550));
+        Main.mainStage.show();
     }
 
     public void removeProductPressed(ActionEvent actionEvent) {

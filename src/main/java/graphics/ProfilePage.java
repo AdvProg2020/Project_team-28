@@ -34,26 +34,33 @@ public class ProfilePage {
     public EditableTextField credit;
     private FileChooser fileChooser = new FileChooser();
 
+    public String user = Main.controller.getPersonalInfo("username");
+
+
     public void initialize() {
         if (Main.controller.getUser().getType().equals("seller")) {
             sellerBox.setVisible(true);
             sellerBox.setManaged(true);
         }
-        firstName.setText(Main.controller.getPersonalInfo("firstName"));
-        surname.setText(Main.controller.getPersonalInfo("surname"));
-        companyName.setText(Main.controller.getPersonalInfo("companyName"));
-        companyInfo.setText(Main.controller.getPersonalInfo("companyInfo"));
-        email.setText(Main.controller.getPersonalInfo("email"));
-        phoneNumber.setText(Main.controller.getPersonalInfo("phoneNumber"));
-        password.setText(Main.controller.getPersonalInfo("password"));
-        username.setText(Main.controller.getPersonalInfo("username"));
-        address.setText(Main.controller.getPersonalInfo("address"));
-        credit.setText(Main.controller.getPersonalInfo("credit"));
+        firstName.setText(Main.controller.getPersonalInfo(user, "firstName"));
+        surname.setText(Main.controller.getPersonalInfo(user, "surname"));
+        companyName.setText(Main.controller.getPersonalInfo(user, "companyName"));
+        companyInfo.setText(Main.controller.getPersonalInfo(user, "companyInfo"));
+        email.setText(Main.controller.getPersonalInfo(user, "email"));
+        phoneNumber.setText(Main.controller.getPersonalInfo(user, "phoneNumber"));
+        password.setText(Main.controller.getPersonalInfo(user, "password"));
+        username.setText(Main.controller.getPersonalInfo(user, "username"));
+        address.setText(Main.controller.getPersonalInfo(user, "address"));
+        credit.setText(Main.controller.getPersonalInfo(user, "credit"));
 
-        gender.setValue(gender.getItems().get(gender.getItems().indexOf(Main.controller.getPersonalInfo("gender"))));
-        birthDate.setValue(LocalDate.parse(Main.controller.getPersonalInfo("birthDate").replaceAll("/", "-")));
-        if (!Main.controller.getPersonalInfo("profilePictureAddress").equals("")) {
-            Image image = new Image(Main.controller.getPersonalInfo("profilePictureAddress"));
+        try {
+            gender.setValue(gender.getItems().get(gender.getItems().indexOf(Main.controller.getPersonalInfo(user, "gender"))));
+            birthDate.setValue(LocalDate.parse(Main.controller.getPersonalInfo(user, "birthDate").replaceAll("/", "-")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!Main.controller.getPersonalInfo(user, "profilePictureAddress").equals("")) {
+            Image image = new Image(Main.controller.getPersonalInfo(user, "profilePictureAddress"));
             profilePicture.imageProperty().setValue(image);
         }
     }
@@ -65,7 +72,7 @@ public class ProfilePage {
         if (selectedFile != null) {
             //TODO maintain a decent way to save image
             Image image = new Image(selectedFile.toURI().toURL().toString());
-            Main.controller.changePersonalInfo("profilePictureAddress", selectedFile.toURI().toURL().toString());
+            Main.controller.changePersonalInfo(user, "profilePictureAddress", selectedFile.toURI().toURL().toString());
             System.out.println(selectedFile.toURI().toURL().toString());
             profilePicture.imageProperty().setValue(image);
         }
@@ -75,15 +82,15 @@ public class ProfilePage {
         switch (actionEvent.getSource().getClass().getName()) {
             case "com.jfoenix.controls.JFXDatePicker":
                 System.out.println(((JFXDatePicker) actionEvent.getSource()).getValue().toString());
-                Main.controller.changePersonalInfo("birthDate", ((JFXDatePicker) actionEvent.getSource()).getValue().toString());
+                Main.controller.changePersonalInfo(user, "birthDate", ((JFXDatePicker) actionEvent.getSource()).getValue().toString());
                 break;
             case "com.jfoenix.controls.JFXComboBox":
                 System.out.println(((JFXComboBox) actionEvent.getSource()).getValue().toString());
-                Main.controller.changePersonalInfo("gender", (String) ((JFXComboBox) actionEvent.getSource()).getValue());
+                Main.controller.changePersonalInfo(user, "gender", (String) ((JFXComboBox) actionEvent.getSource()).getValue());
                 break;
             default:
                 System.out.println(((TextInputControl) actionEvent.getSource()).getPromptText() + ".setText(Main.controller.getPersonalInfo(\"" + ((TextInputControl) actionEvent.getSource()).getPromptText() + "\");"); // TODO text area and password
-                Main.controller.changePersonalInfo(((TextInputControl) actionEvent.getSource()).getPromptText(), ((TextInputControl) actionEvent.getSource()).getText());
+                Main.controller.changePersonalInfo(user, ((TextInputControl) actionEvent.getSource()).getPromptText(), ((TextInputControl) actionEvent.getSource()).getText());
         }
 
     }

@@ -32,7 +32,7 @@ public class RegisterMenu {
 
     public void registerPressed(ActionEvent actionEvent) throws Exception {
         registerAccount();
-        URL url = new File("src/main/resources/LoginMenu.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/LoginMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage.setScene(new Scene(root, 250, 250));
         Main.popupStage.show();

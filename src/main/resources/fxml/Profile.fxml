@@ -14,6 +14,7 @@
           xmlns="http://javafx.com/javafx"
           fx:controller="graphics.ProfilePage"
           prefHeight="400.0" prefWidth="600.0">
+    <TopBar/>
     <HBox prefHeight="350.0" spacing="10.0" alignment="CENTER" style="-fx-padding: 30px 50px 50px 50px">
         <VBox prefWidth="200.0" spacing="20.0" alignment="CENTER">
             <VBox alignment="CENTER" maxWidth="150.0" spacing="20.0">
