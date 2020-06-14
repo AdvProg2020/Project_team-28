@@ -2,6 +2,7 @@ package main;
 
 import controller.Database;
 import controller.UserController;
+import graphics.Cart;
 import graphics.ErrorController;
 import javafx.application.Application;
 import javafx.application.Platform;
