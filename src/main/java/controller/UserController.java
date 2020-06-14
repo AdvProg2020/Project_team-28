@@ -246,4 +246,8 @@ public class UserController {
     public void removeUser(String username) {
         Database.remove(Database.getUserByUsername(username));
     }
+
+    public void removeProduct(String productId) throws Exception {
+        Database.remove(Database.getProductById(productId));
+    }
 }

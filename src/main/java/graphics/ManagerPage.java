@@ -60,7 +60,14 @@ public class ManagerPage {
         Main.mainStage.show();
     }
 
-    public void removeProductPressed(ActionEvent actionEvent) {
-        // TODO connect to product remover menu
+    public void removeProductPressed(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/main/resources/fxml/RemoveProductPage.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.popupStage = new Stage();
+        Main.popupStage.setTitle("Remove Product");
+        Main.popupStage.setScene(new Scene(root, 250, 250));
+        Main.popupStage.initModality(Modality.WINDOW_MODAL);
+        Main.popupStage.initOwner(Main.mainStage);
+        Main.popupStage.show();
     }
 }
