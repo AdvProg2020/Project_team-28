@@ -33,8 +33,11 @@ public class ManagerPage {
         Main.mainStage.setScene(new Scene(root, 620, 450));
     }
 
-    public void manageRequestsButtonPressed(ActionEvent actionEvent) {
-        // TODO connect to manage request page
+    public void manageRequestsButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        URL url = new File("src/main/resources/fxml/ManagerRequestsPage.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.mainStage.setScene(new Scene(root, 620, 450));
     }
 
     public void addManagerButtonPressed(ActionEvent actionEvent) throws IOException {
@@ -69,5 +72,9 @@ public class ManagerPage {
         Main.popupStage.initModality(Modality.WINDOW_MODAL);
         Main.popupStage.initOwner(Main.mainStage);
         Main.popupStage.show();
+    }
+
+    public void manageCategoriesButtonPressed(ActionEvent actionEvent) {
+        // TODO connect to category manager menu
     }
 }

@@ -36,7 +36,25 @@ public class SellerPage {
         //TODO connect to add product page
     }
 
-    public void newSaleButtonPressed(ActionEvent actionEvent) {
-        //TODO connect to add sale page
+    public void newSaleButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        URL url = new File("src/main/resources/fxml/AddSalePage.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.mainStage.setScene(new Scene(root, 620, 450));
+    }
+
+    public void manageRequestsButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        URL url = new File("src/main/resources/fxml/SellerRequestsPage.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.mainStage.setScene(new Scene(root, 620, 450));
+    }
+
+    public void manageProductsButtonPressed(ActionEvent actionEvent) {
+        //TODO connect to add product manage page
+    }
+
+    public void manageSalesButtonPressed(ActionEvent actionEvent) {
+        //TODO connect to add sale manage page
     }
 }

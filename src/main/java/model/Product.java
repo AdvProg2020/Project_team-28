@@ -1,6 +1,5 @@
 package model;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controller.Database;
 
 import java.time.LocalDateTime;
@@ -213,7 +212,7 @@ public class Product {
 
     public long getPrice() {
         if (this.hasOff())
-            return price * (100 - this.getOff().getDiscountAmount())/100;
+            return Long.max((price * (100 - this.getOff().getPercentage())) / 100, price - this.getOff().getMaxAmount());
         else
             return price;
     }

@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import model.Discount;
 import model.Manager;
 import model.Off;
@@ -11,6 +12,7 @@ import model.exception.UserNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ManagerController extends UserController {
@@ -73,12 +75,8 @@ public class ManagerController extends UserController {
     public void removeProduct(String discountCode) {
     }
 
-    public String viewRequests() {
-        StringBuilder res = new StringBuilder();
-        for (JsonElement jsonElement : Database.getAllRequests()) {
-            res.append(jsonElement.toString());
-        }
-        return res.toString();
+    public ArrayList<JsonObject> viewRequests() {
+        return Database.getAllRequests();
     }
 
     public String viewRequest(String requestId) {
@@ -89,11 +87,13 @@ public class ManagerController extends UserController {
         //TODO not complete
         JsonElement jsonElement = Database.getRequestById(requestId);
         if (!isAccepted) {
-            Database.remove(jsonElement);
+            jsonElement.getAsJsonObject().addProperty("requestStatus", "rejected");
+            Database.add(jsonElement.getAsJsonObject());
         } else {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
+            jsonElement.getAsJsonObject().addProperty("requestStatus", "accepted");
             switch (jsonElement.getAsJsonObject().get("request-type").getAsString()) {
                 case "add off":
                     addOff(jsonElement);
@@ -107,12 +107,20 @@ public class ManagerController extends UserController {
                     break;
                 default:
             }
+            Database.add(jsonElement.getAsJsonObject());
         }
     }
 
     private void addOff(JsonElement jsonElement) throws Exception {
-        Gson gson = new Gson();
-        Off off = gson.fromJson(jsonElement.getAsJsonObject().get("off").toString(), Off.class);
+        Off off = new Off();
+        off.setProducts(Arrays.asList(jsonElement.getAsJsonObject().get("product ids").getAsString().split(",")));
+        off.setOffStatus(jsonElement.getAsJsonObject().get("product ids").getAsString());
+        off.setStartTime(LocalDateTime.parse(jsonElement.getAsJsonObject().get("startTime").getAsString()));
+        off.setFinishTime(LocalDateTime.parse(jsonElement.getAsJsonObject().get("finishTime").getAsString()));
+        off.setPercentage(Integer.parseInt(jsonElement.getAsJsonObject().get("percentage").getAsString()));
+        off.setMaxAmount(Integer.parseInt(jsonElement.getAsJsonObject().get("maxAmount").getAsString()));
+        off.setSellerId(jsonElement.getAsJsonObject().get("owner").getAsString());
+        off.putInDuty();
         Database.add(off);
     }
 
@@ -121,8 +129,8 @@ public class ManagerController extends UserController {
         Off off = Database.getOffById(jsonElement.getAsJsonObject().get("offId").getAsString());
         if (off == null) {
             throw new Exception("off not found");
-        } else {
-            if (!jsonElement.getAsJsonObject().get("offStatus").getAsString().equals("")) {
+        }
+            /*if (!jsonElement.getAsJsonObject().get("offStatus").getAsString().equals("")) {
                 off.setOffStatus(jsonElement.getAsJsonObject().get("offStatus").getAsString());
             }
             if (!jsonElement.getAsJsonObject().get("startTime").getAsString().equals("")) {
@@ -134,10 +142,17 @@ public class ManagerController extends UserController {
             if (!jsonElement.getAsJsonObject().get("discountAmount").getAsString().equals("")) {
                 off.setDiscountAmount(Integer.parseInt(jsonElement.getAsJsonObject().get("discountAmount").getAsString()));
             }
-            if (!jsonElement.getAsJsonObject().get("currentSeller").getAsString().equals("")) {
-                off.setSellerId(jsonElement.getAsJsonObject().get("currentSeller").getAsString());
-            }
-        }
+            if (!jsonElement.getAsJsonObject().get("owner").getAsString().equals("")) {
+                off.setSellerId(jsonElement.getAsJsonObject().get("owner").getAsString());
+            }*/
+        off.setProducts(Arrays.asList(jsonElement.getAsJsonObject().get("product ids").getAsString().split(",")));
+        off.setOffStatus(jsonElement.getAsJsonObject().get("product ids").getAsString());
+        off.setStartTime(LocalDateTime.parse(jsonElement.getAsJsonObject().get("startTime").getAsString()));
+        off.setFinishTime(LocalDateTime.parse(jsonElement.getAsJsonObject().get("finishTime").getAsString()));
+        off.setPercentage(Integer.parseInt(jsonElement.getAsJsonObject().get("percentage").getAsString()));
+        off.setMaxAmount(Integer.parseInt(jsonElement.getAsJsonObject().get("maxAmount").getAsString()));
+        off.setSellerId(jsonElement.getAsJsonObject().get("owner").getAsString());
+
     }
 
     public String viewCategories() {

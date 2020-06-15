@@ -14,10 +14,10 @@ public class RequestMenu extends Menu {
         hint = "";
         title = "";
         fortune = "";
-        context = controller.viewRequests();
+        //context = controller.viewRequests();
         do {
             show();
-            context = controller.viewRequests();
+            //context = controller.viewRequests();
         } while (execute());
     }
 

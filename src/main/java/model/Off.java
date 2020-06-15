@@ -8,12 +8,31 @@ import java.util.List;
 import java.util.UUID;
 
 public class Off {
-    private ArrayList<String> products;
+    private List<String> products;
     private String sellerId;
     private OffStatus offStatus;
     private LocalDateTime startTime;
     private LocalDateTime finishTime;
     private int discountAmount;
+    private int percentage;
+    private int maxAmount;
+
+    public Off() {
+
+    }
+
+    public int getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
+    }
+
+    public int getMaxAmount() {
+        return maxAmount;
+    }
+
     private String id;
 
     public Off(List<String> products, String offStatus, String startTime, String finishTime, String discountAmount, String seller) {
@@ -28,12 +47,17 @@ public class Off {
         this.id = UUID.randomUUID().toString();
     }
 
+    public void setMaxAmount(int maxAmount) {
+        this.maxAmount = maxAmount;
+    }
+
     //Ask Arman in case of ambiguity
 
     public void putInDuty() throws Exception {
         for (String productId : products) {
             Product product = Database.getProductById(productId);
             product.setOff(id);
+            Database.add(product);
         }
     }
 
@@ -81,7 +105,7 @@ public class Off {
         this.sellerId = sellerId;
     }
 
-    public void setProducts(ArrayList<String> products) {
+    public void setProducts(List<String> products) {
         this.products = products;
     }
 

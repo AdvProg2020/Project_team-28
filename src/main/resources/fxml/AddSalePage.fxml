@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<FlowPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="graphics.AddSalePage"
+          prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="20">
+        <HBox spacing="20">
+            <VBox spacing="20">
+                <JFXDatePicker fx:id="startDate" promptText="start date"/>
+                <JFXTimePicker fx:id="startTime" promptText="start time"/>
+            </VBox>
+            <VBox spacing="20">
+                <JFXDatePicker fx:id="endDate" promptText="end date"/>
+                <JFXTimePicker fx:id="endTime" promptText="end time"/>
+            </VBox>
+        </HBox>
+        <HBox spacing="50">
+            <JFXTextField fx:id="percentage" promptText="percentage" maxWidth="Infinity"/>
+            <JFXTextField fx:id="maxAmount" promptText="maxAmount" maxWidth="Infinity"/>
+        </HBox>
+        <JFXTextField fx:id="productId" promptText="productId"/>
+        <Text wrappingWidth="200" text="you can choose multiple products using ',' with no space between them"/>
+        <JFXButton styleClass="my-button" text="Submit Request" onAction="#submitPressed" maxWidth="Infinity"/>
+    </VBox>
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+    </stylesheets>
+</FlowPane>

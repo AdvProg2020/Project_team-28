@@ -16,6 +16,7 @@
                 <JFXButton styleClass="dark-button" text="Profile Page" onAction="#profilePageButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="Manage Requests" onAction="#manageRequestsButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="Manage Users" onAction="#manageUsersButtonPressed"/>
+                <JFXButton styleClass="dark-button" text="Manage Categories" onAction="#manageCategoriesButtonPressed"/>
             </VBox>
             <VBox alignment="CENTER" spacing="30.0">
                 <JFXButton styleClass="dark-button" text="Add New Manager" onAction="#addManagerButtonPressed"/>

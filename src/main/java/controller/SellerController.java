@@ -5,8 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -57,7 +57,7 @@ public class SellerController extends UserController {
         jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
         jsonElement.getAsJsonObject().addProperty("productId", productId);
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
-        Database.add(jsonElement);
+        Database.add(jsonElement.getAsJsonObject());
     }
 
     public void addProduct(HashMap<String, String> fields) throws Exception {
@@ -66,7 +66,7 @@ public class SellerController extends UserController {
         JsonElement jsonElement = request.toJsonTree(product);
         jsonElement.getAsJsonObject().addProperty("request-type", "add product");
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
-        Database.add(jsonElement);
+        Database.add(jsonElement.getAsJsonObject());
     }
 
     public void deleteProduct(String productId) throws Exception {
@@ -96,27 +96,45 @@ public class SellerController extends UserController {
     public void editOff(HashMap<String, String> data) throws Exception {
         Gson request = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("product ids", data.get("product ids"));
+        jsonObject.addProperty("product ids", data.get("productIds"));
         jsonObject.addProperty("offStatus", data.get("offStatus"));
         jsonObject.addProperty("startTime", data.get("startTime"));
         jsonObject.addProperty("finishTime", data.get("finishTime"));
-        jsonObject.addProperty("discountAmount", data.get("discountAmount"));
-        jsonObject.addProperty("currentSeller", currentSeller.getId());
+        jsonObject.addProperty("maxAmount", data.get("maxAmount"));
+        jsonObject.addProperty("percentage", data.get("percentage"));
+        jsonObject.addProperty("owner", currentSeller.getId());
         jsonObject.addProperty("request-type", "edit off");
-        jsonObject.addProperty("offId", data.get("offId"));
+        jsonObject.addProperty("requestStatus", "pending");
         jsonObject.addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonObject);
     }
 
     public void addOff(HashMap<String, String> data) throws Exception {
-        Off off = new Off(Arrays.asList(data.get("product ids").split("\\s*,\\s+")), data.get("offStatus"),
-                data.get("startTime"), data.get("finishTime"), data.get("discountAmount"), currentSeller.getId());
         Gson request = new Gson();
-        JsonElement jsonElement = request.toJsonTree(off);
         JsonObject jsonObject = new JsonObject();
-        jsonObject.add("off", jsonElement);
+        jsonObject.addProperty("product ids", data.get("productIds"));
+        jsonObject.addProperty("offStatus", data.get("offStatus"));
+        jsonObject.addProperty("startTime", data.get("startTime"));
+        jsonObject.addProperty("finishTime", data.get("finishTime"));
+        jsonObject.addProperty("maxAmount", data.get("maxAmount"));
+        jsonObject.addProperty("percentage", data.get("percentage"));
+        jsonObject.addProperty("owner", currentSeller.getId());
         jsonObject.addProperty("request-type", "add off");
-        jsonObject.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        jsonObject.addProperty("requestStatus", "pending");
+        jsonObject.addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonObject);
+    }
+
+    public String getOffItem(String offId, String field) throws NoSuchFieldException, IllegalAccessException {
+        Off off = Database.getOffById(offId);
+        Field myField = Off.class.getDeclaredField(field);
+        myField.setAccessible(true);
+        String res = myField.get(off).toString();
+        myField.setAccessible(false);
+        return res;
+    }
+
+    public Iterable<? extends JsonElement> viewRequests() {
+        return Database.getAllRequests();
     }
 }

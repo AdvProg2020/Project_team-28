@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import model.*;
 
 import java.io.File;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class Database {
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Product> allProducts = new ArrayList<>();
-    private static final ArrayList<JsonElement> allRequests = new ArrayList<>();
+    private static final ArrayList<JsonObject> allRequests = new ArrayList<>();
     private static final ArrayList<Discount> allDiscountCodes = new ArrayList<>();
     private static final ArrayList<Category> allCategories = new ArrayList<>();
     private static final ArrayList<Comment> allComments = new ArrayList<>();
@@ -49,7 +50,7 @@ public class Database {
         loadList(allUsers, Seller.class);
         loadList(allUsers, Customer.class);
         loadList(allProducts, Product.class);
-        loadList(allRequests, JsonElement.class);
+        loadList(allRequests, JsonObject.class);
         loadList(allDiscountCodes, Discount.class);
         loadList(allCategories, Category.class);
         loadList(allComments, Comment.class);
@@ -115,7 +116,7 @@ public class Database {
         writeObject(product, product.getId());
     }
 
-    public static void add(JsonElement request) {
+    public static void add(JsonObject request) {
         allRequests.add(request);
         writeObject(request, request.getAsJsonObject().get("id").getAsString());
     }
@@ -309,7 +310,7 @@ public class Database {
         return allUsers;
     }
 
-    public static ArrayList<JsonElement> getAllRequests() {
+    public static ArrayList<JsonObject> getAllRequests() {
         return allRequests;
     }
 

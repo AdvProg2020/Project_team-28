@@ -1,7 +1,6 @@
 package main;
 
-import controller.Database;
-import controller.UserController;
+import controller.*;
 import graphics.ErrorController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
@@ -23,6 +23,10 @@ public class Main extends Application {
     public static Stage mainStage;
     public static Stage popupStage;
     public static UserController controller;
+    public static SellerController sellerController;
+    public static ManagerController managerController;
+    public static CustomerController customerController;
+    public static ProductController productController;
 
     public Main() {
 
@@ -31,6 +35,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         Database.loadAllData();
         controller = new UserController(null, Menu.productController);
+        productController = new ProductController();
         launch(args);
         new RegisterLoginMenu(new UserController(null, Menu.productController));
     }
@@ -47,6 +52,7 @@ public class Main extends Application {
     public static void showErrorDialog(Throwable e) {
         StringWriter errorMsg = new StringWriter();
         e.printStackTrace(new PrintWriter(errorMsg));
+        Popup popup = new Popup();
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         try {
@@ -54,6 +60,8 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             ((ErrorController) loader.getController()).setErrorText(errorMsg.toString());
+            /*popup.getScene().setRoot(root);
+            popup.show(popupStage);*/
             dialog.setScene(new Scene(root, 250, 400));
             dialog.show();
         } catch (IOException exc) {
