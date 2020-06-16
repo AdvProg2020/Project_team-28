@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<?import javafx.scene.image.ImageView?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.shape.Box?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import com.jfoenix.validation.RegexValidator?>
+<JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxWidth="250.0" prefHeight="250.0"
+               xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.AddProductPage">
+    <VBox fx:id="mainBox" spacing="20" prefHeight="250" minWidth="250">
+
+        <Text styleClass="title" text="Add Product"/>
+        <RequiredFieldValidator fx:id="requiredVal" message="This item is required"/>
+        <HBox spacing="10">
+            <JFXTextField fx:id="name" promptText="Product Name" labelFloat="true"/>
+            <JFXTextField fx:id="brand" promptText="Product Brand" labelFloat="true"/>
+        </HBox>
+        <RegexValidator fx:id="priceValid" message="Enter a valid price"/>
+        <JFXTextField fx:id="price" promptText="Price" labelFloat="true" prefWidth="200"/>
+
+        <Separator/>
+
+        <VBox>
+            <Label text="Select Category" styleClass="secondary-text" fx:id="categoryName"/>
+            <JFXButton styleClass="button" onAction="#selectCategory" text="Choose"/>
+        </VBox>
+
+        <Separator/>
+
+        <VBox>
+            <Label text="Select product image" styleClass="secondary-text" fx:id="filePath"/>
+            <JFXButton fx:id="browseButton" styleClass="button" onAction="#browseForFile" text="Browse"/>
+            <Label text="preview:" styleClass="secondary-text"/>
+            <ImageView fx:id="productImage" fitHeight="80" fitWidth="80"/>
+        </VBox>
+        <JFXButton text="Submit" styleClass="finalButton" alignment="BOTTOM_CENTER" onAction="#submitProduct"/>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../stylesheets/AddProductPage.css"/>
+    </stylesheets>
+
+</JFXScrollPane>

@@ -1,0 +1,21 @@
+.title {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 20;
+    -fx-padding: 50px;
+    -fx-start-margin: 50px;
+    -fx-end-margin: 50px;
+    -fx-spacing: 50px;
+}
+.secondary-text {
+    -fx-font-size: 12;
+    -fx-padding: 0px;
+    -fx-start-margin: 0px;
+    -fx-spacing: 10px;
+}
+.button {
+    -fx-background-color: rgba(30,136,229, 0.5)
+}
+
+.finalButton {
+    -fx-background-color: rgba(252,192,156, 0.5);
+}

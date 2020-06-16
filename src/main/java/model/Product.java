@@ -1,7 +1,10 @@
 package model;
 
 import controller.Database;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -25,6 +28,7 @@ public class Product {
     private ArrayList<String> allSpecialProperties;
     private ArrayList<String> allBuyers;
     private String id;
+    private ImageView productImage;
 
     public Product(String name, String brand, String price, String seller, String category) {
         allScores = new ArrayList<>();
@@ -39,6 +43,15 @@ public class Product {
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
         this.category = Database.getCategoryByName(category).getId();
+        this.productImage = new ImageView();
+    }
+    public void setProductImage (String imageUrl) {
+        Image image = new Image(Paths.get(imageUrl).toUri().toString());
+        productImage.setImage(image);
+    }
+
+    public ImageView getProductImage() {
+        return productImage;
     }
 
     public int getQuantity() {

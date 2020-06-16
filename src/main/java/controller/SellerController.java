@@ -69,6 +69,14 @@ public class SellerController extends UserController {
         Database.add(jsonElement.getAsJsonObject());
     }
 
+    public void addProduct (Product product) {
+        Gson request = new Gson();
+        JsonElement jsonElement = request.toJsonTree(product);
+        jsonElement.getAsJsonObject().addProperty("request-type", "add product");
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        Database.add(jsonElement.getAsJsonObject());
+    }
+
     public void deleteProduct(String productId) throws Exception {
         Database.remove(Database.getProductById(productId));
     }

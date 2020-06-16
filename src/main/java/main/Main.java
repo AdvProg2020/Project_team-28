@@ -1,6 +1,7 @@
 package main;
 
 import controller.*;
+import graphics.AddProductPage;
 import graphics.ErrorController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -33,7 +34,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        Database.loadAllData();
+        //Database.loadAllData();
         controller = new UserController(null, Menu.productController);
         productController = new ProductController();
         launch(args);
@@ -73,10 +74,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        primaryStage.setTitle("");
-        primaryStage.setScene(new Scene(root, 620, 500));
-        primaryStage.show();
+//        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+//        Parent root = FXMLLoader.load(url);
+//        primaryStage.setTitle("");
+//        primaryStage.setScene(new Scene(root, 620, 500));
+//        primaryStage.show();
+        new AddProductPage().show(sellerController);
     }
 }
