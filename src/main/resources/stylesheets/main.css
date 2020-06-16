@@ -61,4 +61,5 @@
 
 VBox, HBox {
     -fx-alignment: CENTER;
+    -fx-spacing: 20px;
 }

@@ -344,4 +344,9 @@ public class Database {
 
     public static void update(Object object) {
     }
+
+    public static void remove(Category category) {
+        allCategories.remove(category);
+        deleteObject(category, category.getId());
+    }
 }

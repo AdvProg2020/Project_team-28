@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<FlowPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="graphics.PropertyPage"
+          prefHeight="400.0" prefWidth="600.0">
+    <VBox>
+        <JFXTextField fx:id="name" promptText="propertyName" labelFloat="true" maxWidth="Infinity"/>
+        <JFXComboBox fx:id="type" labelFloat="true" minWidth="250.0" promptText="type">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Integer"/>
+                    <String fx:value="String"/>
+                </FXCollections>
+            </items>
+        </JFXComboBox>
+        <JFXButton styleClass="my-button" text="Submit" onAction="#submitPressed"/>
+    </VBox>
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+    </stylesheets>
+</FlowPane>

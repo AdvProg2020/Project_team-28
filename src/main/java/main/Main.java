@@ -1,7 +1,6 @@
 package main;
 
 import controller.*;
-import graphics.AddProductPage;
 import graphics.ErrorController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -45,6 +44,7 @@ public class Main extends Application {
         System.err.println("***Default exception handler***");
         if (Platform.isFxApplicationThread()) {
             showErrorDialog(e);
+            System.err.println("An unexpected error occurred in " + t);
         } else {
             System.err.println("An unexpected error occurred in " + t);
         }
@@ -86,7 +86,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/fxml/ManageCategories.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 500));

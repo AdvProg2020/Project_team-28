@@ -85,9 +85,11 @@ public class UserViewer {
 
                             try {
                                 FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/Profile.fxml").toURI().toURL());
+                                Parent root = fxmlLoader.load();
                                 ((ProfilePage) fxmlLoader.getController()).user = userRow.getUsername();
                                 ((ProfilePage) fxmlLoader.getController()).initialize();
-                                Main.setMainStage("Profile", "src/main/resources/fxml/Profile.fxml");
+                                Main.mainStage.setScene(new Scene(root, 620, 450));
+                                Main.mainStage.show();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

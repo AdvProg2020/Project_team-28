@@ -2,15 +2,20 @@ package model;
 
 import controller.Database;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class Category {
     private String name;
-    private ArrayList<String> specialProperties;
-    private ArrayList<String> products;
+    private ArrayList<String> specialProperties = new ArrayList<>();
+    private ArrayList<String> products = new ArrayList<>();
+    private ArrayList<String> subCategories = new ArrayList<>(); //id
+    private String parentCategory; //id
     private String id;
+
+    public Category() {
+
+    }
 
     public Category(String name) {
         this.name = name;
@@ -45,10 +50,29 @@ public class Category {
         return name;
     }
 
+    public ArrayList<String> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(ArrayList<String> subCategories) {
+        this.subCategories = subCategories;
+    }
+
+    public String getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(String parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
     public ArrayList<Property> getSpecialProperties() {
         ArrayList<Property> finalList = new ArrayList<>();
         for (String property : specialProperties) {
             finalList.add(Database.getPropertyById(property));
+        }
+        if (parentCategory != null) {
+            finalList.addAll(Database.getCategoryById(parentCategory).getSpecialProperties());
         }
         return finalList;
     }

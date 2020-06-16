@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import graphics.TopBar?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<FlowPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="graphics.ManageCategories"
+          prefHeight="400.0" prefWidth="600.0">
+    <VBox fx:id="mainPane" prefWidth="600">
+        <TopBar/>
+    </VBox>
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+    </stylesheets>
+</FlowPane>
