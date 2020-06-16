@@ -32,6 +32,11 @@ public class SellerPage {
 
     public void newProductButtonPressed(ActionEvent actionEvent) {
         //TODO connect to add product page
+        try {
+            new AddProductPage().show(Main.sellerController);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void newSaleButtonPressed(ActionEvent actionEvent) throws IOException {
