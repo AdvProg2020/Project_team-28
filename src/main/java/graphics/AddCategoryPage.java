@@ -67,6 +67,8 @@ public class AddCategoryPage {
     public void submitPressed(ActionEvent actionEvent) throws IOException {
         category.setName(name.getText());
         Database.add(category);
+        if (category.getParentCategory() != null)
+            Database.getCategoryById(category.getParentCategory()).addSubCategory(category);
         Main.setMainStage("Manage Categories", "src/main/resources/fxml/ManageCategories.fxml");
     }
 

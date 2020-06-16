@@ -14,7 +14,7 @@ public class Category {
     private String id;
 
     public Category() {
-
+        id = UUID.randomUUID().toString();
     }
 
     public Category(String name) {
@@ -30,13 +30,6 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setSpecialProperties(ArrayList<Property> specialProperties) {
-        this.specialProperties = new ArrayList<>();
-        for (Property specialProperty : specialProperties) {
-            this.specialProperties.add(specialProperty.getId());
-        }
     }
 
     public void setProducts(ArrayList<Product> products) {
@@ -85,15 +78,20 @@ public class Category {
         return finalList;
     }
 
-    public void addProduct (Product product) {
+    public void addProduct(Product product) {
         this.products.add(product.getId());
     }
 
-    public void addProperty (Property property) {
+    public void addProperty(Property property) {
         this.specialProperties.add(property.getId());
     }
+
+    public void addSubCategory(Category category) {
+        this.subCategories.add(category.getId());
+    }
+
     @Override
-    public boolean equals (Object object) {
+    public boolean equals(Object object) {
         if (object instanceof Category)
             return ((Category) object).getName().equals(this.name);
         else if (object instanceof String)

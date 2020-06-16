@@ -99,7 +99,7 @@ public class ManageCategories {
                         }
                         if (empty) {
                             setGraphic(null);
-                        } else if (row.getProperties() == null) {
+                        } else if (row.category == null) {
                             setGraphic(add);
                         } else if (row.category.getParentCategory() == null) {
                             setGraphic(new HBox(add, remove));

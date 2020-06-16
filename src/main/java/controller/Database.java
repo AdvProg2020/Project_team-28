@@ -346,6 +346,9 @@ public class Database {
     }
 
     public static void remove(Category category) {
+        if (category.getParentCategory() != null) {
+            getCategoryById(category.getParentCategory()).getSubCategories().remove(category.getId());
+        }
         allCategories.remove(category);
         deleteObject(category, category.getId());
     }
