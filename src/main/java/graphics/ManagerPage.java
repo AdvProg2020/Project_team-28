@@ -68,7 +68,8 @@ public class ManagerPage {
         Main.popupStage.show();
     }
 
-    public void manageCategoriesButtonPressed(ActionEvent actionEvent) {
-        // TODO connect to category manager menu
+    public void manageCategoriesButtonPressed(ActionEvent actionEvent) throws IOException {
+        Main.setMainStage("Add New Manager", "src/main/resources/fxml/ManageCategories.fxml");
+        Main.setMainStageSize(620, 550);
     }
 }

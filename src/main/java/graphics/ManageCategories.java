@@ -18,6 +18,7 @@ import main.Main;
 import model.Category;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class ManageCategories {
     public VBox mainPane;
@@ -28,7 +29,6 @@ public class ManageCategories {
         TreeItem<CategoryRow> categories = new TreeItem<>(new CategoryRow("all categories"));
 
         for (Category category : Database.getAllCategories()) {
-
             if (category.getParentCategory() == null) {
                 TreeItem<CategoryRow> treeItem = new TreeItem<>(new CategoryRow(category));
                 for (String subCategory : category.getSubCategories()) {
@@ -81,7 +81,7 @@ public class ManageCategories {
                         });
                         remove.setOnAction((ActionEvent event) -> {
                             CategoryRow categoryRow = treeTableView.getTreeItem(getIndex()).getValue();
-                            for (String category : categoryRow.category.getSubCategories()) {
+                            for (String category : (ArrayList<String>) categoryRow.category.getSubCategories().clone()) {
                                 Database.remove(Database.getCategoryById(category));
                             }
                             Database.remove(categoryRow.category);
