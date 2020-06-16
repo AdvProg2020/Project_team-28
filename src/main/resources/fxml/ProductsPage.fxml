@@ -3,22 +3,24 @@
 <?import javafx.scene.layout.*?>
 
 <?import graphics.TopBar?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <?import java.net.URL?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="graphics.ProductsPage">
+<?import com.jfoenix.controls.JFXScrollPane?>
 
-    <TopBar/>
+<?import javafx.scene.control.ScrollPane?>
 
-    <GridPane
-            prefHeight="400.0" prefWidth="600.0" fx:id="gridPane"
-            hgap="50" vgap="50">
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="graphics.ProductsPage" fitToWidth="true">
+    <VBox>
+        <TopBar/>
 
-    </GridPane>
+        <GridPane
+                fx:id="gridPane">
 
-    <stylesheets>
-        <URL value="@../stylesheets/ProductsPage.css"/>
-    </stylesheets>
-</VBox>
+        </GridPane>
+
+        <stylesheets>
+            <URL value="@../stylesheets/ProductsPage.css"/>
+        </stylesheets>
+    </VBox>
+</ScrollPane>
