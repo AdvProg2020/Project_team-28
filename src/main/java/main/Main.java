@@ -74,11 +74,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
         mainStage = primaryStage;
-//        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
-//        Parent root = FXMLLoader.load(url);
-//        primaryStage.setTitle("");
-//        primaryStage.setScene(new Scene(root, 620, 500));
-//        primaryStage.show();
-        new AddProductPage().show(sellerController);
+        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        primaryStage.setTitle("");
+        primaryStage.setScene(new Scene(root, 620, 500));
+        primaryStage.show();
     }
 }
