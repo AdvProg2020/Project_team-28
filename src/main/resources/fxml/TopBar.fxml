@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox" style="-fx-background-color: #9C27B0;">
+    <JFXButton fx:id="logoutButton" text="logout" onAction="#logoutPressed"/>
     <JFXButton text="main menu" onAction="#mainMenuPressed"/>
-    <JFXButton text="logout" onAction="#logoutPressed"/>
     <JFXButton fx:id="loginButton" text="login" onAction="#loginPressed"/>
     <JFXButton fx:id="registerButton" text="register" onAction="#registerPressed"/>
     <JFXButton fx:id="cartButton" text="cart" onAction="#cartPressed"/>

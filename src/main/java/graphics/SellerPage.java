@@ -27,9 +27,7 @@ public class SellerPage {
 
     public void profilePageButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        URL url = new File("src/main/resources/fxml/Profile.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Ptofile", "src/main/resources/fxml/Profile.fxml");
     }
 
     public void newProductButtonPressed(ActionEvent actionEvent) {
@@ -38,16 +36,13 @@ public class SellerPage {
 
     public void newSaleButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        URL url = new File("src/main/resources/fxml/AddSalePage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Add Sale", "src/main/resources/fxml/AddSalePage.fxml");
     }
 
     public void manageRequestsButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        URL url = new File("src/main/resources/fxml/SellerRequestsPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Manage Requests",
+                "src/main/resources/fxml/SellerRequestsPage.fxml");
     }
 
     public void manageProductsButtonPressed(ActionEvent actionEvent) {

@@ -34,6 +34,7 @@ public class LoginMenu {
             Main.managerController = new ManagerController(Main.controller.getUser(), Main.productController);
         }
         Main.popupStage.close();
+        Main.setMainStage("Main Menu", "src/main/resources/fxml/MainMenu.fxml");
     }
 
     public void createAccountPressed(ActionEvent actionEvent) throws IOException {

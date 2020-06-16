@@ -95,10 +95,8 @@ public class ManagerRequestsPage {
                                 case ("add off"):
                                     try {
                                         FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/SaleRequestPage.fxml").toURI().toURL());
-                                        Parent root = fxmlLoader.load();
                                         ((SaleRequestPage) fxmlLoader.getController()).setJsonElement(requestRow.jsonElement);
-                                        Main.mainStage.setScene(new Scene(root, 620, 450));
-                                        Main.mainStage.show();
+                                        Main.setMainStage("Sale Request", "src/main/resources/fxml/SaleRequestPage.fxml");
                                     } catch (Exception e) {
                                         Main.showErrorDialog(e);
                                     }

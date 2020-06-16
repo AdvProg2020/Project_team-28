@@ -4,12 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import model.Discount;
-import model.Manager;
-import model.Off;
-import model.User;
+import model.*;
 import model.exception.UserNotFoundException;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,6 +162,8 @@ public class ManagerController extends UserController {
     }
 
     public void createCategory(HashMap<String, String> fields) {
+        //TODO what to do with arguments?
+        Database.add(new Category(fields.get("name")));
     }
 
     public void removeCategory(String category) {
