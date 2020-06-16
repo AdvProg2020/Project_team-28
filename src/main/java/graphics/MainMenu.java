@@ -29,31 +29,28 @@ public class MainMenu {
             Main.popupStage.initOwner(Main.mainStage);
             Main.popupStage.show();
         } else {
-            URL url;
+            String fxmlPath;
             switch (Main.controller.getPersonalInfo("type")) {
                 case "customer":
-                    url = new File("src/main/resources/fxml/Profile.fxml").toURI().toURL();
+                    fxmlPath =  "src/main/resources/fxml/Profile.fxml";
                     break;
                 case "seller":
-                    url = new File("src/main/resources/fxml/SellerPage.fxml").toURI().toURL();
+                    fxmlPath = "src/main/resources/fxml/SellerPage.fxml";
                     break;
                 case "manager":
-                    url = new File("src/main/resources/fxml/ManagerPage.fxml").toURI().toURL();
+                    fxmlPath = "src/main/resources/fxml/ManagerPage.fxml";
                     System.out.println("va");
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + Main.controller.getPersonalInfo("type"));
             }
-            Parent root = FXMLLoader.load(url);
-            System.out.println("" + root + "\n");
-            Main.mainStage.setScene(new Scene(root, 620, 450));
+            Main.setMainStage("", fxmlPath);
 
         }
     }
 
-    public void productsButtonPressed(ActionEvent actionEvent) throws Exception {
-        //TODO connect to products section
+    public void productsButtonPressed(ActionEvent actionEvent) throws IOException {
         System.out.println("Product section");
-        throw new Exception("WHY?");
+        Main.setMainStage("Products", "src/main/resources/fxml/ProductsPage.fxml");
     }
 }

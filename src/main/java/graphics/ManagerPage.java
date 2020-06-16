@@ -28,16 +28,13 @@ public class ManagerPage {
 
     public void profilePageButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        URL url = new File("src/main/resources/fxml/Profile.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Profile Page", "src/main/resources/fxml/Profile.fxml");
     }
 
     public void manageRequestsButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        URL url = new File("src/main/resources/fxml/ManagerRequestsPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Manage Requests",
+                "src/main/resources/fxml/ManagerRequestsPage.fxml");
     }
 
     public void addManagerButtonPressed(ActionEvent actionEvent) throws IOException {
@@ -56,11 +53,8 @@ public class ManagerPage {
     }
 
     public void manageUsersButtonPressed(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/resources/fxml/UserViewer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setTitle("Add new manager");
-        Main.mainStage.setScene(new Scene(root, 620, 550));
-        Main.mainStage.show();
+        Main.setMainStage("Add New Manager", "src/main/resources/fxml/UserViewer.fxml");
+        Main.setMainStageSize(620, 550);
     }
 
     public void removeProductPressed(ActionEvent actionEvent) throws IOException {

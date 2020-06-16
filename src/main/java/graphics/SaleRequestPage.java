@@ -38,15 +38,13 @@ public class SaleRequestPage {
 
     public void acceptPressed(ActionEvent actionEvent) throws Exception {
         (Main.managerController).evaluateRequest(jsonElement.getAsJsonObject().get("id").getAsString(), true);
-        URL url = new File("src/main/resources/fxml/ManagerRequestsPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Manage Requests",
+                "src/main/resources/fxml/ManagerRequestsPage.fxml");
     }
 
     public void rejectPressed(ActionEvent actionEvent) throws Exception {
         (Main.managerController).evaluateRequest(jsonElement.getAsJsonObject().get("id").getAsString(), false);
-        URL url = new File("src/main/resources/fxml/ManagerRequestsPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Manage Requests",
+                "src/main/resources/fxml/ManagerRequestsPage.fxml");
     }
 }

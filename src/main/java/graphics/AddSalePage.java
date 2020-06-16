@@ -31,8 +31,6 @@ public class AddSalePage {
         hashMap.put("maxAmount", maxAmount.getText());
         hashMap.put("productIds", productId.getText());
         Main.sellerController.addOff(hashMap);
-        URL url = new File("src/main/resources/fxml/SellerPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
+        Main.setMainStage("Seller Page", "src/main/resources/fxml/SellerPage.fxml");
     }
 }

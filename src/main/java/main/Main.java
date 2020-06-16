@@ -69,6 +69,18 @@ public class Main extends Application {
         }
     }
 
+    public static void setMainStage (String title, String fxmlPath) throws IOException {
+        URL url = new File(fxmlPath).toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.mainStage.setScene(new Scene(root, 620, 450));
+        mainStage.setTitle(title);
+    }
+
+    public static void setMainStageSize (int width, int height) {
+        mainStage.setWidth(width);
+        mainStage.setHeight(height);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);

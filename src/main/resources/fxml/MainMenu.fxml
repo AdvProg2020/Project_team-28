@@ -9,9 +9,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<FlowPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="450.0" prefWidth="620.0"
-          xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.MainMenu">
-    <VBox style="-fx-padding: 100px">
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="450.0" prefWidth="620.0"
+           xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.MainMenu">
+    <VBox>
         <TopBar/>
         <HBox spacing="5.0">
             <VBox alignment="CENTER" prefHeight="350.0" prefWidth="250.0">
@@ -35,4 +36,4 @@
 
         </HBox>
     </VBox>
-</FlowPane>
+</StackPane>

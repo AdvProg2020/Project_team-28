@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.exception.DefaultUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,10 +23,7 @@ public class CustomerController extends UserController {
     }
 
     public static Customer newDefaultUser() {
-        Customer defaultCustomer = new Customer("","Anonymous User","",
-                "username@example.com","+98xxxxxxxxxx","",0);
-        defaultCustomer.setUsername(defaultCustomer.getId());
-        return defaultCustomer;
+        return new DefaultUser();
     }
 
     private String viewPersonalInfo() {
