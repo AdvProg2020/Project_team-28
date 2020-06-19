@@ -1,6 +1,8 @@
 package main;
 
 import controller.*;
+import graphics.AddDiscountCodePage;
+import graphics.AddProductPage;
 import graphics.ErrorController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import model.Discount;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 

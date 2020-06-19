@@ -1,0 +1,18 @@
+.jfx-scroll-pane .main-header {
+    -fx-background-color: #90ec81;
+}
+
+.jfx-scroll-pane .condensed-header {
+    -fx-background-color: #60b65b;
+}
+.jfx-text-field {
+    -fx-text-fill: #212121;
+    -fx-prompt-text-fill: #757575;
+    -jfx-focus-color: #d2d426;
+    -jfx-unfocus-color: #90ec81;
+    -fx-pref-width: 150px;
+}
+
+.button {
+    -fx-background-color: rgba(144, 236, 129, 0.5);
+}

@@ -1,5 +1,7 @@
 package model;
 
+import controller.Database;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -78,5 +80,27 @@ public class Discount {
 
     public boolean validateTime () {
         return startTime.isBefore(LocalDateTime.now()) && finishTime.isAfter(LocalDateTime.now());
+    }
+
+    public static boolean isCodeUnique (String code) {
+        for (Discount discount : Database.getAllDiscountCodes()) {
+            if (discount.getCode().equals(code))
+                return false;
+        }
+        return true;
+    }
+
+    public static String generateRandomCode () {
+        char[] ranndomCode = new char[8];
+        int min = 48;
+        int max = 122;
+        for (int i = 0 ; i < 8 ; i++) {
+            int randomCharacter = (int) (Math.random() * (max - min + 1) + min);
+            if ( (randomCharacter >= 58 && randomCharacter <= 64) || (randomCharacter <= 96 && randomCharacter >= 91) ) {
+                i--;
+            }else
+                ranndomCode[i] = (char) randomCharacter;
+        }
+        return String.valueOf(ranndomCode);
     }
 }

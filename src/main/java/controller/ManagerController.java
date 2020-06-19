@@ -33,6 +33,10 @@ public class ManagerController extends UserController {
         throw new Exception("got a discount code: " + data);
     }
 
+    public void createDiscount (Discount discount) {
+        Database.add(discount);
+    }
+
     public String viewAllUsers() {
         ArrayList<String> result = new ArrayList<>();
         for (User user : Database.getAllUsers()) {
