@@ -1,0 +1,49 @@
+
+.productTitle {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 20;
+}
+
+
+.my-button {
+    -fx-start-margin: 20px 20px 20px 20px;
+    -fx-end-margin: 20px 20px 20px 20px;
+    -fx-vgap: 50px;
+    -fx-border-width: 10px;
+    -fx-padding: 5px 5px;
+    -fx-font-size: 14px;
+    -jfx-button-type: RAISED;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: WHITE;
+    -fx-background-color: #00BCD4;
+}
+
+.spinner {
+    -fx-start-margin: 0px;
+    -fx-end-margin: 0px;
+    -fx-vgap: 0px;
+    -fx-border-width: 0px;
+    -fx-padding: 0px;
+    -fx-background-radius: 0;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 55px;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-body-color: #00BCD4;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-body-color: ladder(#444, #00BCD4 0%, #007089 100%);
+}
+
+.spinner .increment-arrow-button:hover:pressed,
+.spinner .decrement-arrow-button:hover:pressed,
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    -fx-body-color: ladder(#AAA, #00BCD4 0%, #007089 100%);
+}

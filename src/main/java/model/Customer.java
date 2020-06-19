@@ -45,6 +45,10 @@ public class Customer extends User {
         cart.put(productId, 1);
     }
 
+    public void addToCart(String productId, int quantity) {
+        cart.put(productId, quantity);
+    }
+
     public void increaseNumberInCart (String productId) {
         if (isProductInCart(productId)) {
             cart.put(productId, cart.get(productId) + 1);
@@ -110,7 +114,7 @@ public class Customer extends User {
 
     public boolean hasBoughtProduct (Product product) throws Exception {
         for (String log : purchaseHistory) {
-            if (Database.getPurchaseLogById(log).getProducts().containsKey(product.getId()))
+            if (Database.getPurchaseLogById(log).getProducts().containsKey(product))
                 return true;
         }
         return false;

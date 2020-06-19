@@ -46,6 +46,7 @@ public class Main extends Application {
 
     private static void showError(Thread t, Throwable e) {
         System.err.println("***Default exception handler***");
+        e.printStackTrace();
         if (Platform.isFxApplicationThread()) {
             showErrorDialog(e);
             System.err.println("An unexpected error occurred in " + t);
@@ -96,12 +97,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
-//        mainStage = primaryStage;
-//        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
-//        Parent root = FXMLLoader.load(url);
-//        primaryStage.setTitle("");
-//        primaryStage.setScene(new Scene(root, 620, 500));
-//        primaryStage.show();
-        new AddDiscountCodePage().show(managerController);
+        mainStage = primaryStage;
+        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        primaryStage.setTitle("");
+        primaryStage.setScene(new Scene(root, 620, 500));
+        primaryStage.show();
     }
 }

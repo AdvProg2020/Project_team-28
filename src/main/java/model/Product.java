@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Product {
-    private enum productStatus  {WaitingForProduction, WaitingForEdition, Confirmed}
+    private enum productStatus {WaitingForProduction, WaitingForEdition, Confirmed}
+
     private productStatus status = productStatus.WaitingForProduction;
     private String name;
     private String brand;
@@ -29,7 +30,7 @@ public class Product {
     private ArrayList<String> allSpecialProperties;
     private ArrayList<String> allBuyers;
     private String id;
-    private String productImage;
+    private String productImageAddress;
 
     public Product(String name, String brand, String price, String seller, String category) {
         allScores = new ArrayList<>();
@@ -44,16 +45,25 @@ public class Product {
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
         this.category = Database.getCategoryByName(category).getId();
-        this.productImage = null;
-    }
-    public void setProductImage (String imageUrl) {
-        this.productImage = imageUrl;
+        this.productImageAddress = null;
     }
 
-    public ImageView getProductImage() {
-        if (productImage == null)
-            productImage = new File("src/main/resources/images/no-product.png").getAbsolutePath();
-        return new ImageView(Paths.get(productImage).toUri().toString());
+    public void setProductImageAddress(String imageUrl) {
+        this.productImageAddress = imageUrl;
+    }
+
+    public String getProductImageAddress() {
+        return productImageAddress;
+    }
+
+    public Image getProductImage() {
+        if (productImageAddress == null)
+            productImageAddress = new File("src/main/resources/images/no-product.png").getAbsolutePath();
+        return new Image(Paths.get(productImageAddress).toUri().toString());
+    }
+
+    public ArrayList<String> getAllScores() {
+        return allScores;
     }
 
     public int getQuantity() {
@@ -64,11 +74,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public void decreaseQuantity (int num) {
+    public void decreaseQuantity(int num) {
         this.quantity -= num;
     }
 
-    public void increaseQuantity (int num) {
+    public void increaseQuantity(int num) {
         this.quantity += num;
     }
 
@@ -92,11 +102,11 @@ public class Product {
         return allSellers;
     }
 
-    public void addViewed () {
+    public void addViewed() {
         this.viewed += 1;
     }
 
-    public void addBuyer (Customer customer) {
+    public void addBuyer(Customer customer) {
         allBuyers.add(customer.getId());
     }
 
@@ -104,7 +114,7 @@ public class Product {
         return viewed;
     }
 
-    public ArrayList<Customer> getAllBuyers () {
+    public ArrayList<Customer> getAllBuyers() {
         ArrayList<Customer> result = new ArrayList<>();
         for (String buyer : allBuyers) {
             result.add((Customer) Database.getUserById(buyer));
@@ -170,18 +180,18 @@ public class Product {
         float averageResult = 0;
         for (String score : allScores)
             averageResult += Database.getScoreById(score).getScore();
-        return averageResult/allScores.size();
+        return averageResult / allScores.size();
     }
 
     public void addProperty(Property property) {
         allProperties.add(property.getId());
     }
 
-    public void addScore (Score score) {
+    public void addScore(Score score) {
         allScores.add(score.getId());
     }
 
-    public void addComment (Comment comment) {
+    public void addComment(Comment comment) {
         allComments.add(comment.getId());
     }
 
@@ -193,7 +203,7 @@ public class Product {
         return result;
     }
 
-    public boolean hasProperty (Property property) {
+    public boolean hasProperty(Property property) {
         switch (property.getName()) {
             case "category":
                 return this.category.equals(property.getValueString());
@@ -221,8 +231,8 @@ public class Product {
         return false;
     }
 
-    public void setMainSeller (Seller seller) {
-        this.sellers.add(0,seller.getId());
+    public void setMainSeller(Seller seller) {
+        this.sellers.add(0, seller.getId());
     }
 
     public long getPrice() {
@@ -232,11 +242,11 @@ public class Product {
             return price;
     }
 
-    public boolean hasOff () {
+    public boolean hasOff() {
         return this.off != null;
     }
 
-    public SellLog createSellLog () {
+    public SellLog createSellLog() {
         SellLog log = new SellLog();
         Database.add(log);
         log.setSoldProduct(this);
