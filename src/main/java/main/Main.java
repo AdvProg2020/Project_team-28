@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -56,21 +57,28 @@ public class Main extends Application {
     public static void showErrorDialog(Throwable e) {
         StringWriter errorMsg = new StringWriter();
         e.printStackTrace(new PrintWriter(errorMsg));
-        Popup popup = new Popup();
-        Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        try {
-            URL url = new File("src/main/resources/fxml/Error.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent root = loader.load();
-            ((ErrorController) loader.getController()).setErrorText(errorMsg.toString());
-            /*popup.getScene().setRoot(root);
-            popup.show(popupStage);*/
-            dialog.setScene(new Scene(root, 250, 400));
-            dialog.show();
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setHeaderText(null);
+        Throwable cause = e.getCause();
+        while (cause.getCause() != null)
+            cause = cause.getCause();
+        error.setContentText(cause.getMessage());
+        error.show();
+//        Popup popup = new Popup();
+//        Stage dialog = new Stage();
+//        dialog.initModality(Modality.APPLICATION_MODAL);
+//        try {
+//            URL url = new File("src/main/resources/fxml/Error.fxml").toURI().toURL();
+//            FXMLLoader loader = new FXMLLoader(url);
+//            Parent root = loader.load();
+//            ((ErrorController) loader.getController()).setErrorText(errorMsg.toString());
+//            /*popup.getScene().setRoot(root);
+//            popup.show(popupStage);*/
+//            dialog.setScene(new Scene(root, 250, 400));
+//            dialog.show();
+//        } catch (IOException exc) {
+//            exc.printStackTrace();
+//        }
     }
 
     public static void setMainStage (String title, String fxmlPath) throws IOException {
@@ -88,11 +96,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
-        mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        primaryStage.setTitle("");
-        primaryStage.setScene(new Scene(root, 620, 500));
-        primaryStage.show();
+//        mainStage = primaryStage;
+//        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+//        Parent root = FXMLLoader.load(url);
+//        primaryStage.setTitle("");
+//        primaryStage.setScene(new Scene(root, 620, 500));
+//        primaryStage.show();
+        new AddDiscountCodePage().show(managerController);
     }
 }

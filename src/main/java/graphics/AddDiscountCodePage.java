@@ -81,12 +81,8 @@ public class AddDiscountCodePage {
         code.setText(random);
     }
 
-    public void finishPage(ActionEvent actionEvent) {
-        try {
-            checkFields();
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public void finishPage(ActionEvent actionEvent) throws Exception {
+        checkFields();
         LocalDateTime fullStartDate = LocalDateTime.of(startDate.getValue(), startTime.getValue());
         LocalDateTime fullFinishDate = LocalDateTime.of(finishDate.getValue(), finishTime.getValue());
         Discount discount = new Discount();
