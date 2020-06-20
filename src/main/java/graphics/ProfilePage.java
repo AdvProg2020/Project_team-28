@@ -1,5 +1,6 @@
 package graphics;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class ProfilePage {
     public EditableTextField username;
     public EditableTextArea address;
     public EditableTextField credit;
+    public JFXButton discountButton;
     private FileChooser fileChooser = new FileChooser();
 
     public String user = Main.controller.getPersonalInfo("username");
@@ -42,6 +44,12 @@ public class ProfilePage {
             sellerBox.setVisible(true);
             sellerBox.setManaged(true);
         }
+
+        if (!Main.controller.getUser().getType().equals("customer")) {
+            discountButton.setManaged(false);
+            discountButton.setVisible(false);
+        }
+
         firstName.setText(Main.controller.getPersonalInfo(user, "firstName"));
         surname.setText(Main.controller.getPersonalInfo(user, "surname"));
         companyName.setText(Main.controller.getPersonalInfo(user, "companyName"));
@@ -92,6 +100,9 @@ public class ProfilePage {
                 System.out.println(((TextInputControl) actionEvent.getSource()).getPromptText() + ".setText(Main.controller.getPersonalInfo(\"" + ((TextInputControl) actionEvent.getSource()).getPromptText() + "\");"); // TODO text area and password
                 Main.controller.changePersonalInfo(user, ((TextInputControl) actionEvent.getSource()).getPromptText(), ((TextInputControl) actionEvent.getSource()).getText());
         }
+    }
 
+    public void viewDiscountsPressed(ActionEvent actionEvent) {
+        //TODO view discount codes
     }
 }

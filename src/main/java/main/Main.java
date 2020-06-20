@@ -1,19 +1,13 @@
 package main;
 
 import controller.*;
-import graphics.AddDiscountCodePage;
-import graphics.AddProductPage;
-import graphics.ErrorController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import model.Discount;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
@@ -63,6 +57,7 @@ public class Main extends Application {
         while (cause.getCause() != null)
             cause = cause.getCause();
         error.setContentText(cause.getMessage());
+        e.printStackTrace();
         error.show();
 //        Popup popup = new Popup();
 //        Stage dialog = new Stage();
@@ -96,12 +91,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
-//        mainStage = primaryStage;
-//        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
-//        Parent root = FXMLLoader.load(url);
-//        primaryStage.setTitle("");
-//        primaryStage.setScene(new Scene(root, 620, 500));
-//        primaryStage.show();
-        new AddDiscountCodePage().show(managerController);
+        mainStage = primaryStage;
+        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        primaryStage.setTitle("");
+        primaryStage.setScene(new Scene(root, 620, 500));
+        primaryStage.show();
+//        new AddDiscountCodePage().show(managerController);
     }
 }

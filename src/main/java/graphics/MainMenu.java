@@ -17,6 +17,10 @@ public class MainMenu {
         System.out.println("YAAY");
     }
 
+    public void initialize() {
+        SoundPlayer.playInfinite("paganini.wav");
+    }
+
     public void profileButtonPressed(ActionEvent actionEvent) throws IOException {
         System.out.println(Main.controller.getUser());
         if (Main.controller.getUser().getFullName().equals("Anonymous User ")) {
@@ -29,6 +33,7 @@ public class MainMenu {
             Main.popupStage.initOwner(Main.mainStage);
             Main.popupStage.show();
         } else {
+            SoundPlayer.stopBackground();
             String fxmlPath;
             switch (Main.controller.getPersonalInfo("type")) {
                 case "customer":
@@ -50,6 +55,7 @@ public class MainMenu {
     }
 
     public void productsButtonPressed(ActionEvent actionEvent) throws IOException {
+        SoundPlayer.stopBackground();
         System.out.println("Product section");
         Main.setMainStage("Products", "src/main/resources/fxml/ProductsPage.fxml");
     }

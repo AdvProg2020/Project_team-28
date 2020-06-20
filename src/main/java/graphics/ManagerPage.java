@@ -38,6 +38,7 @@ public class ManagerPage {
     }
 
     public void addManagerButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
         URL url = new File("src/main/resources/fxml/AddManagerMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage = new Stage();
@@ -49,15 +50,18 @@ public class ManagerPage {
     }
 
     public void addDiscountButtonPressed(ActionEvent actionEvent) {
+        backgroundMediaView.getMediaPlayer().stop();
         // TODO connect to discount manager menu
     }
 
     public void manageUsersButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
         Main.setMainStage("Add New Manager", "src/main/resources/fxml/UserViewer.fxml");
         Main.setMainStageSize(620, 550);
     }
 
     public void removeProductPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
         URL url = new File("src/main/resources/fxml/RemoveProductPage.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage = new Stage();
@@ -69,6 +73,7 @@ public class ManagerPage {
     }
 
     public void manageCategoriesButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
         Main.setMainStage("Add New Manager", "src/main/resources/fxml/ManageCategories.fxml");
         Main.setMainStageSize(620, 550);
     }

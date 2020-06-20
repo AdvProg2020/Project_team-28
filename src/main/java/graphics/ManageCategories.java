@@ -11,6 +11,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -64,16 +65,41 @@ public class ManageCategories {
             public TreeTableCell<CategoryRow, Void> call(final TreeTableColumn<CategoryRow, Void> param) {
                 final TreeTableCell<CategoryRow, Void> cell = new TreeTableCell<CategoryRow, Void>() {
 
-                    private final JFXButton add = new JFXButton("add subcategory");
-                    private final JFXButton remove = new JFXButton("remove");
+                    private final JFXButton edit = new JFXButton("");
+                    private final JFXButton remove = new JFXButton("");
+                    private JFXButton add = new JFXButton("");
 
                     {
+                        ImageView addImage = new ImageView(new File("src/main/resources/images/add-icon.png").toURI().toString());
+                        addImage.setFitHeight(20);
+                        addImage.setPreserveRatio(true);
+                        ImageView editImage = new ImageView(new File("src/main/resources/images/edit-icon.png").toURI().toString());
+                        editImage.setFitHeight(20);
+                        editImage.setPreserveRatio(true);
+                        ImageView removeImage = new ImageView(new File("src/main/resources/images/remove-icon.png").toURI().toString());
+                        removeImage.setFitHeight(20);
+                        removeImage.setPreserveRatio(true);
+                        add.setGraphic(addImage);
+                        edit.setGraphic(editImage);
+                        remove.setGraphic(removeImage);
+
                         add.setOnAction((ActionEvent event) -> {
                             try {
                                 CategoryRow categoryRow = treeTableView.getTreeItem(getIndex()).getValue();
                                 FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/AddCategoryPage.fxml").toURI().toURL());
                                 Parent root = fxmlLoader.load();
                                 ((AddCategoryPage) fxmlLoader.getController()).setParentCategory(categoryRow.category);
+                                Main.mainStage.setScene(new Scene(root, 620, 500));
+                            } catch (Exception e) {
+                                Main.showErrorDialog(e);
+                            }
+                        });
+                        edit.setOnAction((ActionEvent event) -> {
+                            try {
+                                CategoryRow categoryRow = treeTableView.getTreeItem(getIndex()).getValue();
+                                FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/AddCategoryPage.fxml").toURI().toURL());
+                                Parent root = fxmlLoader.load();
+                                ((AddCategoryPage) fxmlLoader.getController()).fillFields(categoryRow.category);
                                 Main.mainStage.setScene(new Scene(root, 620, 500));
                             } catch (Exception e) {
                                 Main.showErrorDialog(e);
@@ -100,11 +126,11 @@ public class ManageCategories {
                         if (empty) {
                             setGraphic(null);
                         } else if (row.category == null) {
-                            setGraphic(add);
+                            setGraphic(new HBox(add));
                         } else if (row.category.getParentCategory() == null) {
-                            setGraphic(new HBox(add, remove));
+                            setGraphic(new HBox(add, edit, remove));
                         } else {
-                            setGraphic(remove);
+                            setGraphic(new HBox(edit, remove));
                         }
                     }
                 };
@@ -113,6 +139,8 @@ public class ManageCategories {
         };
 
         colBtn.setCellFactory(cellFactory);
+
+        colBtn.setPrefWidth(250);
 
         treeTableView.getColumns().add(colBtn);
     }

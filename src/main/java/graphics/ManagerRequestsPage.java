@@ -5,12 +5,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -29,26 +29,32 @@ public class ManagerRequestsPage {
         TreeItem<RequestRow> editOff = new TreeItem<>(new RequestRow("edit off"));
 
         for (JsonElement json : (Main.managerController).viewRequests()) {
-            switch (json.getAsJsonObject().get("request-type").getAsString()) {
-                case "add off":
-                    addOff.getChildren().add(new TreeItem<>(new RequestRow(json)));
-                    break;
-                case "edit off":
-                    editOff.getChildren().add(new TreeItem<>(new RequestRow(json)));
-                    break;
+            if (json.getAsJsonObject().get("requestStatus").getAsString().equals("pending")) {
+                switch (json.getAsJsonObject().get("request-type").getAsString()) {
+                    case "add off":
+                        addOff.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                        break;
+                    case "edit off":
+                        editOff.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                        break;
+                }
             }
         }
         TreeTableColumn<RequestRow, String> columnTitle = new TreeTableColumn<>("Title");
         TreeTableColumn<RequestRow, String> columnOwner = new TreeTableColumn<>("Owner");
+        TreeTableColumn<RequestRow, String> columnStatus = new TreeTableColumn<>("Status");
 
         columnTitle.setCellValueFactory(new TreeItemPropertyValueFactory<>("title"));
         columnOwner.setCellValueFactory(new TreeItemPropertyValueFactory<>("owner"));
+        columnStatus.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
         columnTitle.setPrefWidth(125);
         columnOwner.setPrefWidth(125);
+        columnStatus.setPrefWidth(125);
 
         treeTableView.getColumns().add(columnTitle);
         treeTableView.getColumns().add(columnOwner);
+        treeTableView.getColumns().add(columnStatus);
 
         TreeItem<RequestRow> requests = new TreeItem<>(new RequestRow("requests"));
         requests.getChildren().addAll(addOff, editOff);
@@ -67,15 +73,32 @@ public class ManagerRequestsPage {
             public TreeTableCell<RequestRow, Void> call(final TreeTableColumn<RequestRow, Void> param) {
                 final TreeTableCell<RequestRow, Void> cell = new TreeTableCell<RequestRow, Void>() {
 
-                    private final JFXButton accept = new JFXButton("accept");
-                    private final JFXButton reject = new JFXButton("reject");
-                    private final JFXButton view = new JFXButton("view");
+                    private final JFXButton accept = new JFXButton("");
+                    private final JFXButton reject = new JFXButton("");
+                    private final JFXButton view = new JFXButton("");
 
                     {
+                        //TODO doesn't work logically correct
+                        ImageView acceptImage = new ImageView(new Image(new File("src/main/resources/images/check-icon.png").toURI().toString()));
+                        acceptImage.setFitWidth(20);
+                        acceptImage.setPreserveRatio(true);
+                        ImageView rejectImage = new ImageView(new Image(new File("src/main/resources/images/remove-icon.png").toURI().toString()));
+                        rejectImage.setFitWidth(20);
+                        rejectImage.setPreserveRatio(true);
+                        ImageView viewImage = new ImageView(new Image(new File("src/main/resources/images/view-icon.png").toURI().toString()));
+                        viewImage.setFitWidth(20);
+                        viewImage.setPreserveRatio(true);
+
+                        accept.setGraphic(acceptImage);
+                        reject.setGraphic(rejectImage);
+                        view.setGraphic(viewImage);
+
                         accept.setOnAction((ActionEvent event) -> {
                             RequestRow requestRow = treeTableView.getTreeItem(getIndex()).getValue();
                             try {
                                 (Main.managerController).evaluateRequest(requestRow.jsonElement.getAsJsonObject().get("id").getAsString(), true);
+                                mainPane.getChildren().remove(treeTableView);
+                                initialize();
                             } catch (Exception e) {
                                 Main.showErrorDialog(e);
                             }
@@ -84,6 +107,8 @@ public class ManagerRequestsPage {
                             RequestRow requestRow = treeTableView.getTreeItem(getIndex()).getValue();
                             try {
                                 (Main.managerController).evaluateRequest(requestRow.jsonElement.getAsJsonObject().get("id").getAsString(), false);
+                                mainPane.getChildren().remove(treeTableView);
+                                initialize();
                             } catch (Exception e) {
                                 Main.showErrorDialog(e);
                             }
@@ -120,6 +145,8 @@ public class ManagerRequestsPage {
         };
 
         colBtn.setCellFactory(cellFactory);
+
+        colBtn.setPrefWidth(250);
 
         treeTableView.getColumns().add(colBtn);
     }

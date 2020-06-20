@@ -4,38 +4,23 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
-import controller.Database;
-import controller.ProductController;
 import controller.SellerController;
-import controller.UserController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.Main;
 import model.Product;
-import model.Seller;
-import model.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class AddProductPage {
     private SellerController controller;
@@ -55,6 +40,7 @@ public class AddProductPage {
     public Label categoryName;
 
     public void show(SellerController controller) throws IOException {
+        System.out.println("show: " + controller);
         setController(controller);
         URL url = new File("src/main/resources/fxml/AddProductPage.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
@@ -69,6 +55,7 @@ public class AddProductPage {
     }
 
     public void initialize () {
+        controller = Main.sellerController;
         priceValid.setRegexPattern("\\d+");
         price.getValidators().add(priceValid);
         price.getValidators().add(requiredVal);
@@ -108,6 +95,7 @@ public class AddProductPage {
     }
 
     public void submitProduct(ActionEvent actionEvent) {
+        System.out.println("submit: " + controller);
         boolean allInputs = name.validate() && brand.validate() && price.validate();
         if (!allInputs) {
             return;

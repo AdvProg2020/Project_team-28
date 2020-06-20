@@ -34,6 +34,7 @@ public class LoginMenu {
             Main.managerController = new ManagerController(Main.controller.getUser(), Main.productController);
         }
         Main.popupStage.close();
+        System.out.println(Main.sellerController);
         Main.setMainStage("Main Menu", "src/main/resources/fxml/MainMenu.fxml");
     }
 

@@ -10,6 +10,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -75,11 +77,22 @@ public class UserViewer {
             public TreeTableCell<UserRow, Void> call(final TreeTableColumn<UserRow, Void> param) {
                 final TreeTableCell<UserRow, Void> cell = new TreeTableCell<UserRow, Void>() {
 
-                    private final JFXButton btn = new JFXButton("Action");
-                    private final JFXButton remove = new JFXButton("remove");
+                    private final JFXButton view = new JFXButton("");
+                    private final JFXButton remove = new JFXButton("");
 
                     {
-                        btn.setOnAction((ActionEvent event) -> {
+                        ImageView viewImage = new ImageView(new Image(new File("src/main/resources/images/view-icon.png").toURI().toString()));
+                        viewImage.setFitWidth(20);
+                        viewImage.setPreserveRatio(true);
+
+                        ImageView removeImage = new ImageView(new Image(new File("src/main/resources/images/remove-icon.png").toURI().toString()));
+                        removeImage.setFitWidth(20);
+                        removeImage.setPreserveRatio(true);
+
+                        view.setGraphic(viewImage);
+                        remove.setGraphic(removeImage);
+
+                        view.setOnAction((ActionEvent event) -> {
                             UserRow userRow = treeTableView.getTreeItem(getIndex()).getValue();
                             System.out.println("selectedUserRow: " + userRow);
 
@@ -109,7 +122,7 @@ public class UserViewer {
                         if (empty || treeTableView.getTreeItem(getIndex()).getValue().getFirstName() == null) {
                             setGraphic(null);
                         } else {
-                            setGraphic(new HBox(btn, remove));
+                            setGraphic(new HBox(view, remove));
                         }
                     }
                 };

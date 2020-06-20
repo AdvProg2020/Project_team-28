@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox" style="-fx-background-color: #9C27B0;">
-    <JFXButton fx:id="logoutButton" text="logout" onAction="#logoutPressed"/>
-    <JFXButton text="main menu" onAction="#mainMenuPressed"/>
-    <JFXButton fx:id="loginButton" text="login" onAction="#loginPressed"/>
-    <JFXButton fx:id="registerButton" text="register" onAction="#registerPressed"/>
-    <JFXButton fx:id="cartButton" text="cart" onAction="#cartPressed"/>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox"
+         style="-fx-background-color: #9C27B0;-fx-alignment: CENTER">
+    <JFXButton fx:id="homeButton" text="" onAction="#mainMenuPressed"/>
+    <JFXButton fx:id="logoutButton" text="" onAction="#logoutPressed"/>
+    <JFXButton fx:id="loginButton" text="" onAction="#loginPressed"/>
+    <JFXButton fx:id="registerButton" text="" onAction="#registerPressed"/>
+    <JFXButton fx:id="cartButton" text="" onAction="#cartPressed"/>
+    <HBox spacing="10" alignment="CENTER">
+        <Text fx:id="userType"/>
+        <Separator orientation="VERTICAL"/>
+        <Text fx:id="username"/>
+    </HBox>
     <stylesheets>
         <URL value="@../stylesheets/TopBar.css"/>
     </stylesheets>

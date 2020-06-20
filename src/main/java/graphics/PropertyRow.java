@@ -8,6 +8,7 @@ import model.Property;
 public class PropertyRow extends RecursiveTreeObject<PropertyRow> {
     StringProperty name = new SimpleStringProperty();
     StringProperty type = new SimpleStringProperty();
+    Property property;
 
     public PropertyRow(String title) {
         name.setValue(title);
@@ -16,6 +17,7 @@ public class PropertyRow extends RecursiveTreeObject<PropertyRow> {
     public PropertyRow(Property property) {
         name.setValue(property.getName());
         type.setValue(property.isNumber() ? "Integer" : "String");
+        this.property = property;
     }
 
     public String getName() {
@@ -40,5 +42,13 @@ public class PropertyRow extends RecursiveTreeObject<PropertyRow> {
 
     public StringProperty typeProperty() {
         return type;
+    }
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
     }
 }

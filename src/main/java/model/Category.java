@@ -70,7 +70,15 @@ public class Category {
         return finalList;
     }
 
-    public ArrayList<Product> getProducts() throws Exception{
+    public ArrayList<Property> getOnlyThisProperties() {
+        ArrayList<Property> finalList = new ArrayList<>();
+        for (String property : specialProperties) {
+            finalList.add(Database.getPropertyById(property));
+        }
+        return finalList;
+    }
+
+    public ArrayList<Product> getProducts() throws Exception {
         ArrayList<Product> finalList = new ArrayList<>();
         for (String product : products) {
             finalList.add(Database.getProductById(product));
@@ -97,5 +105,9 @@ public class Category {
         else if (object instanceof String)
             return object.equals(this.name);
         return false;
+    }
+
+    public void removeProperty(Property property) {
+        this.specialProperties.remove(property.getId());
     }
 }
