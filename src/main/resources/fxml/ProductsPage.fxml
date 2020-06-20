@@ -4,20 +4,20 @@
 
 <?import graphics.TopBar?>
 <?import java.net.URL?>
-<?import com.jfoenix.controls.JFXScrollPane?>
 
 <?import javafx.scene.control.ScrollPane?>
 
+<?import javafx.scene.control.Label?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductsPage" fitToWidth="true">
-    <VBox>
+    <VBox alignment="TOP_CENTER">
+
         <TopBar/>
 
-        <GridPane
-                fx:id="gridPane">
+        <Label style="-fx-font-size: 20px; -fx-label-padding: 20px">Products</Label>
 
-        </GridPane>
+        <GridPane fx:id="gridPane"/>
 
         <stylesheets>
             <URL value="@../stylesheets/ProductsPage.css"/>

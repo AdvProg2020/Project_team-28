@@ -40,6 +40,7 @@ public class Main extends Application {
 
     private static void showError(Thread t, Throwable e) {
         System.err.println("***Default exception handler***");
+        e.printStackTrace();
         if (Platform.isFxApplicationThread()) {
             showErrorDialog(e);
             System.err.println("An unexpected error occurred in " + t);
@@ -57,7 +58,6 @@ public class Main extends Application {
         while (cause.getCause() != null)
             cause = cause.getCause();
         error.setContentText(cause.getMessage());
-        e.printStackTrace();
         error.show();
 //        Popup popup = new Popup();
 //        Stage dialog = new Stage();
@@ -97,6 +97,5 @@ public class Main extends Application {
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 500));
         primaryStage.show();
-//        new AddDiscountCodePage().show(managerController);
     }
 }
