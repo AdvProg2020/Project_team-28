@@ -62,7 +62,7 @@ public class SellerController extends UserController {
 
     public void addProduct(HashMap<String, String> fields) throws Exception {
         Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), currentSeller.getId(), fields.get("category"));
-        Database.add(product);
+        //Database.add(product);
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(product);
         jsonElement.getAsJsonObject().addProperty("request-type", "add product");
@@ -73,8 +73,11 @@ public class SellerController extends UserController {
     public void addProduct (Product product) {
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(product);
+        jsonElement.getAsJsonObject().addProperty("status", "sent"); //send, accepted, rejected
         jsonElement.getAsJsonObject().addProperty("request-type", "add product");
+        jsonElement.getAsJsonObject().addProperty("owner", currentSeller.getId());
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        System.out.println("Request Sent:\n" + jsonElement);
         Database.add(jsonElement.getAsJsonObject());
     }
 

@@ -91,7 +91,7 @@ public class Discount {
     }
 
     public static String generateRandomCode () {
-        char[] ranndomCode = new char[8];
+        char[] randomCode = new char[8];
         int min = 48;
         int max = 122;
         for (int i = 0 ; i < 8 ; i++) {
@@ -99,8 +99,8 @@ public class Discount {
             if ( (randomCharacter >= 58 && randomCharacter <= 64) || (randomCharacter <= 96 && randomCharacter >= 91) ) {
                 i--;
             }else
-                ranndomCode[i] = (char) randomCharacter;
+                randomCode[i] = (char) randomCharacter;
         }
-        return String.valueOf(ranndomCode);
+        return String.valueOf(randomCode);
     }
 }
