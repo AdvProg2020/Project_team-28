@@ -35,6 +35,10 @@
         <VBox>
             <Label text="Select Category" styleClass="secondary-text" fx:id="categoryName"/>
             <JFXButton styleClass="button" onAction="#selectCategory" text="Choose"/>
+            <VBox fx:id="categoryBox">
+                <children>
+                </children>
+            </VBox>
         </VBox>
 
         <Separator/>

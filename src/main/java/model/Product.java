@@ -36,6 +36,7 @@ public class Product {
         allScores = new ArrayList<>();
         allComments = new ArrayList<>();
         allProperties = new ArrayList<>();
+        allSpecialProperties = new ArrayList<>();
         allBuyers = new ArrayList<>();
         sellers = new ArrayList<>();
         this.id = UUID.randomUUID().toString();
@@ -108,6 +109,10 @@ public class Product {
 
     public void addBuyer(Customer customer) {
         allBuyers.add(customer.getId());
+    }
+
+    public void addSpecialProperty (Property specialProperty) {
+        allSpecialProperties.add(specialProperty.getId());
     }
 
     public int getViewed() {
