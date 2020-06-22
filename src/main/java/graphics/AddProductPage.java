@@ -3,6 +3,7 @@ package graphics;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import controller.Database;
@@ -23,15 +24,21 @@ import main.Main;
 import model.Category;
 import model.Product;
 import model.Property;
+import model.Seller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class AddProductPage {
+    public JFXButton selectCategoryButton;
+    public JFXTextField quantity;
     private SellerController controller;
     public RequiredFieldValidator requiredVal;
+    public RegexValidator numberValid;
     public JFXTextField name;
     public JFXTextField brand;
     public JFXTextField price;
@@ -44,7 +51,8 @@ public class AddProductPage {
     public Label categoryName;
     public VBox categoryBox;
     public static Stage popupStage;
-
+    private ArrayList<JFXTextField> allTextFields;
+    private Product loadedProduct;
     private String selectedCategory;
 
     public void show(SellerController controller) throws IOException {
@@ -65,10 +73,17 @@ public class AddProductPage {
     public void initialize () {
         controller = Main.sellerController;
         priceValid.setRegexPattern("\\d+");
+        numberValid.setRegexPattern("\\d+");
+        allTextFields = new ArrayList<>();
+        allTextFields.add(price);
+        allTextFields.add(name);
+        allTextFields.add(brand);
+
         price.getValidators().add(priceValid);
         price.getValidators().add(requiredVal);
         name.getValidators().add(requiredVal);
-        brand.getValidators().addAll(requiredVal);
+        brand.getValidators().add(requiredVal);
+        quantity.getValidators().add(numberValid);
 
         name.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (!newVal)
@@ -82,6 +97,10 @@ public class AddProductPage {
             if (!newVal) {
                 price.validate();
             }
+        });
+        quantity.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue)
+                quantity.validate();
         });
     }
 
@@ -98,6 +117,48 @@ public class AddProductPage {
         }
     }
 
+    public void loadProduct(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/main/resources/fxml/ProductsList.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        popupStage = new Stage();
+        popupStage.setTitle("Select A Product");
+        popupStage.setScene(new Scene(root, 500, 600));
+        popupStage.showAndWait();
+
+        ProductsList list =loader.<ProductsList>getController();
+        loadedProduct = list.getSelectedProduct();
+        if (loadedProduct != null)
+            loadProductFields();
+    }
+
+    private void loadProductFields() {
+        price.setText(String.valueOf(loadedProduct.getPrice()));
+        name.setText(loadedProduct.getName());
+        brand.setText(loadedProduct.getBrand());
+        selectedCategory = loadedProduct.getCategory().getName();
+        addCategoryFields();
+        categoryName.setText(selectedCategory);
+        for (Node child : categoryBox.getChildren()) {
+            if (!(child instanceof JFXTextField))
+                continue;
+            Property thisProperty = loadedProduct.getSpecialPropertyByName(((JFXTextField) child).getPromptText());
+            if (thisProperty != null)
+                ((JFXTextField) child).setText(thisProperty.getValue());
+        }
+        if (loadedProduct.getProductImageAddress() != null)
+            productImage.setImage(new Image(loadedProduct.getProductImageAddress()));
+        disableTextFields();
+        selectCategoryButton.setDisable(true);
+        browseButton.setDisable(true);
+    }
+
+    private void disableTextFields() {
+        for (JFXTextField field : allTextFields) {
+            field.setEditable(false);
+        }
+    }
+
     public void selectCategory(ActionEvent actionEvent) throws IOException {
         URL url = new File("src/main/resources/fxml/CategoriesList.fxml").toURI().toURL();
         FXMLLoader loader = new FXMLLoader(url);
@@ -109,6 +170,8 @@ public class AddProductPage {
 
         CategoriesList list =loader.<CategoriesList>getController();
         selectedCategory = list.getSelectedCategory();
+        if (selectedCategory == null)
+            return;
         categoryName.setText(selectedCategory);
         System.out.println(categoryBox);
         addCategoryFields();
@@ -124,8 +187,9 @@ public class AddProductPage {
             thisProperty.setPromptText(property.getName());
             thisProperty.setLabelFloat(true);
             categoryBox.getChildren().add(thisProperty);
+            allTextFields.add(thisProperty);
             if (property.isNumber()) {
-                thisProperty.getValidators().add(priceValid);
+                thisProperty.getValidators().add(numberValid);
                 thisProperty.focusedProperty().addListener((observable, oldValue, newValue) -> {
                     if (!newValue)
                         thisProperty.validate();
@@ -135,28 +199,34 @@ public class AddProductPage {
     }
 
     public void submitProduct(ActionEvent actionEvent) {
-        System.out.println("submit: " + controller);
-        boolean allInputs = name.validate() && brand.validate() && price.validate();
-        if (!allInputs) {
-            return;
-        }
-        Product product = new Product(name.getText(), brand.getText(),
-                price.getText(), controller.getUser().getId(), categoryName.getText());
-        for (Node child : categoryBox.getChildren()) {
-            if (child instanceof JFXTextField) {
-                Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));
-                if (((JFXTextField) child).getText().matches("\\d+")) {
-                    property.setNumber(true);
-                    property.setValueLong(Long.parseLong(((JFXTextField) child).getText()));
-                }else {
-                    property.setNumber(false);
-                    property.setValueString(((JFXTextField) child).getText());
-                }
-                Database.add(property);
-                product.addSpecialProperty(property);
+        if (loadedProduct == null) {
+            boolean allInputs = name.validate() && brand.validate() && price.validate();
+            if (!allInputs) {
+                return;
             }
+            Product product = new Product(name.getText(), brand.getText(),
+                    price.getText(), controller.getUser().getId(), categoryName.getText());
+            product.setQuantity(Integer.parseInt(quantity.getText()));
+            for (Node child : categoryBox.getChildren()) {
+                if (child instanceof JFXTextField) {
+                    Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));
+                    if (((JFXTextField) child).getText().matches("\\d+")) {
+                        property.setNumber(true);
+                        property.setValueLong(Long.parseLong(((JFXTextField) child).getText()));
+                    } else {
+                        property.setNumber(false);
+                        property.setValueString(((JFXTextField) child).getText());
+                    }
+                    Database.add(property);
+                    product.addSpecialProperty(property);
+                }
+            }
+            controller.addProduct(product);
+        }else {
+            if (!loadedProduct.getSellers().contains(controller.getUser()))
+                loadedProduct.addSeller(controller.getUser());
+            loadedProduct.setQuantity(loadedProduct.getQuantity() + Integer.parseInt(quantity.getText()));
         }
-        controller.addProduct(product);
         Main.popupStage.close();
     }
 }

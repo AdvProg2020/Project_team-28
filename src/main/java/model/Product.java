@@ -111,6 +111,10 @@ public class Product {
         allBuyers.add(customer.getId());
     }
 
+    public void addSeller (User seller) {
+        this.sellers.add(seller.getId());
+    }
+
     public void addSpecialProperty (Property specialProperty) {
         allSpecialProperties.add(specialProperty.getId());
     }
@@ -247,6 +251,14 @@ public class Product {
             return price;
     }
 
+    public Property getSpecialPropertyByName (String name) {
+        for (Property property : this.getAllSpecialProperties()) {
+            if (property.getName().equals(name))
+                return property;
+        }
+        return null;
+    }
+
     public boolean hasOff() {
         return this.off != null;
     }
@@ -263,6 +275,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return id + "\t" + name + "\t" + this.getSellers().get(0).getFullName() + "\t" + price;
+        return name + "\t" + brand;
     }
 }

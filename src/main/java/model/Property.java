@@ -70,6 +70,12 @@ public class Property {
         return valueString;
     }
 
+    public String getValue () {
+        if (isNumber)
+            return String.valueOf(valueLong);
+        return valueString;
+    }
+
     @Override
     public String toString() {
         return this.name + ": " + (isNumber ? this.valueLong : this.valueString);

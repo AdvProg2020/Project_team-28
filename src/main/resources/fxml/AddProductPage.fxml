@@ -15,26 +15,30 @@
 <?import javafx.scene.shape.Box?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import com.jfoenix.validation.RegexValidator?>
+<?import com.jfoenix.validation.NumberValidator?>
 <JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxWidth="250.0" prefHeight="250.0"
                xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.AddProductPage">
     <VBox fx:id="mainBox" spacing="40" prefHeight="250" minWidth="250">
 
         <Text styleClass="title" text="Add Product"/>
         <RequiredFieldValidator fx:id="requiredVal" message="This item is required"/>
+        <RegexValidator fx:id="numberValid" message="Enter A Valid Number"/>
+        <JFXButton styleClass="button" fx:id="loadButton" text="Load A Product" onAction="#loadProduct"/>
         <HBox spacing="10">
             <JFXTextField fx:id="name" promptText="Product Name" labelFloat="true"/>
             <JFXTextField fx:id="brand" promptText="Product Brand" labelFloat="true"/>
         </HBox>
         <HBox>
             <RegexValidator fx:id="priceValid" message="Enter a valid price"/>
-            <JFXTextField fx:id="price" promptText="Price" labelFloat="true" prefWidth="200"/>
+            <JFXTextField fx:id="price" promptText="Price" labelFloat="true"/>
+            <JFXTextField fx:id="quantity" promptText="Quantity" labelFloat="true" text="100"/>
         </HBox>
 
         <Separator/>
 
         <VBox>
             <Label text="Select Category" styleClass="secondary-text" fx:id="categoryName"/>
-            <JFXButton styleClass="button" onAction="#selectCategory" text="Choose"/>
+            <JFXButton styleClass="button" onAction="#selectCategory" text="Choose" fx:id="selectCategoryButton"/>
             <VBox fx:id="categoryBox">
                 <children>
                 </children>
