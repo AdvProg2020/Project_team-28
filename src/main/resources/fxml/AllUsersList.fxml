@@ -9,16 +9,17 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import java.net.URL?>
 <?import com.jfoenix.controls.JFXButton?>
-<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="graphics.AllUsersList" prefHeight="400.0" prefWidth="600.0">
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="graphics.AllUsersList" prefHeight="400.0" prefWidth="300.0">
     <VBox>
-        <Label text="Hold Ctrl to select multiple choices" styleClass="title"/>
+        <Label text="Hold Ctrl to select multiple choices" styleClass="secondary-title"/>
         <JFXListView fx:id="mainList"/>
         <JFXButton fx:id="finish" text="Finish" onAction="#finishSelection"/>
     </VBox>
 
     <stylesheets>
         <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/AllUsersList.css"/>
     </stylesheets>
 
-</Pane>
+</StackPane>

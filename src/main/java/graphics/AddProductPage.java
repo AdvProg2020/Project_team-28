@@ -123,7 +123,7 @@ public class AddProductPage {
         Parent root = loader.load();
         popupStage = new Stage();
         popupStage.setTitle("Select A Product");
-        popupStage.setScene(new Scene(root, 500, 600));
+        popupStage.setScene(new Scene(root, 300, 400));
         popupStage.showAndWait();
 
         ProductsList list =loader.<ProductsList>getController();
@@ -156,6 +156,7 @@ public class AddProductPage {
     private void disableTextFields() {
         for (JFXTextField field : allTextFields) {
             field.setEditable(false);
+            field.setDisable(true);
         }
     }
 
@@ -165,7 +166,7 @@ public class AddProductPage {
         Parent root = loader.load();
         popupStage = new Stage();
         popupStage.setTitle("Select A Category");
-        popupStage.setScene(new Scene(root, 500, 600));
+        popupStage.setScene(new Scene(root, 300, 400));
         popupStage.showAndWait();
 
         CategoriesList list =loader.<CategoriesList>getController();
@@ -178,6 +179,9 @@ public class AddProductPage {
     }
 
     private void addCategoryFields() {
+        for (int i = categoryBox.getChildren().size() - 1; i >= 0 ; i--) {
+            categoryBox.getChildren().remove(i);
+        }
         Category category = Database.getCategoryByName(selectedCategory);
         if (category.getSpecialProperties() == null)
             return;

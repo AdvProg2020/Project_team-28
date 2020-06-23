@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXListView;
 import controller.Database;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.DepthTest;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ public class AllUsersList {
             mainList.getItems().add(user.getUsername());
         }
         mainList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        mainList.setDepthTest(DepthTest.ENABLE);
     }
 
     public void finishSelection(ActionEvent actionEvent) {
