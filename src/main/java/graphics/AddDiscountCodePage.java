@@ -117,11 +117,18 @@ public class AddDiscountCodePage {
         Parent root = loader.load();
         secondPopupStage = new Stage();
         secondPopupStage.setTitle("Select Users");
-        secondPopupStage.setScene(new Scene(root, 500, 600));
+        secondPopupStage.setScene(new Scene(root, 300, 400));
         secondPopupStage.showAndWait();
 
         AllUsersList list = loader.getController();
         allSelectedUsers = list.getSelectedUsers();
-        allUsers.getItems().addAll(allSelectedUsers);
+        emptyAllUsers();
+        if (allSelectedUsers != null)
+            allUsers.getItems().addAll(allSelectedUsers);
+    }
+    private void emptyAllUsers () {
+        for (int i = allUsers.getItems().size() - 1 ; i >= 0 ; i --) {
+            allUsers.getItems().remove(i);
+        }
     }
 }

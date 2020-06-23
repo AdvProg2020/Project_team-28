@@ -1,0 +1,23 @@
+.jfx-list-cell:hover {
+    -fx-background-color: rgba(144, 236, 129, 0.5);
+}
+.jfx-list-cell:selected {
+    -fx-background-color: #60b65b;
+    -fx-text-fill: WHITE;
+}
+.jfx-list-cell:focused {
+    -fx-border-color: rgba(144, 236, 129, 0.3);
+    -fx-border-width: 2px;
+}
+
+.secondary-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: BOLD;
+    -fx-text-fill: BLACK;
+}
+.button {
+    -fx-background-color: rgba(144, 236, 129, 0.5);
+}
+.button:hover {
+    -fx-background-color: rgba(35, 157, 44, 0.5);
+}

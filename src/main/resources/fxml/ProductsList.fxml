@@ -9,8 +9,8 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
-<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="graphics.ProductsList" prefHeight="400.0" prefWidth="600.0">
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="graphics.ProductsList" prefHeight="400.0" prefWidth="300.0">
     <VBox>
         <JFXListView fx:id="mainList"/>
         <JFXButton fx:id="select" text="Finish" onAction="#finishSelection"/>
@@ -18,6 +18,7 @@
 
     <stylesheets>
         <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/CategoriesList.css"/>
     </stylesheets>
 
-</Pane>
+</StackPane>
