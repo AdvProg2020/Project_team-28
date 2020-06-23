@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.*;
@@ -90,7 +91,7 @@ public class Database {
         FileWriter writer;
         try {
             writer = new FileWriter(fileName);
-            new Gson().toJson(object, writer);
+            new GsonBuilder().setPrettyPrinting().create().toJson(object, writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -342,7 +343,8 @@ public class Database {
         return allOffs;
     }
 
-    public static void update(Object object) {
+    public static void update(Object object, String id) {
+        writeObject(object, id);
     }
 
     public static void remove(Category category) {

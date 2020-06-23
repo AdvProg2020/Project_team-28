@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import graphics.TopBar?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import java.net.URL?>
+<?import com.jfoenix.controls.JFXTextField?>
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="graphics.AddCommentPage"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox prefWidth="620">
+        <TopBar/>
+        <HBox styleClass="section" fx:id="hbox">
+            <GridPane hgap="10" vgap="10" fx:id="groot">
+                <Label fx:id="inReply"
+                GridPane.columnIndex="0" GridPane.rowIndex="0"
+                GridPane.columnSpan="2"/>
+                <JFXTextField fx:id="commentTitle" promptText="Title"
+                              GridPane.columnIndex="0" GridPane.rowIndex="1"
+                              GridPane.columnSpan="2"/>
+                <JFXTextArea fx:id="commentText" promptText="Write your comment" styleClass="jfx-text-area"
+                             GridPane.columnIndex="0" GridPane.rowIndex="2"
+                             GridPane.columnSpan="2"/>
+                <Button styleClass="my-button" onAction="#addCommentPressed"
+                        GridPane.columnIndex="0" GridPane.rowIndex="3"
+                        prefWidth="${groot.width*0.5}">
+                    Add comment
+                </Button>
+                <Button styleClass="my-button" onAction="#backToProduct"
+                        GridPane.columnIndex="1" GridPane.rowIndex="3"
+                        prefWidth="${groot.width*0.5}">
+                    Back to product
+                </Button>
+            </GridPane>
+        </HBox>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/ProductPage.css"/>
+    </stylesheets>
+</ScrollPane>

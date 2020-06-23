@@ -8,13 +8,14 @@
 <?import javafx.scene.image.Image?>
 <?import java.net.URL?>
 <?import graphics.Rating?>
+
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductPage"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="620.0">
     <VBox prefWidth="620">
         <TopBar/>
-        <HBox spacing="10.0" style="-fx-padding: 30px 50px 50px 50px">
+        <HBox styleClass="section">
             <VBox>
                 <ImageView fx:id="productImage" fitWidth="250.0" preserveRatio="true">
                     <Image url="@../images/no-product.png"/>
@@ -22,7 +23,7 @@
             </VBox>
             <Separator orientation="VERTICAL"/>
             <VBox spacing="10">
-                <Label fx:id="productName" styleClass="productTitle"/>
+                <Label fx:id="productName" styleClass="title"/>
                 <Label fx:id="productInfo" wrapText="true"/>
                 <Rating fx:id="rating"/>
                 <HBox spacing="10">
@@ -35,6 +36,16 @@
                 </HBox>
             </VBox>
         </HBox>
+        <Separator/>
+        <VBox fx:id="specSection" styleClass="section">
+            <Label styleClass="title" alignment="TOP_CENTER">Specs</Label>
+        </VBox>
+        <Separator/>
+        <VBox styleClass="section">
+            <Label styleClass="title">Comments</Label>
+            <VBox fx:id="commentArea" styleClass="left-section"/>
+            <Button styleClass="my-button" onAction="#addCommentPressed">Add comment</Button>
+        </VBox>
     </VBox>
 
 

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.UUID;
 
 public abstract class User {
@@ -15,7 +16,7 @@ public abstract class User {
     protected String gender = "Prefer not to say";
     protected String Address;
 
-    protected String profilePictureAddress = ""; //TODO ye jaii bayad dorost she vali kasi nemifahme
+    protected String profilePictureAddress = new File("src/main/resources/images/account-icon.png").toURI().toString(); //TODO ye jaii bayad dorost she vali kasi nemifahme
 
     public String getBirthDate() {
         return birthDate;

@@ -1,6 +1,9 @@
 package model;
 
 import controller.Database;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Comment {
@@ -8,18 +11,28 @@ public class Comment {
     private String product;
     private String text;
     private String title;
+    private LocalDate time;
     private enum CommentStatus {WaitingForConfirmation,Confirmed, RejectedByManager}
     CommentStatus status = CommentStatus.WaitingForConfirmation;
     private boolean bought;
     private String id;
+    private String parent = "";
+    private int depth = 0;
+    private ArrayList<String> childern = new ArrayList<>(); //id
 
-    public Comment(User user, Product product,String title, String text, boolean bought) {
+    public Comment(Comment parent, User user, Product product,String title, String text) {
         this.user = user.getId();
         this.product = product.getId();
         this.title = title;
         this.text = text;
-        this.bought = bought;
         this.id = UUID.randomUUID().toString();
+        this.time = LocalDate.now();
+        this.bought = user instanceof Customer && ((Customer) user).hasBoughtProduct(product);
+        if (parent != null) {
+            parent.addChild(this);
+            this.parent = parent.getId();
+            depth = parent.depth + 1;
+        }
     }
 
     public String getId() {
@@ -30,7 +43,7 @@ public class Comment {
         return Database.getUserById(user);
     }
 
-    public Product getProduct() throws Exception{
+    public Product getProduct() throws Exception {
         return Database.getProductById(product);
     }
 
@@ -38,8 +51,21 @@ public class Comment {
         return text;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+
     public boolean hasBought() {
         return bought;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getStatus() {
@@ -48,6 +74,31 @@ public class Comment {
 
     public void setStatus(String status) {
         this.status = CommentStatus.valueOf(status);
+    }
+
+    public LocalDate getDate() {
+        return time;
+    }
+
+    public void addChild(Comment comment) {
+        childern.add(comment.getId());
+        Database.update(this, getId());
+    }
+
+    public Comment getParent() {
+        return Database.getCommentById(parent);
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public ArrayList<Comment> getChildren() {
+        ArrayList<Comment> childrenList = new ArrayList<>();
+        for (String child : childern) {
+            childrenList.add(Database.getCommentById(child));
+        }
+        return childrenList;
     }
 
     @Override

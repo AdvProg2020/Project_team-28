@@ -18,7 +18,7 @@ public class UserController {
         this.productController = productController;
     }
 
-    public void loginUser(String username, String password) throws Exception{
+    public void loginUser(String username, String password) throws Exception {
         User thisUser = Database.getUserByUsername(username);
         if (thisUser == null)
             throw new UserNotFoundException();
@@ -50,7 +50,7 @@ public class UserController {
                     throw new Exception("You can't create a manager account");
                 Manager manager = new Manager(data.get("username"),
                         data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
-                        data.get("password"),Long.parseLong(data.get("credit")));
+                        data.get("password"), Long.parseLong(data.get("credit")));
                 Database.add(manager);
                 break;
             case "Seller":
@@ -210,14 +210,10 @@ public class UserController {
         Database.writeObject(userLoggedOn, userLoggedOn.getId());
     }
 
-    public void addReview(String title, String text) throws Exception{
-        boolean hasBought;
-        if (userLoggedOn instanceof Customer)
-            hasBought = ((Customer) userLoggedOn).hasBoughtProduct(productController.getCurrentProduct());
-        else
-            hasBought = false;
-        Comment thisComment = new Comment(this.userLoggedOn, productController.getCurrentProduct(),
-                title, text, hasBought);
+    public void addReview(String title, String text) {
+        Comment thisComment = new Comment(null, this.userLoggedOn,
+                productController.getCurrentProduct(),
+                title, text);
         Database.add(thisComment);
         productController.getCurrentProduct().addComment(thisComment);
     }
