@@ -14,6 +14,8 @@
 <?import com.jfoenix.validation.RegexValidator?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.skins.JFXDatePickerContent?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXListView?>
 <JFXScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
                fx:controller="graphics.AddDiscountCodePage" prefHeight="400.0" prefWidth="600.0">
     <VBox>
@@ -41,6 +43,13 @@
             <JFXTextField promptText="Reuse number" labelFloat="true" fx:id="reuseNumber"/>
         </HBox>
         <Separator/>
+        <VBox>
+            <JFXButton fx:id="selectUsersButton" text="Select Users" onAction="#openUsersList" styleClass="button"/>
+            <Label text="Selected Users" styleClass="secondary-text"/>
+            <JFXListView fx:id="allUsers" maxWidth="600">
+                <items></items>
+            </JFXListView>
+        </VBox>
         <JFXButton text="Finish" styleClass="button" fx:id="finishButton" onAction="#finishPage"/>
     </VBox>
 

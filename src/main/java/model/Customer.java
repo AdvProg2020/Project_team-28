@@ -56,7 +56,7 @@ public class Customer extends User {
     }
 
     public void useDiscount (Discount discount) throws Exception{
-        discount.useCode();
+        discount.useCode(this);
         discountUsed = discount;
     }
 

@@ -1,6 +1,7 @@
 package main;
 
 import controller.*;
+import graphics.AddDiscountCodePage;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import model.Category;
-import model.Product;
-import model.Property;
+import model.*;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
@@ -100,5 +99,6 @@ public class Main extends Application {
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 500));
         primaryStage.show();
+
     }
 }

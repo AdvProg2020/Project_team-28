@@ -1,32 +1,35 @@
 package graphics;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import com.jfoenix.skins.JFXDatePickerContent;
 import com.jfoenix.skins.JFXTimePickerContent;
 import com.jfoenix.validation.RegexValidator;
 import controller.ManagerController;
 import controller.SellerController;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
+import main.Main;
 import model.Discount;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddDiscountCodePage {
+    public JFXListView allUsers;
     private ManagerController controller;
-    private Stage stage;
+    public static Stage secondPopupStage;
 
     public RegexValidator percentValid;
     public JFXTextField percent;
@@ -39,15 +42,16 @@ public class AddDiscountCodePage {
     public JFXDatePicker startDate;
     public JFXDatePicker finishDate;
     public ArrayList<JFXTextField> allTexts = new ArrayList<>();
+    public ObservableList<String> allSelectedUsers;
 
     public void show(ManagerController controller) throws IOException {
         this.controller = controller;
         URL url = new File("src/main/resources/fxml/AddDiscountCodePage.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        stage = new Stage();
-        stage.setTitle("Add discount code page");
-        stage.setScene(new Scene(root, 250, 350));
-        stage.show();
+        Main.popupStage = new Stage();
+        Main.popupStage.setTitle("Add discount code page");
+        Main.popupStage.setScene(new Scene(root, 250, 350));
+        Main.popupStage.show();
     }
 
     public void initialize () {
@@ -74,6 +78,8 @@ public class AddDiscountCodePage {
                 maxAmount.validate();
         });
 
+        allUsers.setDisable(true);
+
     }
 
     public void generateRandomCode(ActionEvent actionEvent) {
@@ -93,7 +99,7 @@ public class AddDiscountCodePage {
         discount.setMaximumAmount(Integer.parseInt(maxAmount.getText()));
         discount.setRepetitionNumber(Integer.parseInt(reuseNumber.getText()));
         controller.createDiscount(discount);
-        stage.close();
+        Main.popupStage.close();
     }
 
     public void checkFields () throws Exception {
@@ -105,8 +111,24 @@ public class AddDiscountCodePage {
             finishTime.getValue() == null || finishDate.getValue() == null) {
             throw new Exception("Select all the dates and times");
         }
+        if (allUsers.getItems().isEmpty())
+            throw new Exception("Select at least one user");
         if (!Discount.isCodeUnique(code.getText())) {
             throw new Exception("Code is not unique");
         }
+    }
+
+    public void openUsersList(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/main/resources/fxml/AllUsersList.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        secondPopupStage = new Stage();
+        secondPopupStage.setTitle("Select Users");
+        secondPopupStage.setScene(new Scene(root, 500, 600));
+        secondPopupStage.showAndWait();
+
+        AllUsersList list =loader.<AllUsersList>getController();
+        allSelectedUsers = list.getSelectedUsers();
+        allUsers.getItems().addAll(allSelectedUsers);
     }
 }

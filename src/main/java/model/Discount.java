@@ -4,6 +4,7 @@ import controller.Database;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Discount {
@@ -13,10 +14,12 @@ public class Discount {
     private int discountPercent;
     private long maximumAmount;
     private int repetitionNumber;
+    private HashMap<User, Integer> users; // (id, repetitionNumber)
     private String id;
 
     public Discount() {
         this.id = UUID.randomUUID().toString();
+        users = new HashMap<>();
     }
 
     public String getId() {
@@ -69,11 +72,16 @@ public class Discount {
 
     public void setRepetitionNumber(int repetitionNumber) {
         this.repetitionNumber = repetitionNumber;
+        for (User user : users.keySet()) {
+            users.replace(user, repetitionNumber);
+        }
     }
 
-    public void useCode () throws Exception {
-        if (this.repetitionNumber > 0 && validateTime())
-            this.repetitionNumber -= 1;
+    public void useCode (User user) throws Exception {
+        if (!this.users.containsKey(user))
+            throw new Exception("You dont own this code");
+        if (this.users.get(user) > 0 && validateTime())
+            this.users.replace(user, this.users.get(user) - 1);
         else
             throw new Exception("Code Expired");
     }
