@@ -2,24 +2,32 @@ package graphics;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RegexValidator;
+import controller.Database;
 import controller.ManagerController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.Main;
 import model.Discount;
+import model.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class AddDiscountCodePage {
     public JFXListView allUsers;
+    public VBox root;
     private ManagerController controller;
     public static Stage secondPopupStage;
 
@@ -91,6 +99,9 @@ public class AddDiscountCodePage {
         discount.setFinishTime(fullFinishDate);
         discount.setMaximumAmount(Integer.parseInt(maxAmount.getText()));
         discount.setRepetitionNumber(Integer.parseInt(reuseNumber.getText()));
+        for (Object item : allUsers.<String>getItems()) {
+            discount.addUser(Database.getUserByUsername((String) item));
+        }
         controller.createDiscount(discount);
         Main.popupStage.close();
     }
@@ -129,6 +140,31 @@ public class AddDiscountCodePage {
     private void emptyAllUsers () {
         for (int i = allUsers.getItems().size() - 1 ; i >= 0 ; i --) {
             allUsers.getItems().remove(i);
+        }
+    }
+
+    public void loadDiscountFields (Discount loadedDiscount) {
+        code.setText(loadedDiscount.getCode());
+        percent.setText(String.valueOf(loadedDiscount.getDiscountPercent()));
+        startDate.setValue(LocalDate.from(loadedDiscount.getStartTime()));
+        finishDate.setValue(LocalDate.from(loadedDiscount.getFinishTime()));
+        startTime.setValue(LocalTime.from(loadedDiscount.getStartTime()));
+        finishTime.setValue(LocalTime.from(loadedDiscount.getFinishTime()));
+        maxAmount.setText(String.valueOf(loadedDiscount.getMaximumAmount()));
+        reuseNumber.setText(String.valueOf(loadedDiscount.getRepetitionNumber()));
+        for (User user : loadedDiscount.getUsers()) {
+            allUsers.getItems().add(user.getUsername());
+        }
+        disableNodes(root);
+
+    }
+
+    private void disableNodes (Pane pane) {
+        for (Node child : pane.getChildren()) {
+            if (child instanceof Pane)
+                disableNodes((Pane) child);
+            else
+                child.setDisable(true);
         }
     }
 }

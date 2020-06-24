@@ -3,9 +3,7 @@ package model;
 import controller.Database;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class Discount {
     private String code;
@@ -14,12 +12,16 @@ public class Discount {
     private int discountPercent;
     private long maximumAmount;
     private int repetitionNumber;
-    private HashMap<User, Integer> users; // (id, repetitionNumber)
+    private HashMap<String, Integer> users = new HashMap<>(); // (id, repetitionNumber)
     private String id;
 
     public Discount() {
         this.id = UUID.randomUUID().toString();
         users = new HashMap<>();
+    }
+
+    public void addUser (User user) {
+        users.put(user.getId(), repetitionNumber);
     }
 
     public String getId() {
@@ -70,18 +72,30 @@ public class Discount {
         return repetitionNumber;
     }
 
+    public Set<String> getUsersId() {
+        return users.keySet();
+    }
+
+    public ArrayList<User> getUsers () {
+        ArrayList<User> result = new ArrayList<>();
+        for (String id : users.keySet()) {
+            result.add(Database.getUserById(id));
+        }
+        return result;
+    }
+
     public void setRepetitionNumber(int repetitionNumber) {
         this.repetitionNumber = repetitionNumber;
-        for (User user : users.keySet()) {
+        for (String user : users.keySet()) {
             users.replace(user, repetitionNumber);
         }
     }
 
     public void useCode (User user) throws Exception {
-        if (!this.users.containsKey(user))
+        if (!this.users.containsKey(user.getId()))
             throw new Exception("You dont own this code");
-        if (this.users.get(user) > 0 && validateTime())
-            this.users.replace(user, this.users.get(user) - 1);
+        if (this.users.get(user.getId()) > 0 && validateTime())
+            this.users.replace(user.getId(), this.users.get(user.getId()) - 1);
         else
             throw new Exception("Code Expired");
     }
