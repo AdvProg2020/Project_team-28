@@ -35,6 +35,8 @@ public class TopBar extends HBox {
     @FXML
     public JFXButton logoutButton;
     @FXML
+    public JFXButton backButton;
+    @FXML
     public Text userType;
     @FXML
     public Text username;
@@ -72,6 +74,14 @@ public class TopBar extends HBox {
         Sprite registerSprite = new Sprite(40, 1, 9, 9, new File("src/main/resources/images/chest-sprite-sheet.png"), 10);
         ImageView registerSpriteImageView = registerSprite.getImageView();
         registerButton.setGraphic(registerSpriteImageView);
+
+        ImageView backImageView = new ImageView(new Image(new File("src/main/resources/images/back.png").toURI().toString()));
+        backImageView.setFitHeight(40);
+        backImageView.setFitWidth(40);
+        cartImageView.setPreserveRatio(true);
+        backButton.setGraphic(backImageView);
+
+
 
         if (!(Main.controller.getUser() instanceof DefaultUser)) {
             this.getChildren().remove(registerButton);
@@ -145,6 +155,11 @@ public class TopBar extends HBox {
         Main.popupStage.initModality(Modality.WINDOW_MODAL);
         Main.popupStage.initOwner(Main.mainStage);
         Main.popupStage.show();
+    }
+
+    @FXML
+    public void backPressed() {
+        Main.returnMainStage();
     }
 
     @FXML

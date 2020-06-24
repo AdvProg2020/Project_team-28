@@ -113,11 +113,11 @@ public class Product {
         allBuyers.add(customer.getId());
     }
 
-    public void addSeller (User seller) {
+    public void addSeller(User seller) {
         this.sellers.add(seller.getId());
     }
 
-    public void addSpecialProperty (Property specialProperty) {
+    public void addSpecialProperty(Property specialProperty) {
         allSpecialProperties.add(specialProperty.getId());
     }
 
@@ -157,8 +157,8 @@ public class Product {
         return result;
     }
 
-    public ArrayList<Property> getAllSpecialProperties() {
-        ArrayList<Property> result = new ArrayList<>();
+    public ObservableList<Property> getAllSpecialProperties() {
+        ObservableList<Property> result = FXCollections.observableArrayList();
         for (String property : allSpecialProperties) {
             result.add(Database.getPropertyById(property));
         }
@@ -215,19 +215,32 @@ public class Product {
     }
 
     public boolean hasProperty(Property property) {
+        String valueString = property.getValueString().toLowerCase();
+        Long valueLong = property.getValueLong();
         switch (property.getName()) {
+            case "Name":
+                return this.name.toLowerCase().contains(valueString);
+            case "Min Price":
+                return this.price >= valueLong;
+            case "Max Price":
+                return this.price <= valueLong;
+            case "Brand":
+                return this.brand.toLowerCase().contains(valueString);
+            case "Seller":
+                for (String sellerString : sellers) {
+                    User seller = Database.getUserById(sellerString);
+                    assert seller != null;
+                    if (seller.getFullName().toLowerCase().contains(valueString)
+                            || seller.getUsername().toLowerCase().contains(valueString)
+                            || seller.getId().toLowerCase().contains(valueString))
+                        return true;
+                }
+                return false;
+            // following cases aren't handled in graphic:
             case "category":
                 return this.category.equals(property.getValueString());
-            case "name":
-                return this.name.contains(property.getValueString());
             case "inStock":
                 return (this.inStock ? 1 : 0) == property.getValueLong();
-            case "brand":
-                return this.brand.equals(property.getValueString());
-            case "maxPrice":
-                return this.price <= property.getValueLong();
-            case "minPrice":
-                return this.price >= property.getValueLong();
             case "hasOff":
                 return ((this.hasOff()) ? 1 : 0) == property.getValueLong();
         }
@@ -253,7 +266,7 @@ public class Product {
             return price;
     }
 
-    public Property getSpecialPropertyByName (String name) {
+    public Property getSpecialPropertyByName(String name) {
         for (Property property : this.getAllSpecialProperties()) {
             if (property.getName().equals(name))
                 return property;

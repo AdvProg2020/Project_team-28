@@ -78,10 +78,12 @@ public class Category {
         return finalList;
     }
 
-    public ArrayList<Product> getProducts() throws Exception {
+    public ArrayList<Product> getProducts() {
         ArrayList<Product> finalList = new ArrayList<>();
         for (String product : products) {
-            finalList.add(Database.getProductById(product));
+            try {
+                finalList.add(Database.getProductById(product));
+            } catch (Exception ignored) {}
         }
         return finalList;
     }
@@ -109,5 +111,10 @@ public class Category {
 
     public void removeProperty(Property property) {
         this.specialProperties.remove(property.getId());
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

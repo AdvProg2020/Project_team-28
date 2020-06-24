@@ -13,6 +13,18 @@ public class Property {
         this.id = UUID.randomUUID().toString();
     }
 
+    public Property(String name, String valueString) {
+        this.name = name;
+        this.isNumber = false;
+        this.valueString = valueString;
+    }
+
+    public Property(String name, Long valueLong) {
+        this.name = name;
+        this.isNumber = true;
+        this.valueLong = valueLong;
+    }
+
     public Property (Property property) {
         this.name = property.getName();
         this.isNumber = property.isNumber();
@@ -32,7 +44,7 @@ public class Property {
             if (isNumber) {
                 return this.valueLong == ((Property) obj).valueLong;
             }else {
-                return this.valueString.compareTo(((Property) obj).valueString) == 0;
+                return (((Property) obj).valueString).toLowerCase().contains(this.valueString.toLowerCase());
             }
         }
         return false;
