@@ -1,6 +1,8 @@
 package main;
 
 import controller.*;
+import graphics.PurchaseLogList;
+import graphics.SellLogList;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,15 +10,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import model.*;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Main extends Application {
     public static Stage mainStage;

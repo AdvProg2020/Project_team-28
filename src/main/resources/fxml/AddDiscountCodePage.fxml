@@ -46,7 +46,7 @@
         <VBox>
             <JFXButton fx:id="selectUsersButton" text="Select Users" onAction="#openUsersList" styleClass="button"/>
             <Label text="Selected Users" styleClass="secondary-text"/>
-            <JFXListView fx:id="allUsers" maxWidth="600">
+            <JFXListView fx:id="allUsers" maxWidth="600" minHeight="200">
                 <items></items>
             </JFXListView>
         </VBox>

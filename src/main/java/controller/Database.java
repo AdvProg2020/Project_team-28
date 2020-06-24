@@ -43,6 +43,7 @@ public class Database {
         makeDirectory(Property.class);
         makeDirectory(Score.class);
         makeDirectory(PurchaseLog.class);
+        makeDirectory(SellLog.class);
         makeDirectory(Off.class);
         makeDirectory("ProductAd");
     }
@@ -59,6 +60,7 @@ public class Database {
         loadList(allProperties, Property.class);
         loadList(allScores, Score.class);
         loadList(allPurchaseLogs, PurchaseLog.class);
+        loadList(allSellLogs, SellLog.class);
         loadList(allOffs, Off.class);
         loadList(allProductAds, Product.class, "ProductAd");
     }

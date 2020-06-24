@@ -80,22 +80,6 @@ public class PurchaseLog {
 
     @Override
     public String toString() {
-        StringBuilder toReturn = new StringBuilder();
-        HashMap<Product, Integer> allProducts;
-        try {
-            allProducts = this.getProducts();
-        }catch (Exception e){
-            return e.getMessage();
-        }
-        toReturn.append("Log id: ").append(this.id).append("\n")
-                .append("Date and time: ").append(this.date).append("\n")
-                .append("List of Products:").append("\n")
-                .append("Product Id\tProduct name\tSeller\tPrice\tNumber").append("\n");
-        for (Product product : allProducts.keySet()) {
-            toReturn.append(product).append("\t").append(allProducts.get(product)).append("\n");
-        }
-        toReturn.append("Total price: ").append(this.amountPaid).append("\n")
-                .append("Delivery status: ").append(status.toString());
-        return toReturn.toString();
+        return date + "\t" + amountPaid;
     }
 }

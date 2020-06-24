@@ -1,0 +1,31 @@
+.jfx-scroll-pane .main-header {
+    -fx-background-color: #ffd893;
+}
+
+.jfx-scroll-pane .condensed-header {
+    -fx-background-color: #e99400;
+}
+.jfx-list-cell:hover {
+    -fx-background-color: rgba(255, 205, 128, 0.5);
+}
+.jfx-list-cell:selected {
+    -fx-background-color: rgba(255, 148, 0, 0.8);
+}
+.jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: WHITE;
+}
+.jfx-list-cell:focused {
+    -fx-border-color: rgba(255, 180, 7, 0.3);
+    -fx-border-width: 2px;
+}
+.button {
+    -fx-alignment: CENTER;
+    -fx-background-color: rgba(255, 132, 49, 0.50);
+    -fx-pref-width: 100px;
+}
+.button:hover {
+    -fx-background-color: rgba(255, 100, 0, 0.66);
+}
+.button .jfx-rippler {
+    -jfx-rippler-fill: WHITE;
+}

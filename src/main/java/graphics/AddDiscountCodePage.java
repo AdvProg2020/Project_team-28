@@ -5,7 +5,6 @@ import com.jfoenix.validation.RegexValidator;
 import controller.Database;
 import controller.ManagerController;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -24,9 +23,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddDiscountCodePage {
-    public JFXListView allUsers;
+    public JFXListView<String> allUsers;
     public VBox root;
     private ManagerController controller;
     public static Stage secondPopupStage;
@@ -82,16 +82,17 @@ public class AddDiscountCodePage {
                 maxAmount.validate();
         });
 
-        allUsers.setDisable(true);
+        allUsers.setMouseTransparent( true );
+        allUsers.setFocusTraversable( false );
 
     }
 
-    public void generateRandomCode(ActionEvent actionEvent) {
+    public void generateRandomCode() {
         String random = Discount.generateRandomCode();
         code.setText(random);
     }
 
-    public void finishPage(ActionEvent actionEvent) throws Exception {
+    public void finishPage() throws Exception {
         checkFields();
         LocalDateTime fullStartDate = LocalDateTime.of(startDate.getValue(), startTime.getValue());
         LocalDateTime fullFinishDate = LocalDateTime.of(finishDate.getValue(), finishTime.getValue());
@@ -105,7 +106,7 @@ public class AddDiscountCodePage {
         discount.setMaximumAmount(Integer.parseInt(maxAmount.getText()));
         discount.setRepetitionNumber(Integer.parseInt(reuseNumber.getText()));
         for (Object item : allUsers.getItems()) {
-            discount.addUser(Database.getUserByUsername((String) item));
+            discount.addUser(Objects.requireNonNull(Database.getUserByUsername((String) item)));
         }
         controller.createDiscount(discount);
         Main.popupStage.close();
@@ -127,7 +128,7 @@ public class AddDiscountCodePage {
         }
     }
 
-    public void openUsersList(ActionEvent actionEvent) throws IOException {
+    public void openUsersList() throws IOException {
         URL url = new File("src/main/resources/fxml/AllUsersList.fxml").toURI().toURL();
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
@@ -144,8 +145,8 @@ public class AddDiscountCodePage {
     }
 
     private void emptyAllUsers() {
-        for (int i = allUsers.getItems().size() - 1; i >= 0; i--) {
-            allUsers.getItems().remove(i);
+        if (allUsers.getItems().size() > 0) {
+            allUsers.getItems().subList(0, allUsers.getItems().size()).clear();
         }
     }
 

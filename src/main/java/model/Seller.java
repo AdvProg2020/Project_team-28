@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Seller extends User {
     private String companyName;
     private String companyInfo;
-    private ArrayList<String> salesHistory;
+    private ArrayList<String> salesHistory = new ArrayList<>();
     private ArrayList<String> productsToSell;
     private ArrayList<String> allOffs;
 

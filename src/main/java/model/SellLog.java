@@ -56,11 +56,11 @@ public class SellLog {
     }
 
     public Customer getCustomer() {
-        return null;
+        return (Customer) Database.getUserById(customer);
     }
 
     public void setCustomer(Customer customer) {
-
+        this.customer = customer.getId();
     }
 
     public void setStatus(String status) {
@@ -69,5 +69,10 @@ public class SellLog {
 
     public String getStatus() {
         return status.toString();
+    }
+
+    @Override
+    public String toString() {
+        return date + "\t" + Database.getUserById(customer) .getUsername() + "\t" + amountReceived;
     }
 }

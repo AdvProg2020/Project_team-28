@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import java.net.URL?>
+<?import com.jfoenix.controls.JFXButton?>
+<JFXScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+               fx:controller="graphics.PurchaseLogList" prefHeight="450.0" prefWidth="300.0">
+    <VBox>
+        <Label text="Purchase Logs" styleClass="title"/>
+        <JFXListView fx:id="mainList" prefWidth="300" prefHeight="300"/>
+        <HBox>
+            <JFXButton text="Show Log" onAction="#showLog" styleClass="button"/>
+            <JFXButton text="Back" onAction="#closeStage" styleClass="button"/>
+        </HBox>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/LogsList.css"/>
+    </stylesheets>
+
+</JFXScrollPane>

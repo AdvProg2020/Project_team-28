@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="graphics.SingleSellLogPage" prefHeight="200.0" prefWidth="300.0">
+    <VBox translateY="10" spacing="10">
+        <HBox spacing="70">
+            <VBox translateX="30" spacing="5">
+                <Label text="Date: " styleClass="Label"/>
+                <Label text="Amount received: " styleClass="Label"/>
+                <Label text="Amount reduced: " styleClass="Label"/>
+                <Label text="Sold product: " styleClass="Label"/>
+                <Label text="Customer: " styleClass="Label"/>
+                <Label text="Shipping status: " styleClass="Label"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label fx:id="date"/>
+                <Label fx:id="received"/>
+                <Label fx:id="reduced"/>
+                <Label fx:id="product"/>
+                <Label fx:id="customer"/>
+                <Label fx:id="status"/>
+            </VBox>
+        </HBox>
+        <HBox alignment="CENTER" translateX="10">
+            <JFXButton text="Back" styleClass="button" onAction="#closeStage"/>
+        </HBox>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../stylesheets/SingleSellLogPage.css"/>
+    </stylesheets>
+
+
+</Pane>
