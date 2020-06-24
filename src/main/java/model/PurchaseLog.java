@@ -53,10 +53,12 @@ public class PurchaseLog {
         this.discount = discount.getId();
     }
 
-    public HashMap<Product, Integer> getProducts() throws Exception{
+    public HashMap<Product, Integer> getProducts() {
         HashMap<Product, Integer> toReturn = new HashMap<>();
         for (String product : products.keySet()) {
-            toReturn.put(Database.getProductById(product), products.get(product) );
+            try {
+                toReturn.put(Database.getProductById(product), products.get(product) );
+            } catch (Exception ignored) {}
         }
         return toReturn;
     }

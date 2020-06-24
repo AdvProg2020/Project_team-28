@@ -1,20 +1,13 @@
 package main;
 
 import controller.*;
-import graphics.AddDiscountCodePage;
-import graphics.AllUsersList;
-import graphics.ProductAdsThumb;
-import graphics.SlideShow;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import model.*;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
@@ -22,8 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 public class Main extends Application {
     public static Stage mainStage;
@@ -62,7 +55,7 @@ public class Main extends Application {
         e.printStackTrace(new PrintWriter(errorMsg));
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setHeaderText(null);
-        Throwable cause = e.getCause();
+        Throwable cause = e;
         while (cause.getCause() != null)
             cause = cause.getCause();
         error.setContentText(cause.getMessage());
@@ -84,11 +77,18 @@ public class Main extends Application {
 //        }
     }
 
-    public static void setMainStage (String title, String fxmlPath) throws IOException {
-        URL url = new File(fxmlPath).toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.mainStage.setScene(new Scene(root, 620, 450));
-        mainStage.setTitle(title);
+    public static FXMLLoader setMainStage (String title, String fxmlPath) {
+        try {
+            URL url = new File(fxmlPath).toURI().toURL();
+            FXMLLoader fxml = new FXMLLoader(url);
+            Parent root = fxml.load();
+            Main.mainStage.setScene(new Scene(root, 620, 450));
+            mainStage.setTitle(title);
+            return fxml;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void setMainStageSize (int width, int height) {
@@ -105,5 +105,6 @@ public class Main extends Application {
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 500));
         primaryStage.show();
+
     }
 }

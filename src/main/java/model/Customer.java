@@ -9,8 +9,8 @@ public class Customer extends User {
     private HashMap<String, String> address;
     private HashMap<String, Integer> cart = new HashMap<>(); //<productId, Number>
     private Discount discountUsed;
-    private ArrayList<String> purchaseHistory;
-    private ArrayList<String> discountCodes;
+    private ArrayList<String> purchaseHistory = new ArrayList<>();
+    private ArrayList<String> discountCodes = new ArrayList<>();
 
     public Customer(String username, String name, String surname, String email, String phoneNumber, String password, long credit) {
         super(username, name, surname, email, phoneNumber, password, credit);
@@ -112,7 +112,7 @@ public class Customer extends User {
         return toReturn;
     }
 
-    public boolean hasBoughtProduct (Product product) throws Exception {
+    public boolean hasBoughtProduct (Product product) {
         for (String log : purchaseHistory) {
             if (Database.getPurchaseLogById(log).getProducts().containsKey(product))
                 return true;

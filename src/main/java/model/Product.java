@@ -1,6 +1,8 @@
 package model;
 
 import controller.Database;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -147,8 +149,8 @@ public class Product {
         this.status = productStatus.valueOf(status);
     }
 
-    public ArrayList<Property> getAllProperties() {
-        ArrayList<Property> result = new ArrayList<>();
+    public ObservableList<Property> getAllProperties() {
+        ObservableList<Property> result = FXCollections.observableArrayList();
         for (String property : this.allProperties) {
             result.add(Database.getPropertyById(property));
         }

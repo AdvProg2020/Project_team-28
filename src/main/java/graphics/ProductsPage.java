@@ -39,16 +39,8 @@ public class ProductsPage {
             pane.setOnMouseClicked(event -> {
                 // TODO : connect to product page
                 FXMLLoader fxmlLoader;
-                try {
-                    fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/ProductPage.fxml").toURI().toURL());
-                    Parent root = fxmlLoader.load();
-                    ((ProductPage) fxmlLoader.getController()).setProduct(pane.getProduct());
-                    ((ProductPage) fxmlLoader.getController()).initialize();
-                    Main.mainStage.setScene(new Scene(root, 620, 450));
-                    Main.mainStage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                fxmlLoader = Main.setMainStage("Product","src/main/resources/fxml/ProductPage.fxml");
+                ((ProductPage) fxmlLoader.getController()).setProduct(pane.getProduct());
 
                 System.out.println("Let's buy this product");
             });
@@ -63,7 +55,6 @@ public class ProductsPage {
         public Product getProduct() {
             return product;
         }
-
 
         public ProductPane(Product product) {
             this.product = product;
