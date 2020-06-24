@@ -26,7 +26,6 @@ public class Database {
     private static final ArrayList<Off> allOffs = new ArrayList<>();
     private static final ArrayList<Product> allProductAds = new ArrayList<>();
 
-
     public static void loadAllData() {
         makeDirectories();
         loadLists();
@@ -45,6 +44,7 @@ public class Database {
         makeDirectory(Score.class);
         makeDirectory(PurchaseLog.class);
         makeDirectory(Off.class);
+        makeDirectory("ProductAd");
     }
 
     private static void loadLists() {
@@ -60,11 +60,11 @@ public class Database {
         loadList(allScores, Score.class);
         loadList(allPurchaseLogs, PurchaseLog.class);
         loadList(allOffs, Off.class);
-        loadList(allProductAds, Product.class);
+        loadList(allProductAds, Product.class, "ProductAd");
     }
 
-    private static <T> String getPath(Class<T> cls) {
-        return "Database\\" + cls.getSimpleName() + "\\";
+    private static <T> String getPath(String folderName) {
+        return "Database\\" + folderName  + "\\";
     }
 
     private static String getPath(Object object) {
@@ -72,11 +72,19 @@ public class Database {
     }
 
     private static <T> void makeDirectory(Class<T> cls) {
-        new File(getPath(cls)).mkdirs();
+        makeDirectory(cls.getSimpleName());
+    }
+
+    private static <T> void makeDirectory(String folderName) {
+        new File(getPath(folderName)).mkdirs();
     }
 
     private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls) {
-        for (final File fileEntry : new File(getPath(cls)).listFiles()) {
+        loadList(list, cls, cls.getSimpleName());
+    }
+
+    private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls, String folderName) {
+        for (final File fileEntry : new File(getPath(folderName)).listFiles()) {
             try {
                 FileReader fileReader = new FileReader(fileEntry);
                 Object object = new Gson().fromJson(fileReader, cls);
@@ -89,7 +97,11 @@ public class Database {
     }
 
     static void writeObject(Object object, String id) {
-        String fileName = getPath(object) + id + ".json";
+        writeObject(object, id, object.getClass().getSimpleName());
+    }
+
+    static void writeObject(Object object, String id, String folderName) {
+        String fileName = getPath(folderName) + id + ".json";
         FileWriter writer;
         try {
             writer = new FileWriter(fileName);
@@ -101,8 +113,12 @@ public class Database {
     }
 
     private static void deleteObject(Object object, String id) {
+        deleteObject(id, object.getClass().getSimpleName());
+    }
+
+    private static void deleteObject(String id, String folderName) {
         try {
-            File file = new File(getPath(object) + id + ".json");
+            File file = new File(getPath(folderName) + id + ".json");
             file.delete();
         } catch(Exception e) {
             e.printStackTrace();
@@ -167,7 +183,7 @@ public class Database {
 
     public static void addProductToAds (Product product) {
         allProductAds.add(product);
-        writeObject(product, product.getId());
+        writeObject(product, product.getId(), "ProductAd");
     }
 
     public static void remove(User user) {
@@ -181,12 +197,13 @@ public class Database {
     }
 
     public static void remove(JsonElement jsonElement) {
-        allProducts.remove(jsonElement);
+        allRequests.remove(jsonElement);
         deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
     }
 
     public static void removeProductFromAds (Product product) {
         allProductAds.remove(product);
+        deleteObject(product.getId(), "ProductAd");
     }
 
     public static Product getProductById(String id) throws Exception {
