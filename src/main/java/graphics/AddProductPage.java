@@ -147,7 +147,7 @@ public class AddProductPage {
                 ((JFXTextField) child).setText(thisProperty.getValue());
         }
         if (loadedProduct.getProductImageAddress() != null)
-            productImage.setImage(new Image(loadedProduct.getProductImageAddress()));
+            productImage.setImage(loadedProduct.getProductImage());
         disableTextFields();
         selectCategoryButton.setDisable(true);
         browseButton.setDisable(true);
