@@ -3,7 +3,10 @@ package model;
 import controller.Database;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.UUID;
 
 public class Discount {
     private String code;
@@ -104,9 +107,9 @@ public class Discount {
         return startTime.isBefore(LocalDateTime.now()) && finishTime.isAfter(LocalDateTime.now());
     }
 
-    public static boolean isCodeUnique (String code) {
+    public static boolean isCodeUnique(String code, Discount checkDiscount) {
         for (Discount discount : Database.getAllDiscountCodes()) {
-            if (discount.getCode().equals(code))
+            if (discount.getCode().equals(code) && discount != checkDiscount)
                 return false;
         }
         return true;

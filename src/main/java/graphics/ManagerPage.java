@@ -54,7 +54,7 @@ public class ManagerPage {
         // TODO connect to discount manager menu
         backgroundMediaView.getMediaPlayer().stop();
         System.out.println("Manager Controller: " + Main.managerController);
-        new AddDiscountCodePage().show(Main.managerController);
+        new ManageDiscountsPage().show(null);
     }
 
     public void manageUsersButtonPressed(ActionEvent actionEvent) throws IOException {

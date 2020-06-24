@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import main.Main;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
 
@@ -102,7 +103,7 @@ public class ProfilePage {
         }
     }
 
-    public void viewDiscountsPressed(ActionEvent actionEvent) {
-        //TODO view discount codes
+    public void viewDiscountsPressed(ActionEvent actionEvent) throws IOException {
+        ManageDiscountsPage.show(Main.controller.getUser());
     }
 }

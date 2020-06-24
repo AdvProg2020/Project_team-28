@@ -44,7 +44,9 @@ public class AddDiscountCodePage {
     public ArrayList<JFXTextField> allTexts = new ArrayList<>();
     public ObservableList<String> allSelectedUsers;
 
-    public void show(ManagerController controller) throws IOException {
+    public Discount discount;
+
+    public static AddDiscountCodePage show(ManagerController controller) throws IOException {
         URL url = new File("src/main/resources/fxml/AddDiscountCodePage.fxml").toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader(url);
         Parent root = fxmlLoader.load();
@@ -53,6 +55,7 @@ public class AddDiscountCodePage {
         Main.popupStage.setTitle("Add discount code page");
         Main.popupStage.setScene(new Scene(root, 250, 350));
         Main.popupStage.show();
+        return ((AddDiscountCodePage) fxmlLoader.getController());
     }
 
     public void initialize () {
@@ -92,14 +95,16 @@ public class AddDiscountCodePage {
         checkFields();
         LocalDateTime fullStartDate = LocalDateTime.of(startDate.getValue(), startTime.getValue());
         LocalDateTime fullFinishDate = LocalDateTime.of(finishDate.getValue(), finishTime.getValue());
-        Discount discount = new Discount();
+        if (discount == null) {
+            discount = new Discount();
+        }
         discount.setCode(code.getText());
         discount.setDiscountPercent(Integer.parseInt(percent.getText()));
         discount.setStartTime(fullStartDate);
         discount.setFinishTime(fullFinishDate);
         discount.setMaximumAmount(Integer.parseInt(maxAmount.getText()));
         discount.setRepetitionNumber(Integer.parseInt(reuseNumber.getText()));
-        for (Object item : allUsers.<String>getItems()) {
+        for (Object item : allUsers.getItems()) {
             discount.addUser(Database.getUserByUsername((String) item));
         }
         controller.createDiscount(discount);
@@ -117,7 +122,7 @@ public class AddDiscountCodePage {
         }
         if (allUsers.getItems().isEmpty())
             throw new Exception("Select at least one user");
-        if (!Discount.isCodeUnique(code.getText())) {
+        if (!Discount.isCodeUnique(code.getText(), discount)) {
             throw new Exception("Code is not unique");
         }
     }
@@ -137,13 +142,15 @@ public class AddDiscountCodePage {
         if (allSelectedUsers != null)
             allUsers.getItems().addAll(allSelectedUsers);
     }
-    private void emptyAllUsers () {
-        for (int i = allUsers.getItems().size() - 1 ; i >= 0 ; i --) {
+
+    private void emptyAllUsers() {
+        for (int i = allUsers.getItems().size() - 1; i >= 0; i--) {
             allUsers.getItems().remove(i);
         }
     }
 
-    public void loadDiscountFields (Discount loadedDiscount) {
+    public void loadDiscountFields(Discount loadedDiscount, boolean viewOnly) {
+        discount = loadedDiscount;
         code.setText(loadedDiscount.getCode());
         percent.setText(String.valueOf(loadedDiscount.getDiscountPercent()));
         startDate.setValue(LocalDate.from(loadedDiscount.getStartTime()));
@@ -155,8 +162,9 @@ public class AddDiscountCodePage {
         for (User user : loadedDiscount.getUsers()) {
             allUsers.getItems().add(user.getUsername());
         }
-        disableNodes(root);
-
+        if (viewOnly) {
+            disableNodes(root);
+        }
     }
 
     private void disableNodes (Pane pane) {

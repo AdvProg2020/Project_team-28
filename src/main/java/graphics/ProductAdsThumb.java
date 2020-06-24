@@ -1,24 +1,14 @@
 package graphics;
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import model.Off;
+import javafx.scene.layout.VBox;
 import model.Product;
 
-import javax.imageio.plugins.tiff.TIFFImageReadParam;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Paths;
 
 public class ProductAdsThumb extends VBox {
