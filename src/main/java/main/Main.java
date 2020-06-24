@@ -3,12 +3,16 @@ package main;
 import controller.*;
 import graphics.AddDiscountCodePage;
 import graphics.AllUsersList;
+import graphics.ProductAdsThumb;
+import graphics.SlideShow;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.*;
 import view.Menu;
@@ -19,6 +23,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.List;
 
 public class Main extends Application {
     public static Stage mainStage;
@@ -100,6 +105,5 @@ public class Main extends Application {
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 620, 500));
         primaryStage.show();
-
     }
 }

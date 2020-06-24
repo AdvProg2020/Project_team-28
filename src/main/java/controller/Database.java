@@ -23,6 +23,7 @@ public class Database {
     private static final ArrayList<PurchaseLog> allPurchaseLogs = new ArrayList<>();
     private static final ArrayList<SellLog> allSellLogs = new ArrayList<>();
     private static final ArrayList<Off> allOffs = new ArrayList<>();
+    private static final ArrayList<Product> allProductAds = new ArrayList<>();
 
 
     public static void loadAllData() {
@@ -58,6 +59,7 @@ public class Database {
         loadList(allScores, Score.class);
         loadList(allPurchaseLogs, PurchaseLog.class);
         loadList(allOffs, Off.class);
+        loadList(allProductAds, Product.class);
     }
 
     private static <T> String getPath(Class<T> cls) {
@@ -162,6 +164,11 @@ public class Database {
         writeObject(off, off.getId());
     }
 
+    public static void addProductToAds (Product product) {
+        allProductAds.add(product);
+        writeObject(product, product.getId());
+    }
+
     public static void remove(User user) {
         allUsers.remove(user);
         deleteObject(user, user.getId());
@@ -175,6 +182,10 @@ public class Database {
     public static void remove(JsonElement jsonElement) {
         allProducts.remove(jsonElement);
         deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
+    }
+
+    public static void removeProductFromAds (Product product) {
+        allProductAds.remove(product);
     }
 
     public static Product getProductById(String id) throws Exception {
@@ -304,6 +315,10 @@ public class Database {
 
     public static ArrayList<Product> getAllProducts() {
         return allProducts;
+    }
+
+    public static ArrayList<Product> getAllProductAds () {
+        return allProductAds;
     }
 
     public static ArrayList<User> getAllUsers() {

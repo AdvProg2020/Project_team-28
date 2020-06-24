@@ -16,6 +16,7 @@ public class Off {
     private int discountAmount;
     private int percentage;
     private int maxAmount;
+    private String id;
 
     public Off() {
 
@@ -32,8 +33,6 @@ public class Off {
     public int getMaxAmount() {
         return maxAmount;
     }
-
-    private String id;
 
     public Off(List<String> products, String offStatus, String startTime, String finishTime, String discountAmount, String seller) {
         //Done

@@ -1,0 +1,11 @@
+.offLabel {
+    -fx-font-weight: bold;
+    -fx-text-fill: RED;
+    -fx-border-width: medium;
+    -fx-border-color: RED;
+    -fx-rotate: 20;
+}
+.offImage {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-rotate: -20;
+}

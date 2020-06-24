@@ -43,6 +43,13 @@
     -fx-spacing: 50px;
 }
 
+.imageLabel {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 16;
+    -fx-padding: -10px;
+    -fx-font-weight: BOLDER;
+}
+
 .my-button {
     -fx-start-margin: 20px 20px 20px 20px;
     -fx-end-margin: 20px 20px 20px 20px;

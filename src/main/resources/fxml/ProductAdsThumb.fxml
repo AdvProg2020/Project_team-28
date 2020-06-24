@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import java.net.URL?>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" spacing="10">
+    <HBox>
+        <Pane>
+            <ImageView fx:id="image" fitWidth="250" fitHeight="250"/>
+            <ImageView fx:id="offImage" visible="false" fitHeight="100" preserveRatio="true" styleClass="offImage"/>
+        </Pane>
+    </HBox>
+    <HBox>
+        <VBox>
+            <Label fx:id="name" styleClass="imageLabel"/>
+            <Label fx:id="price" styleClass="imageLabel"/>
+        </VBox>
+        <Label fx:id="offLabel" visible="false" styleClass="offLabel"/>
+    </HBox>
+
+
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/ProductAdsThumb.css"/>
+    </stylesheets>
+
+</fx:root>
