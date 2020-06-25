@@ -14,12 +14,9 @@ public class CustomerController extends UserController {
         return customerLoggedOn;
     }
 
-    public CustomerController(User user, ProductController productController) throws Exception {
+    public CustomerController(Customer user, ProductController productController) {
         super(user, productController);
-        if (user instanceof Customer)
-            this.customerLoggedOn = (Customer) user;
-        else
-            throw new Exception("User logged on is not a customer :|");
+        this.customerLoggedOn = (Customer) user;
     }
 
     public static Customer newDefaultUser() {
@@ -47,12 +44,12 @@ public class CustomerController extends UserController {
             return "Succesfully purchased\n" +
                     "Total price: " + totalPrice + "\n" +
                     "Your current credit: " + customerLoggedOn.getCredit();
-        }catch (Exception e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    public String viewCartProducts() throws Exception{
+    public String viewCartProducts() throws Exception {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();
@@ -69,7 +66,7 @@ public class CustomerController extends UserController {
         return "Not a Valid Id";
     }
 
-    public void addToCart() throws Exception{
+    public void addToCart() throws Exception {
         if (!productController.getCurrentProduct().isInStock())
             throw new Exception("Product is unavailable");
         String productId = productController.getCurrentProduct().getId();
@@ -104,7 +101,7 @@ public class CustomerController extends UserController {
             removeFromCart(productId);
     }
 
-    public long getTotalPrice() throws Exception{
+    public long getTotalPrice() throws Exception {
         long totalPrice = 0;
         for (Product product : customerLoggedOn.getCart().keySet()) {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
@@ -130,7 +127,7 @@ public class CustomerController extends UserController {
             customerLoggedOn.useDiscount(thisDiscount);
     }
 
-    public long purchase() throws Exception{
+    public long purchase() throws Exception {
         long totalPrice = getTotalPrice();
         customerLoggedOn.payCredit(totalPrice);
         PurchaseLog newLog = createPurchaseLog();
@@ -147,13 +144,13 @@ public class CustomerController extends UserController {
         return totalPrice;
     }
 
-    public void addCustomerToProducts () throws Exception {
+    public void addCustomerToProducts() throws Exception {
         for (Product product : this.customerLoggedOn.getCart().keySet()) {
             product.addBuyer(this.customerLoggedOn);
         }
     }
 
-    private PurchaseLog createPurchaseLog () throws Exception{
+    private PurchaseLog createPurchaseLog() throws Exception {
         PurchaseLog log = new PurchaseLog();
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
@@ -178,17 +175,17 @@ public class CustomerController extends UserController {
             throw new Exception("Invalid log id");
     }
 
-    public void rateProduct (String productId, String score) throws Exception{
+    public void rateProduct(String productId, String score) throws Exception {
         Score newScore = new Score(customerLoggedOn, Integer.parseInt(score), Database.getProductById(productId));
         Database.add(newScore);
         Database.getProductById(productId).addScore(newScore);
     }
 
-    public String viewBalance () {
+    public String viewBalance() {
         return Long.toString(customerLoggedOn.getCredit());
     }
 
-    public ArrayList<String> viewDiscountCodes () {
+    public ArrayList<String> viewDiscountCodes() {
         ArrayList<String> result = new ArrayList<>();
         for (Discount code : customerLoggedOn.getDiscountCodes())
             result.add(code.getCode());

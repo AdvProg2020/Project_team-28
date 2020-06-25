@@ -58,6 +58,10 @@
     -fx-background-color: #00BCD4;
 }
 
+.my-button:disabled {
+    -fx-background-color: #868686;
+}
+
 .spinner {
     -fx-start-margin: 0px;
     -fx-end-margin: 0px;
@@ -69,19 +73,46 @@
     -fx-pref-width: 55px;
 }
 
-.spinner .increment-arrow-button,
-.spinner .decrement-arrow-button {
+.spinner {
     -fx-body-color: #00BCD4;
+    -fx-background-color: #00BCD4;
+}
+.spinner:disabled {
+    -fx-body-color: #868686;
+    -fx-background-color: #868686;
 }
 
-.spinner .increment-arrow-button:hover,
-.spinner .decrement-arrow-button:hover {
-    -fx-body-color: ladder(#444, #00BCD4 0%, #007089 100%);
+.table-view {
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: #868686;
+    -fx-background-color: inherit;
+    -fx-border-width: 0 0 0 0;
 }
 
-.spinner .increment-arrow-button:hover:pressed,
-.spinner .decrement-arrow-button:hover:pressed,
-.spinner .increment-arrow-button:pressed,
-.spinner .decrement-arrow-button:pressed {
-    -fx-body-color: ladder(#AAA, #00BCD4 0%, #007089 100%);
+.column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+.table-row-cell {
+    -fx-text-fill: black;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 15px;
+    -fx-background-color: transparent;;
+}
+.table-cell{
+    -fx-text-fill: black;
+    -fx-border-color: #AAAAAA;
+    -fx-border-width: 1;
+    -fx-border-insets: 3;
+    -fx-alignment: center-left;
+    -fx-start-margin: 10;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background: -fx-control-background;
+    -fx-background-insets: 0, 0 0 0 0;
 }

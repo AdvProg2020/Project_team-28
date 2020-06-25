@@ -3,13 +3,15 @@ package model;
 import controller.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.nio.file.Paths;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Product {
@@ -47,7 +49,7 @@ public class Product {
         this.brand = brand;
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
-        this.category = Database.getCategoryByName(category).getId();
+        this.category = Objects.requireNonNull(Database.getCategoryByName(category)).getId();
         this.productImageAddress = null;
     }
 
@@ -60,9 +62,24 @@ public class Product {
     }
 
     public Image getProductImage() {
-        if (productImageAddress == null)
-            productImageAddress = new File("src/main/resources/images/no-product.png").getAbsolutePath();
-        return new Image(Paths.get(productImageAddress).toUri().toString());
+        if (productImageAddress == null) {
+            try {
+                productImageAddress = new File("src/main/resources/images/no-product.png").toURI().toURL().toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return new Image(productImageAddress);
+    }
+
+    public ImageView setImageView(ImageView imageView) {
+        if (quantity <= 0) {
+            ColorAdjust grayscale = new ColorAdjust();
+            grayscale.setSaturation(-1);
+            imageView.setEffect(grayscale);
+        }
+        imageView.setImage(getProductImage());
+        return imageView;
     }
 
     public ArrayList<String> getAllScores() {
@@ -188,9 +205,11 @@ public class Product {
     }
 
     public double getAverageScore() {
+        if (allScores.size() == 0)
+            return 0;
         float averageResult = 0;
         for (String score : allScores)
-            averageResult += Database.getScoreById(score).getScore();
+            averageResult += Objects.requireNonNull(Database.getScoreById(score)).getScore();
         return averageResult / allScores.size();
     }
 
@@ -216,7 +235,7 @@ public class Product {
 
     public boolean hasProperty(Property property) {
         String valueString = property.getValueString().toLowerCase();
-        Long valueLong = property.getValueLong();
+        long valueLong = property.getValueLong();
         switch (property.getName()) {
             case "Name":
                 return this.name.toLowerCase().contains(valueString);

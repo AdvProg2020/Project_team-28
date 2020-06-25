@@ -19,7 +19,7 @@ public class Off {
     private String id;
 
     public Off() {
-
+        this.id = UUID.randomUUID().toString();
     }
 
     public int getPercentage() {
@@ -56,7 +56,9 @@ public class Off {
         for (String productId : products) {
             Product product = Database.getProductById(productId);
             product.setOff(id);
+            Database.remove(product);
             Database.add(product);
+            System.out.println(product.getOff());
         }
     }
 

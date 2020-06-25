@@ -1,9 +1,7 @@
 package graphics;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import controller.Database;
@@ -16,26 +14,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.Main;
 import model.Category;
 import model.Product;
 import model.Property;
-import model.Seller;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class AddProductPage {
     public JFXButton selectCategoryButton;
     public JFXTextField quantity;
+    public VBox mainBox;
     private SellerController controller;
     public RequiredFieldValidator requiredVal;
     public RegexValidator numberValid;
@@ -54,16 +51,20 @@ public class AddProductPage {
     private ArrayList<JFXTextField> allTextFields;
     private Product loadedProduct;
     private String selectedCategory;
+    private String imageUri;
 
-    public void show(SellerController controller) throws IOException {
+    public AddProductPage show(SellerController controller) throws IOException {
         System.out.println("show: " + controller);
         setController(controller);
         URL url = new File("src/main/resources/fxml/AddProductPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        Parent root = fxmlLoader.load();
+        ((AddProductPage) fxmlLoader.getController()).setController(controller);
         Main.popupStage = new Stage();
         Main.popupStage.setTitle("Add Product Page");
         Main.popupStage.setScene(new Scene(root, 250, 350));
         Main.popupStage.show();
+        return (AddProductPage) fxmlLoader.getController();
     }
 
     public void setController (SellerController controller) {
@@ -104,14 +105,15 @@ public class AddProductPage {
         });
     }
 
-    public void browseForFile(ActionEvent actionEvent) {
+    public void browseForFile(ActionEvent actionEvent) throws MalformedURLException {
         fileChooser = new FileChooser();
         String[] extensions = {"png", "jpeg", "jpg", "bmp"};
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files",
                 "*.png", "*.jpeg", "*.jpg", "*.bmp"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
-            selectedImage = new Image(Paths.get(file.getAbsolutePath()).toUri().toString());
+            imageUri = file.toURI().toURL().toString();
+            selectedImage = new Image(imageUri);
             filePath.setText(file.getAbsolutePath());
             productImage.setImage(selectedImage);
         }
@@ -126,7 +128,7 @@ public class AddProductPage {
         popupStage.setScene(new Scene(root, 300, 400));
         popupStage.showAndWait();
 
-        ProductsList list =loader.<ProductsList>getController();
+        ProductsList list = loader.getController();
         loadedProduct = list.getSelectedProduct();
         if (loadedProduct != null)
             loadProductFields();
@@ -153,6 +155,23 @@ public class AddProductPage {
         browseButton.setDisable(true);
     }
 
+    public void setLoadedProduct(Product product) {
+        loadedProduct = product;
+        loadProductFields();
+    }
+
+    public void disableNodes(Pane pane) {
+        if (pane == null) {
+            pane = mainBox;
+        }
+        for (Node child : pane.getChildren()) {
+            if (child instanceof Pane)
+                disableNodes((Pane) child);
+            else
+                child.setDisable(true);
+        }
+    }
+
     private void disableTextFields() {
         for (JFXTextField field : allTextFields) {
             field.setEditable(false);
@@ -169,7 +188,7 @@ public class AddProductPage {
         popupStage.setScene(new Scene(root, 300, 400));
         popupStage.showAndWait();
 
-        CategoriesList list =loader.<CategoriesList>getController();
+        CategoriesList list = loader.getController();
         selectedCategory = list.getSelectedCategory();
         if (selectedCategory == null)
             return;
@@ -211,6 +230,7 @@ public class AddProductPage {
             Product product = new Product(name.getText(), brand.getText(),
                     price.getText(), controller.getUser().getId(), categoryName.getText());
             product.setQuantity(Integer.parseInt(quantity.getText()));
+            product.setProductImageAddress(imageUri);
             for (Node child : categoryBox.getChildren()) {
                 if (child instanceof JFXTextField) {
                     Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));

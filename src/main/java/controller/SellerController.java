@@ -72,15 +72,14 @@ public class SellerController extends UserController {
 
     public void addProduct (Product product) {
         Gson request = new Gson();
-        JsonElement jsonElement = request.toJsonTree(product);
-        jsonElement.getAsJsonObject().addProperty("status", "sent"); //send, accepted, rejected
+        JsonElement jsonElement = new JsonObject();
+        jsonElement.getAsJsonObject().addProperty("requestStatus", "pending"); //pending, accepted, rejected
         jsonElement.getAsJsonObject().addProperty("request-type", "add product");
         jsonElement.getAsJsonObject().addProperty("owner", currentSeller.getId());
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        jsonElement.getAsJsonObject().add("product", request.toJsonTree(product));
         System.out.println("Request Sent:\n" + jsonElement);
         Database.add(jsonElement.getAsJsonObject());
-        //It has to be removed
-        Database.add(product);
     }
 
     public void deleteProduct(String productId) throws Exception {
