@@ -1,3 +1,6 @@
+.root {
+    -fx-background-color: white;
+}
 
 .title {
     -fx-font-family: "Comic Sans MS";

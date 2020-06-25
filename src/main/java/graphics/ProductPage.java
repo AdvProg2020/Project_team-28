@@ -52,12 +52,13 @@ public class ProductPage {
 
         // TODO set TableView style in css
         tableView.setItems(product.getAllProperties());
+        tableView.setItems(product.getAllSpecialProperties());
         tableView.setMaxWidth(300);
-        nameColumn.setPrefWidth(150);
-        valueColumn.setPrefWidth(150);
+        nameColumn.setPrefWidth(148);
+        valueColumn.setPrefWidth(148);
 
-        tableView.setFixedCellSize(50);
-        tableView.setMaxHeight(tableView.getFixedCellSize() * (tableView.getItems().size()));
+        tableView.setFixedCellSize(25);
+        tableView.setMaxHeight(tableView.getFixedCellSize() * (tableView.getItems().size() + 1.1));
         tableView.getColumns().addAll(nameColumn, valueColumn);
 
         specSection.getChildren().add(tableView);

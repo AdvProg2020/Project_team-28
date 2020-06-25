@@ -8,6 +8,12 @@
 <?import javafx.scene.control.ScrollPane?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RegexValidator?>
+<?import com.jfoenix.validation.NumberValidator?>
+<?import com.jfoenix.validation.IntegerValidator?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductsPage" fitToWidth="true">
@@ -17,7 +23,24 @@
 
         <Label style="-fx-font-size: 20px; -fx-label-padding: 20px">Products</Label>
 
-        <GridPane fx:id="gridPane"/>
+        <HBox fillHeight="false" style="-fx-padding: 0 0 30 0;">
+            <GridPane fx:id="gridPane" hgap="10" vgap="10" style="-fx-padding: 0 30 30 30;" minWidth="420"/>
+            <VBox styleClass="bobble" prefWidth="170" spacing="20">
+                <Label>Select a category:</Label>
+                <ChoiceBox fx:id="choiceBox" prefWidth="150">
+                </ChoiceBox>
+                <Separator/>
+                <Label>Filters:</Label>
+                <IntegerValidator fx:id="numberValidator" message="Enter a valid number"/>
+                <VBox fx:id="filtersBox" spacing="35">
+                    <JFXTextField fx:id="nameField" promptText="Name" labelFloat="true"/>
+                    <JFXTextField fx:id="minPrice" promptText="Min Price" labelFloat="true"/>
+                    <JFXTextField fx:id="maxPrice" promptText="Max Price" labelFloat="true"/>
+                    <JFXTextField fx:id="brandField" promptText="Brand" labelFloat="true"/>
+                    <JFXTextField fx:id="sellerField" promptText="Seller" labelFloat="true"/>
+                </VBox>
+            </VBox>
+        </HBox>
 
         <stylesheets>
             <URL value="@../stylesheets/ProductsPage.css"/>

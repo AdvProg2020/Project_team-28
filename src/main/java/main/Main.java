@@ -1,8 +1,6 @@
 package main;
 
 import controller.*;
-import graphics.PurchaseLogList;
-import graphics.SellLogList;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -10,21 +8,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import model.*;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.Stack;
 
 public class Main extends Application {
     public static Stage mainStage;
@@ -34,6 +27,7 @@ public class Main extends Application {
     public static ManagerController managerController;
     public static CustomerController customerController;
     public static ProductController productController;
+    private static Stack<Scene> sceneStack = new Stack<>();
 
     public Main() {
 
@@ -53,7 +47,8 @@ public class Main extends Application {
         if (Platform.isFxApplicationThread()) {
             showErrorDialog(e);
             System.err.println("An unexpected error occurred in " + t);
-        } else {
+        }
+        else {
             System.err.println("An unexpected error occurred in " + t);
         }
     }
@@ -85,12 +80,13 @@ public class Main extends Application {
 //        }
     }
 
-    public static FXMLLoader setMainStage (String title, String fxmlPath) {
+    public static FXMLLoader setMainStage(String title, String fxmlPath) {
         try {
             URL url = new File(fxmlPath).toURI().toURL();
             FXMLLoader fxml = new FXMLLoader(url);
-            Parent root = fxml.load();
-            Main.mainStage.setScene(new Scene(root, 620, 450));
+            Scene scene = new Scene(fxml.load(), 620, 450);
+            sceneStack.push(scene);
+            Main.mainStage.setScene(scene);
             mainStage.setTitle(title);
             return fxml;
         } catch (IOException e) {
@@ -99,7 +95,14 @@ public class Main extends Application {
         return null;
     }
 
-    public static void setMainStageSize (int width, int height) {
+    public static void returnMainStage() {
+        if (sceneStack.size() < 2)
+            return;
+        sceneStack.pop();
+        Main.mainStage.setScene(sceneStack.peek());
+    }
+
+    public static void setMainStageSize(int width, int height) {
         mainStage.setWidth(width);
         mainStage.setHeight(height);
     }
@@ -108,11 +111,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
         mainStage = primaryStage;
-        URL url = new File("src/main/resources/fxml/MainMenu.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        primaryStage.setTitle("");
-        primaryStage.setScene(new Scene(root, 620, 500));
+        Main.setMainStage("", "src/main/resources/fxml/MainMenu.fxml");
         primaryStage.show();
-
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Filter {
-    private ArrayList<Property> properties;
+    private ArrayList<Property> properties = new ArrayList<>();
     //some other properties are:
     //category, name, inStock(number property), brand, maxPrice, minPrice
     private String id;
@@ -20,6 +20,15 @@ public class Filter {
                 return false;
         }
         return true;
+    }
+
+    public ArrayList<Product> apply (ArrayList<Product> products) {
+        ArrayList<Product> result = new ArrayList<>();
+        for (Product product : products) {
+            if (isValid(product))
+                result.add(product);
+        }
+        return result;
     }
 
     public void addRestriction (Property property) {

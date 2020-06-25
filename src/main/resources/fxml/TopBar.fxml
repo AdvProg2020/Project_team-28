@@ -12,6 +12,7 @@
     <JFXButton fx:id="loginButton" text="" onAction="#loginPressed"/>
     <JFXButton fx:id="registerButton" text="" onAction="#registerPressed"/>
     <JFXButton fx:id="cartButton" text="" onAction="#cartPressed"/>
+    <JFXButton fx:id="backButton" text="" onAction="#backPressed"/>
     <HBox spacing="10" alignment="CENTER">
         <Text fx:id="userType"/>
         <Separator orientation="VERTICAL"/>

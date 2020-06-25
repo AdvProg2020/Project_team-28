@@ -79,6 +79,8 @@ public class SellerController extends UserController {
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         System.out.println("Request Sent:\n" + jsonElement);
         Database.add(jsonElement.getAsJsonObject());
+        //It has to be removed
+        Database.add(product);
     }
 
     public void deleteProduct(String productId) throws Exception {
