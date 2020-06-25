@@ -2,14 +2,14 @@
     -fx-font-weight: Bold;
     -fx-text-alignment: LEFT;
 }
-.button {
+.handleButton {
     -fx-alignment: CENTER;
     -fx-background-color: rgba(255, 132, 49, 0.50);
 }
-.button:hover {
+.handleButton:hover {
     -fx-background-color: rgba(255, 100, 0, 0.66);
 }
-.button .jfx-rippler {
+.handleButton .jfx-rippler {
     -jfx-rippler-fill: WHITE;
 }
 Pane {

@@ -16,8 +16,8 @@
         <TopBar/>
         <HBox spacing="5.0">
             <VBox alignment="CENTER" prefHeight="350.0" prefWidth="250.0">
-                <JFXButton mnemonicParsing="false" styleClass="button" text="Profile" onAction="#profileButtonPressed"/>
-                <JFXButton mnemonicParsing="false" styleClass="button" text="Products"
+                <JFXButton mnemonicParsing="false" styleClass="handleButton" text="Profile" onAction="#profileButtonPressed"/>
+                <JFXButton mnemonicParsing="false" styleClass="handleButton" text="Products"
                            onAction="#productsButtonPressed"/>
             </VBox>
 

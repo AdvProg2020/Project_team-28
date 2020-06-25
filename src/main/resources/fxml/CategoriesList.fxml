@@ -13,7 +13,7 @@
             fx:controller="graphics.CategoriesList" prefHeight="400.0" prefWidth="300.0">
     <VBox alignment="CENTER">
         <JFXListView fx:id="mainList"/>
-        <JFXButton fx:id="finish" text="Finish" onAction="#finishSelection" styleClass="button"/>
+        <JFXButton fx:id="finish" text="Finish" onAction="#finishSelection" styleClass="handleButton"/>
     </VBox>
 
     <stylesheets>

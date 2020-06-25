@@ -68,3 +68,18 @@
     -fx-pref-height: 20;
     -fx-pref-width: 20;
 }
+.button .jfx-rippler {
+    -jfx-rippler-fill: rgba(186, 186, 186, 0.56);
+}
+.handleButton {
+    -jfx-button-type: RAISED;
+    -fx-background-color: rgba(183, 111, 255, 0.68);
+    -fx-pref-width: 130px;
+    -fx-pref-height: 30px;
+}
+.handleButton:hover {
+    -fx-background-color: rgb(177, 66, 255);
+}
+.handleButton .jfx-rippler {
+    -jfx-rippler-fill: #cfafff;
+}

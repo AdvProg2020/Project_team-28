@@ -16,8 +16,8 @@
         <Label text="Purchase Logs" styleClass="title"/>
         <JFXListView fx:id="mainList" prefWidth="300" prefHeight="300"/>
         <HBox>
-            <JFXButton text="Show Log" onAction="#showLog" styleClass="button"/>
-            <JFXButton text="Back" onAction="#closeStage" styleClass="button"/>
+            <JFXButton text="Show Log" onAction="#showLog" styleClass="handleButton"/>
+            <JFXButton text="Back" onAction="#closeStage" styleClass="handleButton"/>
         </HBox>
     </VBox>
 

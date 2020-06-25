@@ -79,6 +79,14 @@ public class CustomerController extends UserController {
             customerLoggedOn.addToCart(productId);
     }
 
+    public void setQuantityInCart (Product product, int quantity) {
+        customerLoggedOn.setQuantityInCart(product.getId(), quantity);
+    }
+
+    public int getQuantityInCart (Product product) {
+        return customerLoggedOn.getProductQuantityInCart(product.getId());
+    }
+
     public void addToCart(String productId) {
         if (customerLoggedOn.isProductInCart(productId))
             customerLoggedOn.increaseNumberInCart(productId);

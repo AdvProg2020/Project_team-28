@@ -55,6 +55,10 @@ public class Customer extends User {
         }
     }
 
+    public int getProductQuantityInCart (String productId) {
+        return cart.get(productId);
+    }
+
     public void useDiscount (Discount discount) throws Exception{
         discount.useCode(this);
         discountUsed = discount;
@@ -62,6 +66,8 @@ public class Customer extends User {
 
     public int decreaseNumberInCart (String productId) {
         if (isProductInCart(productId)) {
+            if (cart.get(productId) <= 1)
+                return cart.get(productId);
             cart.put(productId, cart.get(productId) - 1);
         }
         return cart.get(productId);
@@ -83,6 +89,10 @@ public class Customer extends User {
             finalCart.put(Database.getProductById(item), cart.get(item));
         }
         return finalCart;
+    }
+
+    public void setQuantityInCart (String productId, int quantity) {
+        cart.replace(productId, quantity);
     }
 
     public boolean isProductInCart(String productId) {

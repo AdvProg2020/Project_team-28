@@ -86,7 +86,7 @@ public class ProductPage {
                 Integer.parseInt(spinner.getValue().toString()));
         if (Main.customerController == null)
             throw new Exception("Please login first");
-        new Cart(Main.customerController).show();
+        new Cart().show(Main.customerController);
     }
 
     public void addCommentPressed() {

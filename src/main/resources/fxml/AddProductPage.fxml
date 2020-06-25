@@ -23,7 +23,7 @@
         <Text styleClass="title" text="Add Product"/>
         <RequiredFieldValidator fx:id="requiredVal" message="This item is required"/>
         <RegexValidator fx:id="numberValid" message="Enter A Valid Number"/>
-        <JFXButton styleClass="button" fx:id="loadButton" text="Load A Product" onAction="#loadProduct"/>
+        <JFXButton styleClass="handleButton" fx:id="loadButton" text="Load A Product" onAction="#loadProduct"/>
         <HBox spacing="10">
             <JFXTextField fx:id="name" promptText="Product Name" labelFloat="true"/>
             <JFXTextField fx:id="brand" promptText="Product Brand" labelFloat="true"/>
@@ -38,7 +38,7 @@
 
         <VBox>
             <Label text="Select Category" styleClass="secondary-text" fx:id="categoryName"/>
-            <JFXButton styleClass="button" onAction="#selectCategory" text="Choose" fx:id="selectCategoryButton"/>
+            <JFXButton styleClass="handleButton" onAction="#selectCategory" text="Choose" fx:id="selectCategoryButton"/>
             <VBox fx:id="categoryBox">
                 <children>
                 </children>
@@ -49,7 +49,7 @@
 
         <VBox>
             <Label text="Select product image" styleClass="secondary-text" fx:id="filePath"/>
-            <JFXButton fx:id="browseButton" styleClass="button" onAction="#browseForFile" text="Browse"/>
+            <JFXButton fx:id="browseButton" styleClass="handleButton" onAction="#browseForFile" text="Browse"/>
             <Label text="preview:" styleClass="secondary-text"/>
             <ImageView fx:id="productImage" fitHeight="80" fitWidth="80"/>
         </VBox>

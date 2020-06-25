@@ -23,7 +23,7 @@
         <HBox>
             <Group>
                 <JFXTextField promptText="Code" labelFloat="true" fx:id="code"/>
-                <JFXButton text="generate" fx:id="generateButton" onAction="#generateRandomCode" layoutX="90" styleClass="button"/>
+                <JFXButton text="generate" fx:id="generateButton" onAction="#generateRandomCode" layoutX="90" styleClass="handleButton"/>
             </Group>
             <RegexValidator fx:id="percentValid" message="Enter a valid number"/>
             <JFXTextField promptText="Percent" labelFloat="true" fx:id="percent"/>
@@ -44,13 +44,13 @@
         </HBox>
         <Separator/>
         <VBox>
-            <JFXButton fx:id="selectUsersButton" text="Select Users" onAction="#openUsersList" styleClass="button"/>
+            <JFXButton fx:id="selectUsersButton" text="Select Users" onAction="#openUsersList" styleClass="handleButton"/>
             <Label text="Selected Users" styleClass="secondary-text"/>
             <JFXListView fx:id="allUsers" maxWidth="600" minHeight="200">
                 <items></items>
             </JFXListView>
         </VBox>
-        <JFXButton text="Finish" styleClass="button" fx:id="finishButton" onAction="#finishPage"/>
+        <JFXButton text="Finish" styleClass="handleButton" fx:id="finishButton" onAction="#finishPage"/>
     </VBox>
 
     <stylesheets>

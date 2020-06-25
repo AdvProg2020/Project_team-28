@@ -30,7 +30,7 @@
             </VBox>
         </HBox>
         <HBox alignment="CENTER" translateX="10">
-            <JFXButton text="Back" styleClass="button" onAction="#closeStage"/>
+            <JFXButton text="Back" styleClass="handleButton" onAction="#closeStage"/>
         </HBox>
     </VBox>
 
