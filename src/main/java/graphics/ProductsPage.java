@@ -18,10 +18,11 @@ import model.Product;
 import model.Property;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ProductsPage {
     public GridPane gridPane;
-    public ChoiceBox<Category> choiceBox;
+    public ChoiceBox<Category> categoryBox;
     public VBox filtersBox;
     public JFXTextField nameField;
     public JFXTextField minPrice;
@@ -29,6 +30,8 @@ public class ProductsPage {
     public JFXTextField brandField;
     public JFXTextField sellerField;
     public IntegerValidator numberValidator;
+    public ChoiceBox<String> sortBox;
+    Comparator<Product> comparator;
     ArrayList<Product> products = Database.getAllProducts();
     ArrayList<JFXTextField> fields = new ArrayList<>();
     Filter filter = new Filter();
@@ -37,15 +40,38 @@ public class ProductsPage {
     public void initialize() {
 
         ArrayList<Category> categories = Database.getAllCategories();
-        choiceBox.setItems(FXCollections.observableArrayList(categories));
+        categoryBox.setItems(FXCollections.observableArrayList(categories));
 
-        choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            setProducts(categories.get(newValue.intValue()).getProducts());
+        categoryBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            resetProducts(categories.get(newValue.intValue()).getProducts());
             makeFilters((categories.get(newValue.intValue())));
         });
 
-        this.setProducts(products);
+        setComparator("Name");
+        sortBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            setComparator(sortBox.getItems().get(newValue.intValue()));
+            resetProducts(products);
+        });
+
+        resetProducts(products);
         makeFilters(null);
+    }
+
+    private void setComparator(String type) {
+        switch (type) {
+            case "Name":
+                comparator = Comparator.comparing(Product::getName);
+                break;
+            case "Price (low to high)":
+                comparator = Comparator.comparing(Product::getPrice);
+                break;
+            case "Price (high to low)":
+                comparator = Comparator.comparing(Product::getPrice).reversed();
+                break;
+            case "Rating":
+                comparator = Comparator.comparing(Product::getAverageScore).reversed();
+                break;
+        }
     }
 
     private void makeFilters(Category category) {
@@ -94,16 +120,16 @@ public class ProductsPage {
                             Long.parseLong(field.getText().trim())));
             }
         }
-        setProducts(products);
+        resetProducts(products);
     }
 
-    private void setProducts(ArrayList<Product> products) {
+    private void resetProducts(ArrayList<Product> products) {
         this.products = products;
         ArrayList<Product> productsToShow = filter.apply(products);
         int counter = 0;
 
         gridPane.getChildren().clear();
-
+        productsToShow.sort(comparator);
         for (Product product : productsToShow) {
             ProductPane pane = new ProductPane(product);
 
@@ -115,6 +141,7 @@ public class ProductsPage {
                 // TODO : connect to product page
                 FXMLLoader fxmlLoader;
                 fxmlLoader = Main.setMainStage(pane.product.getName(), "src/main/resources/fxml/ProductPage.fxml");
+                assert fxmlLoader != null;
                 ((ProductPage) fxmlLoader.getController()).setProduct(pane.getProduct());
 
                 System.out.println("Let's buy this product");

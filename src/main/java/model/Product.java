@@ -11,6 +11,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Product {
@@ -48,7 +49,7 @@ public class Product {
         this.brand = brand;
         this.price = Long.parseLong(price);
         this.sellers.add(seller);
-        this.category = Database.getCategoryByName(category).getId();
+        this.category = Objects.requireNonNull(Database.getCategoryByName(category)).getId();
         this.productImageAddress = null;
     }
 
@@ -199,9 +200,11 @@ public class Product {
     }
 
     public double getAverageScore() {
+        if (allScores.size() == 0)
+            return 0;
         float averageResult = 0;
         for (String score : allScores)
-            averageResult += Database.getScoreById(score).getScore();
+            averageResult += Objects.requireNonNull(Database.getScoreById(score)).getScore();
         return averageResult / allScores.size();
     }
 
