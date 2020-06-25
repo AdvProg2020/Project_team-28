@@ -25,7 +25,7 @@ public class LoginMenu {
     public void SignInPressed(ActionEvent actionEvent) throws Exception {
         Main.controller.loginUser(username.getText(), password.getText());
         if (Main.controller.getUser().getClass() == Customer.class) {
-            Main.customerController = new CustomerController(Main.controller.getUser(), Main.productController);
+            Main.customerController = new CustomerController((Customer)Main.controller.getUser(), Main.productController);
         }
         if (Main.controller.getUser().getClass() == Seller.class) {
             Main.sellerController = new SellerController(Main.controller.getUser(), Main.productController);

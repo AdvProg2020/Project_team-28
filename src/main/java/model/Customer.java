@@ -46,7 +46,10 @@ public class Customer extends User {
     }
 
     public void addToCart(String productId, int quantity) {
-        cart.put(productId, quantity);
+        if (cart.containsKey(productId))
+            cart.put(productId, cart.get(productId) + quantity);
+        else
+            cart.put(productId, quantity);
     }
 
     public void increaseNumberInCart (String productId) {
@@ -87,6 +90,12 @@ public class Customer extends User {
 
     public boolean isProductInCart(String productId) {
         return this.cart.containsKey(productId);
+    }
+
+    public int getProductInCart(String productId) {
+        if (cart.containsKey(productId))
+            return cart.get(productId);
+        return 0;
     }
 
     public void payCredit (long cost) throws Exception{

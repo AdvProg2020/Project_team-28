@@ -29,11 +29,15 @@ public class ProductPage {
     public VBox specSection;
     private Product product;
 
+    public ImageView productImage;
+
+    public VBox infoBox;
+    public Label productName;
+    public Label productInfo;
     public Rating rating;
     public Spinner spinner;
-    public Label productInfo;
-    public ImageView productImage;
-    public Label productName;
+    public SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory;
+    public Button cartButton;
 
     @FXML
     public void initialize() {
@@ -41,8 +45,23 @@ public class ProductPage {
             return;
         productName.setText(product.getName());
         productInfo.setText(product.getDescription());
-        productImage.setImage(product.getProductImage());
+        product.setImageView(productImage);
         rating.setRate(product);
+
+        if (product.getQuantity() <= 0) {
+            spinner.setDisable(true);
+            cartButton.setDisable(true);
+            infoBox.getChildren().add(new Label("Sorry, product is out of stock"));
+        }
+        if (!(Main.controller.getUser() instanceof Customer)) {
+            spinner.setDisable(true);
+            cartButton.setDisable(true);
+            infoBox.getChildren().add(new Label("Only customers can offer products"));
+        }
+        else {
+            valueFactory.setMax(product.getQuantity()
+                    - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
+        }
 
         TableColumn<Property, String> nameColumn = new TableColumn<>("Property");
         TableColumn<Property, String> valueColumn = new TableColumn<>("Value");
@@ -50,16 +69,17 @@ public class ProductPage {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        // TODO set TableView style in css
         tableView.setItems(product.getAllProperties());
         tableView.setItems(product.getAllSpecialProperties());
-        tableView.setMaxWidth(300);
-        nameColumn.setPrefWidth(148);
-        valueColumn.setPrefWidth(148);
 
-        tableView.setFixedCellSize(25);
-        tableView.setMaxHeight(tableView.getFixedCellSize() * (tableView.getItems().size() + 1.1));
+        tableView.setMaxWidth(300);
+        nameColumn.setPrefWidth(145);
+        valueColumn.setPrefWidth(145);
+
+        tableView.setFixedCellSize(50);
+        tableView.setMaxHeight(tableView.getFixedCellSize() * (tableView.getItems().size()));
         tableView.getColumns().addAll(nameColumn, valueColumn);
+        tableView.setPlaceholder(new Label("No specification available"));
 
         specSection.getChildren().add(tableView);
 
@@ -81,12 +101,12 @@ public class ProductPage {
         initialize();
     }
 
-    public void cartPressed(ActionEvent actionEvent) throws Exception {
+    public void cartPressed(ActionEvent actionEvent) {
         ((Customer) Main.controller.getUser()).addToCart(product.getId(),
                 Integer.parseInt(spinner.getValue().toString()));
-        if (Main.customerController == null)
-            throw new Exception("Please login first");
         new Cart(Main.customerController).show();
+        valueFactory.setMax(product.getQuantity()
+                - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
     }
 
     public void addCommentPressed() {

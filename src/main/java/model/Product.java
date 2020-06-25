@@ -3,6 +3,7 @@ package model;
 import controller.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -63,6 +64,16 @@ public class Product {
         if (productImageAddress == null)
             productImageAddress = new File("src/main/resources/images/no-product.png").getAbsolutePath();
         return new Image(Paths.get(productImageAddress).toUri().toString());
+    }
+
+    public ImageView setImageView(ImageView imageView) {
+        if (quantity <= 0) {
+            ColorAdjust grayscale = new ColorAdjust();
+            grayscale.setSaturation(-1);
+            imageView.setEffect(grayscale);
+        }
+        imageView.setImage(getProductImage());
+        return imageView;
     }
 
     public ArrayList<String> getAllScores() {
@@ -216,7 +227,7 @@ public class Product {
 
     public boolean hasProperty(Property property) {
         String valueString = property.getValueString().toLowerCase();
-        Long valueLong = property.getValueLong();
+        long valueLong = property.getValueLong();
         switch (property.getName()) {
             case "Name":
                 return this.name.toLowerCase().contains(valueString);

@@ -22,23 +22,23 @@
                 </ImageView>
             </VBox>
             <Separator orientation="VERTICAL"/>
-            <VBox spacing="10">
+            <VBox fx:id="infoBox" spacing="10">
                 <Label fx:id="productName" styleClass="title"/>
                 <Label fx:id="productInfo" wrapText="true"/>
                 <Rating fx:id="rating"/>
                 <HBox spacing="10">
                     <Spinner fx:id="spinner" BorderPane.alignment="CENTER" promptText="1">
                         <valueFactory>
-                            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="99"/>
+                            <SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="valueFactory" min="0" max="99"/>
                         </valueFactory>
                     </Spinner>
-                    <Button styleClass="my-button" onAction="#cartPressed">Add to cart</Button>
+                    <Button fx:id="cartButton" styleClass="my-button" onAction="#cartPressed">Add to cart</Button>
                 </HBox>
             </VBox>
         </HBox>
         <Separator/>
         <VBox fx:id="specSection" styleClass="section">
-            <Label styleClass="title" alignment="TOP_CENTER">Specs</Label>
+            <Label styleClass="title" alignment="TOP_CENTER">Specifications</Label>
         </VBox>
         <Separator/>
         <VBox styleClass="section">
@@ -50,7 +50,6 @@
 
 
     <stylesheets>
-        <!--        <URL value="@../stylesheets/main.css"/>-->
         <URL value="@../stylesheets/ProductPage.css"/>
     </stylesheets>
 

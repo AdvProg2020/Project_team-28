@@ -137,7 +137,7 @@ public class ProductsPage {
             this.setPrefSize(prefSize, prefSize);
             this.setPadding(new Insets(10));
 
-            ImageView imageView = new ImageView(product.getProductImage());
+            ImageView imageView = product.setImageView(new ImageView());
             imageView.setFitWidth(prefSize - 20);
             imageView.setFitHeight(prefSize - 20);
 

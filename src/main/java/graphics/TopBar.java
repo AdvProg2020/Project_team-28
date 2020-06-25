@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Main;
+import model.Customer;
 import model.exception.DefaultUser;
 
 import java.io.File;
@@ -126,7 +127,7 @@ public class TopBar extends HBox {
         Main.controller.logout();
         Main.sellerController = null;
         Main.managerController = null;
-        Main.customerController = new CustomerController(Main.controller.getUser(), Main.productController);
+        Main.customerController = new CustomerController((Customer)Main.controller.getUser(), Main.productController);
         Main.setMainStage("Main Menu", "src/main/resources/fxml/MainMenu.fxml");
     }
 
@@ -142,6 +143,8 @@ public class TopBar extends HBox {
         Main.popupStage.initModality(Modality.WINDOW_MODAL);
         Main.popupStage.initOwner(Main.mainStage);
         Main.popupStage.show();
+        if (Main.controller.getUser() instanceof Customer)
+            Main.customerController = new CustomerController((Customer)Main.controller.getUser(), Main.productController);
     }
 
     @FXML
