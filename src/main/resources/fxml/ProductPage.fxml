@@ -17,7 +17,7 @@
         <TopBar/>
         <HBox styleClass="section">
             <VBox>
-                <ImageView fx:id="productImage" fitWidth="250.0" preserveRatio="true">
+                <ImageView fx:id="productImage" fitWidth="250.0" preserveRatio="true" onMouseClicked="#imagePressed">
                     <Image url="@../images/no-product.png"/>
                 </ImageView>
             </VBox>
