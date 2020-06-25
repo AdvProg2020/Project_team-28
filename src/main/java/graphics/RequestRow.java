@@ -2,6 +2,7 @@ package graphics;
 
 import com.google.gson.JsonElement;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import controller.Database;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -17,7 +18,7 @@ public class RequestRow extends RecursiveTreeObject<RequestRow> {
 
     public RequestRow(JsonElement json) {
         title.setValue(json.getAsJsonObject().get("request-type").getAsString());
-        owner.setValue(json.getAsJsonObject().get("owner").getAsString());
+        owner.setValue(Database.getUserById(json.getAsJsonObject().get("owner").getAsString()).getUsername());
         status.setValue(json.getAsJsonObject().get("requestStatus").getAsString());
         jsonElement = json;
     }

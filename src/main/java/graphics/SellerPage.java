@@ -25,7 +25,7 @@ public class SellerPage {
 
     public void profilePageButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        Main.setMainStage("Ptofile", "src/main/resources/fxml/Profile.fxml");
+        Main.setMainStage("Profile", "src/main/resources/fxml/Profile.fxml");
     }
 
     public void newProductButtonPressed(ActionEvent actionEvent) {

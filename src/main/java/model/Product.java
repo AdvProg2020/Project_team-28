@@ -4,10 +4,8 @@ import controller.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -62,7 +60,7 @@ public class Product {
     public Image getProductImage() {
         if (productImageAddress == null)
             productImageAddress = new File("src/main/resources/images/no-product.png").getAbsolutePath();
-        return new Image(Paths.get(productImageAddress).toUri().toString());
+        return new Image(productImageAddress);
     }
 
     public ArrayList<String> getAllScores() {

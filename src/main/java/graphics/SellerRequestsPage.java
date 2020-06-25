@@ -17,6 +17,10 @@ public class SellerRequestsPage {
         treeTableView = new JFXTreeTableView<RequestRow>();
         TreeItem<RequestRow> addOff = new TreeItem<>(new RequestRow("add off"));
         TreeItem<RequestRow> editOff = new TreeItem<>(new RequestRow("edit off"));
+        TreeItem<RequestRow> addProduct = new TreeItem<>(new RequestRow("add product"));
+        TreeItem<RequestRow> editProduct = new TreeItem<>(new RequestRow("edit product"));
+        TreeItem<RequestRow> removeProduct = new TreeItem<>(new RequestRow("remove product"));
+        TreeItem<RequestRow> ads = new TreeItem<>(new RequestRow("advertisement"));
 
         for (JsonElement json : Main.sellerController.viewRequests()) {
             if (!json.getAsJsonObject().get("owner").getAsString().equals(Main.controller.getUser().getId())) {
@@ -28,6 +32,18 @@ public class SellerRequestsPage {
                     break;
                 case "edit off":
                     editOff.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                    break;
+                case "add product":
+                    addProduct.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                    break;
+                case "edit product":
+                    editProduct.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                    break;
+                case "remove product":
+                    removeProduct.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                    break;
+                case "advertisement":
+                    ads.getChildren().add(new TreeItem<>(new RequestRow(json)));
                     break;
             }
         }
@@ -48,7 +64,7 @@ public class SellerRequestsPage {
         treeTableView.getColumns().add(columnStatus);
 
         TreeItem<RequestRow> requests = new TreeItem<>(new RequestRow("requests"));
-        requests.getChildren().addAll(addOff, editOff);
+        requests.getChildren().addAll(addOff, editOff, addProduct, editProduct, removeProduct, ads);
         treeTableView.setRoot(requests);
 
 

@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import model.*;
 import model.exception.UserNotFoundException;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,8 +103,12 @@ public class ManagerController extends UserController {
                     editOff(jsonElement);
                     break;
                 case "add product":
-                    break;
                 case "edit product":
+                    Database.add(new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));
+                    break;
+                case "remove product":
+                    Database.remove(new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));
+                case "advertisement":
                     break;
                 default:
             }

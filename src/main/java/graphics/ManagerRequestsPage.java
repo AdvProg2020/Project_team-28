@@ -1,5 +1,6 @@
 package graphics;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import main.Main;
+import model.Product;
 
 import java.io.File;
 
@@ -27,6 +29,10 @@ public class ManagerRequestsPage {
         treeTableView = new JFXTreeTableView<RequestRow>();
         TreeItem<RequestRow> addOff = new TreeItem<>(new RequestRow("add off"));
         TreeItem<RequestRow> editOff = new TreeItem<>(new RequestRow("edit off"));
+        TreeItem<RequestRow> addProduct = new TreeItem<>(new RequestRow("add product"));
+        TreeItem<RequestRow> editProduct = new TreeItem<>(new RequestRow("edit product"));
+        TreeItem<RequestRow> removeProduct = new TreeItem<>(new RequestRow("remove product"));
+        TreeItem<RequestRow> ads = new TreeItem<>(new RequestRow("advertisement"));
 
         for (JsonElement json : (Main.managerController).viewRequests()) {
             if (json.getAsJsonObject().get("requestStatus").getAsString().equals("pending")) {
@@ -37,9 +43,22 @@ public class ManagerRequestsPage {
                     case "edit off":
                         editOff.getChildren().add(new TreeItem<>(new RequestRow(json)));
                         break;
+                    case "add product":
+                        addProduct.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                        break;
+                    case "edit product":
+                        editProduct.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                        break;
+                    case "remove product":
+                        removeProduct.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                        break;
+                    case "advertisement":
+                        ads.getChildren().add(new TreeItem<>(new RequestRow(json)));
+                        break;
                 }
             }
         }
+
         TreeTableColumn<RequestRow, String> columnTitle = new TreeTableColumn<>("Title");
         TreeTableColumn<RequestRow, String> columnOwner = new TreeTableColumn<>("Owner");
         TreeTableColumn<RequestRow, String> columnStatus = new TreeTableColumn<>("Status");
@@ -57,7 +76,7 @@ public class ManagerRequestsPage {
         treeTableView.getColumns().add(columnStatus);
 
         TreeItem<RequestRow> requests = new TreeItem<>(new RequestRow("requests"));
-        requests.getChildren().addAll(addOff, editOff);
+        requests.getChildren().addAll(addOff, editOff, addProduct, editProduct, removeProduct, ads);
         treeTableView.setRoot(requests);
 
         addButtonToTable();
@@ -119,13 +138,22 @@ public class ManagerRequestsPage {
                                 case ("edit off"):
                                 case ("add off"):
                                     try {
-                                        FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/SaleRequestPage.fxml").toURI().toURL());
+                                        FXMLLoader fxmlLoader = Main.setMainStage("Sale Request", "src/main/resources/fxml/SaleRequestPage.fxml");
                                         ((SaleRequestPage) fxmlLoader.getController()).setJsonElement(requestRow.jsonElement);
-                                        Main.setMainStage("Sale Request", "src/main/resources/fxml/SaleRequestPage.fxml");
                                     } catch (Exception e) {
                                         Main.showErrorDialog(e);
                                     }
                                     break;
+                                case "add product":
+                                case "edit product":
+                                case "remove product":
+                                    try {
+                                        AddProductPage controller = new AddProductPage().show(Main.sellerController);
+                                        controller.setLoadedProduct(new Gson().fromJson(requestRow.jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));
+                                        controller.disableNodes(null);
+                                    } catch (Exception e) {
+                                        Main.showErrorDialog(e);
+                                    }
                             }
                         });
                     }
