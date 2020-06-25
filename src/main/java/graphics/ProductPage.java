@@ -17,6 +17,7 @@ import main.Main;
 import model.*;
 import model.exception.DefaultUser;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -98,10 +99,10 @@ public class ProductPage {
         initialize();
     }
 
-    public void cartPressed(ActionEvent actionEvent) {
+    public void cartPressed(ActionEvent actionEvent) throws IOException {
         ((Customer) Main.controller.getUser()).addToCart(product.getId(),
                 Integer.parseInt(spinner.getValue().toString()));
-        new Cart(Main.customerController).show();
+        new Cart().show(Main.customerController);
         valueFactory.setMax(product.getQuantity()
                 - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
     }
