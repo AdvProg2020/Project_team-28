@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.nio.file.Paths;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -62,9 +62,14 @@ public class Product {
     }
 
     public Image getProductImage() {
-        if (productImageAddress == null)
-            productImageAddress = new File("src/main/resources/images/no-product.png").getAbsolutePath();
-        return new Image(Paths.get(productImageAddress).toUri().toString());
+        if (productImageAddress == null) {
+            try {
+                productImageAddress = new File("src/main/resources/images/no-product.png").toURI().toURL().toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return new Image(productImageAddress);
     }
 
     public ImageView setImageView(ImageView imageView) {
