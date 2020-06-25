@@ -8,6 +8,12 @@
 <?import javafx.scene.control.ScrollPane?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.IntegerValidator?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductsPage" fitToWidth="true">
@@ -17,7 +23,43 @@
 
         <Label style="-fx-font-size: 20px; -fx-label-padding: 20px">Products</Label>
 
-        <GridPane fx:id="gridPane"/>
+        <HBox fillHeight="false" style="-fx-padding: 0 0 30 0;">
+            <VBox>
+                <GridPane fx:id="gridPane" hgap="10" vgap="10" minWidth="420" style="-fx-padding: 0 30 30 30;"/>
+            </VBox>
+            <VBox>
+                <VBox styleClass="bobble" prefWidth="170" spacing="20">
+                    <!--                    Category -->
+                    <Label>Select a category:</Label>
+                    <ChoiceBox fx:id="categoryBox" prefWidth="150">
+                    </ChoiceBox>
+                    <Separator/>
+                    <!--                    Sort -->
+                    <Label>Sort by:</Label>
+                    <ChoiceBox fx:id="sortBox" prefWidth="150" value="Name">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Name"/>
+                                <String fx:value="Price (low to high)"/>
+                                <String fx:value="Price (high to low)"/>
+                                <String fx:value="Rating"/>
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Separator/>
+                    <!--                    Filters -->
+                    <Label>Filters:</Label>
+                    <IntegerValidator fx:id="numberValidator" message="Enter a valid number"/>
+                    <VBox fx:id="filtersBox" spacing="35">
+                        <JFXTextField fx:id="nameField" promptText="Name" labelFloat="true"/>
+                        <JFXTextField fx:id="minPrice" promptText="Min Price" labelFloat="true"/>
+                        <JFXTextField fx:id="maxPrice" promptText="Max Price" labelFloat="true"/>
+                        <JFXTextField fx:id="brandField" promptText="Brand" labelFloat="true"/>
+                        <JFXTextField fx:id="sellerField" promptText="Seller" labelFloat="true"/>
+                    </VBox>
+                </VBox>
+            </VBox>
+        </HBox>
 
         <stylesheets>
             <URL value="@../stylesheets/ProductsPage.css"/>

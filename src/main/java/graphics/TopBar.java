@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Main;
+import model.Customer;
 import model.exception.DefaultUser;
 
 import java.io.File;
@@ -34,6 +35,8 @@ public class TopBar extends HBox {
     public JFXButton cartButton;
     @FXML
     public JFXButton logoutButton;
+    @FXML
+    public JFXButton backButton;
     @FXML
     public Text userType;
     @FXML
@@ -72,6 +75,14 @@ public class TopBar extends HBox {
         Sprite registerSprite = new Sprite(40, 1, 9, 9, new File("src/main/resources/images/chest-sprite-sheet.png"), 10);
         ImageView registerSpriteImageView = registerSprite.getImageView();
         registerButton.setGraphic(registerSpriteImageView);
+
+        ImageView backImageView = new ImageView(new Image(new File("src/main/resources/images/back.png").toURI().toString()));
+        backImageView.setFitHeight(40);
+        backImageView.setFitWidth(40);
+        cartImageView.setPreserveRatio(true);
+        backButton.setGraphic(backImageView);
+
+
 
         if (!(Main.controller.getUser() instanceof DefaultUser)) {
             this.getChildren().remove(registerButton);
@@ -116,7 +127,7 @@ public class TopBar extends HBox {
         Main.controller.logout();
         Main.sellerController = null;
         Main.managerController = null;
-        Main.customerController = new CustomerController(Main.controller.getUser(), Main.productController);
+        Main.customerController = new CustomerController((Customer)Main.controller.getUser(), Main.productController);
         Main.setMainStage("Main Menu", "src/main/resources/fxml/MainMenu.fxml");
     }
 
@@ -132,6 +143,8 @@ public class TopBar extends HBox {
         Main.popupStage.initModality(Modality.WINDOW_MODAL);
         Main.popupStage.initOwner(Main.mainStage);
         Main.popupStage.show();
+        if (Main.controller.getUser() instanceof Customer)
+            Main.customerController = new CustomerController((Customer)Main.controller.getUser(), Main.productController);
     }
 
     @FXML
@@ -145,6 +158,11 @@ public class TopBar extends HBox {
         Main.popupStage.initModality(Modality.WINDOW_MODAL);
         Main.popupStage.initOwner(Main.mainStage);
         Main.popupStage.show();
+    }
+
+    @FXML
+    public void backPressed() {
+        Main.returnMainStage();
     }
 
     @FXML

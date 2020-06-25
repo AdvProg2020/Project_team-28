@@ -10,7 +10,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,8 +17,6 @@ import main.Main;
 import model.*;
 import model.exception.DefaultUser;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -29,11 +26,15 @@ public class ProductPage {
     public VBox specSection;
     private Product product;
 
+    public ImageView productImage;
+
+    public VBox infoBox;
+    public Label productName;
+    public Label productInfo;
     public Rating rating;
     public Spinner spinner;
-    public Label productInfo;
-    public ImageView productImage;
-    public Label productName;
+    public SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory;
+    public Button cartButton;
 
     @FXML
     public void initialize() {
@@ -41,8 +42,23 @@ public class ProductPage {
             return;
         productName.setText(product.getName());
         productInfo.setText(product.getDescription());
-        productImage.setImage(product.getProductImage());
+        product.setImageView(productImage);
         rating.setRate(product);
+
+        if (product.getQuantity() <= 0) {
+            spinner.setDisable(true);
+            cartButton.setDisable(true);
+            infoBox.getChildren().add(new Label("Sorry, product is out of stock"));
+        }
+        if (!(Main.controller.getUser() instanceof Customer)) {
+            spinner.setDisable(true);
+            cartButton.setDisable(true);
+            infoBox.getChildren().add(new Label("Only customers can offer products"));
+        }
+        else {
+            valueFactory.setMax(product.getQuantity()
+                    - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
+        }
 
         TableColumn<Property, String> nameColumn = new TableColumn<>("Property");
         TableColumn<Property, String> valueColumn = new TableColumn<>("Value");
@@ -50,15 +66,17 @@ public class ProductPage {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        // TODO set TableView style in css
         tableView.setItems(product.getAllProperties());
+        tableView.setItems(product.getAllSpecialProperties());
+
         tableView.setMaxWidth(300);
-        nameColumn.setPrefWidth(150);
-        valueColumn.setPrefWidth(150);
+        nameColumn.setPrefWidth(145);
+        valueColumn.setPrefWidth(145);
 
         tableView.setFixedCellSize(50);
         tableView.setMaxHeight(tableView.getFixedCellSize() * (tableView.getItems().size()));
         tableView.getColumns().addAll(nameColumn, valueColumn);
+        tableView.setPlaceholder(new Label("No specification available"));
 
         specSection.getChildren().add(tableView);
 
@@ -80,12 +98,12 @@ public class ProductPage {
         initialize();
     }
 
-    public void cartPressed(ActionEvent actionEvent) throws Exception {
+    public void cartPressed(ActionEvent actionEvent) {
         ((Customer) Main.controller.getUser()).addToCart(product.getId(),
                 Integer.parseInt(spinner.getValue().toString()));
-        if (Main.customerController == null)
-            throw new Exception("Please login first");
         new Cart(Main.customerController).show();
+        valueFactory.setMax(product.getQuantity()
+                - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
     }
 
     public void addCommentPressed() {
@@ -99,7 +117,15 @@ public class ProductPage {
         }
         Comment comment = new Comment(parent, Main.controller.getUser(), product, "", "");
         FXMLLoader fxmlLoader = Main.setMainStage("Add Comment", "src/main/resources/fxml/AddCommentPage.fxml");
+        assert fxmlLoader != null;
         ((AddCommentPage) fxmlLoader.getController()).setComment(comment);
+    }
+
+    public void imagePressed() {
+        FXMLLoader fxml = Main.setPopupStage("Image Zoom", "src/main/resources/fxml/ZoomPage.fxml");
+        assert fxml != null;
+        ((ZoomPage) fxml.getController()).show(product.getName(), product.getProductImageAddress());
+        //Main.setPopupStageSize((productImage.getFitWidth())+70,(productImage.getFitHeight())+150);
     }
 
     public class CommentPane extends HBox {

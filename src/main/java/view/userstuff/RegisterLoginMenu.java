@@ -4,6 +4,7 @@ import controller.CustomerController;
 import controller.ManagerController;
 import controller.SellerController;
 import controller.UserController;
+import model.Customer;
 import view.Conversation;
 import view.Filler;
 import view.Menu;
@@ -65,7 +66,7 @@ public class RegisterLoginMenu extends Menu {
                 if ("manager".equals(controller.getUser().getType())) {
                     new ManagerMenu(new ManagerController(controller.getUser(), Menu.productController));
                 } else if ("customer".equals(controller.getUser().getType())) {
-                    new CustomerMenu(new CustomerController(controller.getUser(), Menu.productController));
+                    new CustomerMenu(new CustomerController((Customer)controller.getUser(), Menu.productController));
                     //TODO renew default account
                 } else if ("seller".equals(controller.getUser().getType())) {
                     new SellerMenu(new SellerController(controller.getUser(), Menu.productController));
