@@ -51,6 +51,9 @@ public class SlideShow extends Pane {
     }
 
     public void initialize() throws InterruptedException, IOException {
+        if (Database.getAllProductAds().size() == 0) {
+            addPage(null);
+        }
         for (Product product : Database.getAllProductAds()) {
             addPage(new ProductAdsThumb(product));
         }

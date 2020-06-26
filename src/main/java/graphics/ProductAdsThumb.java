@@ -37,15 +37,19 @@ public class ProductAdsThumb extends VBox {
     }
 
     public void initialize () {
-        Image productImage = product.getProductImage();
-        image.setImage(productImage);
-        name.setText(product.getName());
-        price.setText(String.valueOf(product.getPrice()));
-        if (product.hasOff()) {
-            offImage.setImage(new Image(Paths.get("src/main/resources/images/offImage.png").toUri().toString()));
-            offLabel.setText(getOffPercentage() + "% OFF!");
-            offLabel.setVisible(true);
-            offImage.setVisible(true);
+        if (product != null) {
+            Image productImage = product.getProductImage();
+            image.setImage(productImage);
+            name.setText(product.getName());
+            price.setText(String.valueOf(product.getPrice()));
+            if (product.hasOff()) {
+                offImage.setImage(new Image(Paths.get("src/main/resources/images/offImage.png").toUri().toString()));
+                offLabel.setText(getOffPercentage() + "% OFF!");
+                offLabel.setVisible(true);
+                offImage.setVisible(true);
+            }
+        } else {
+            image.setImage(new Image("src/main/resources/images/shop-logo.png"));
         }
     }
     
