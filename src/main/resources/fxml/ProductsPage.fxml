@@ -5,16 +5,16 @@
 <?import graphics.TopBar?>
 <?import java.net.URL?>
 
-<?import javafx.scene.control.ScrollPane?>
-
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Separator?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.validation.IntegerValidator?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import graphics.TopBar?>
+<?import java.net.URL?>
+<?import com.jfoenix.controls.JFXTextField?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductsPage" fitToWidth="true">
@@ -26,7 +26,19 @@
 
         <HBox fillHeight="false" style="-fx-padding: 0 0 30 0;">
             <VBox>
-                <GridPane fx:id="gridPane" hgap="10" vgap="10" minWidth="420" style="-fx-padding: 0 30 30 30;"/>
+                <GridPane fx:id="gridPane" hgap="10" vgap="10" minWidth="420" style="-fx-padding: 0 30 30 30;">
+
+                    <!--                        Page Spinner -->
+                    <HBox fx:id="pageHBox" alignment="CENTER" spacing="5"
+                          GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Page:"/>
+                        <Spinner fx:id="pageSpinner" promptText="1" maxWidth="50">
+                            <valueFactory>
+                                <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="5" fx:id="pageFactory"/>
+                            </valueFactory>
+                        </Spinner>
+                    </HBox>
+                </GridPane>
             </VBox>
             <VBox>
                 <VBox styleClass="bobble" prefWidth="170" spacing="20">

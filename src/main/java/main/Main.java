@@ -140,6 +140,10 @@ public class Main extends Application {
         Main.mainStage.setScene(sceneStack.peek());
     }
 
+    public static void clearStack() {
+        sceneStack.clear();
+    }
+
     public static void setMainStageSize(int width, int height) {
         mainStage.setWidth(width);
         mainStage.setHeight(height);

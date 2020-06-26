@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="450.0" prefWidth="620.0"
            xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.MainMenu">
     <VBox>
@@ -21,7 +23,12 @@
 
             <Separator orientation="VERTICAL"/>
 
-            <SlideShow/>
+<!--            <SlideShow/>-->
+            <ImageView fitHeight="300.0" preserveRatio="true">
+                <image>
+                    <Image url="@../images/shop-logo.png"/>
+                </image>
+            </ImageView>
 
             <stylesheets>
                 <URL value="@../stylesheets/main.css"/>

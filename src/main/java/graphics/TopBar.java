@@ -133,6 +133,7 @@ public class TopBar extends HBox {
         Main.sellerController = null;
         Main.managerController = null;
         Main.customerController = new CustomerController((Customer)Main.controller.getUser(), Main.productController);
+        Main.clearStack();
         Main.setMainStage("Main Menu", "src/main/resources/fxml/MainMenu.fxml");
     }
 

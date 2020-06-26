@@ -49,7 +49,7 @@ public class MainMenu {
                 default:
                     throw new IllegalStateException("Unexpected value: " + Main.controller.getPersonalInfo("type"));
             }
-            Main.setMainStage("", fxmlPath);
+            Main.setMainStage("Profile", fxmlPath);
 
         }
     }

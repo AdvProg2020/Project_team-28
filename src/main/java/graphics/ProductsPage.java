@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -35,6 +37,9 @@ public class ProductsPage {
     public JFXTextField sellerField;
     public IntegerValidator numberValidator;
     public ChoiceBox<String> sortBox;
+    public Spinner pageSpinner;
+    public HBox pageHBox;
+    public SpinnerValueFactory.IntegerSpinnerValueFactory pageFactory;
     Comparator<Product> comparator;
     ArrayList<Product> products = Database.getAllProducts();
     ArrayList<JFXTextField> fields = new ArrayList<>();
@@ -55,6 +60,10 @@ public class ProductsPage {
         setComparator("Name");
         sortBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             setComparator(sortBox.getItems().get(newValue.intValue()));
+            resetProducts(products);
+        });
+
+        pageSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             resetProducts(products);
         });
 
@@ -145,12 +154,17 @@ public class ProductsPage {
         int counter = 0;
 
         gridPane.getChildren().clear();
+        int pageSize = 6;
+        gridPane.getChildren().add(pageHBox);
+        pageFactory.setMax(1 + (productsToShow.size() - 1) / pageSize);
+        int pageNumber = Integer.parseInt(pageSpinner.getValue().toString());
         productsToShow.sort(comparator);
         for (Product product : productsToShow) {
-            ProductPane pane = new ProductPane(product);
-
-            gridPane.getChildren().add(pane);
-            GridPane.setConstraints(pane, counter % 2, counter / 2);
+            if (counter < pageNumber * pageSize && counter >= (pageNumber - 1) * pageSize) {
+                ProductPane pane = new ProductPane(product);
+                gridPane.getChildren().add(pane);
+                GridPane.setConstraints(pane, counter % 2, (counter - (pageNumber - 1) * pageSize) / 2 + 1);
+            }
             counter++;
         }
     }
