@@ -158,6 +158,7 @@ public class CustomerController extends UserController {
         for (Product product : customerLoggedOn.getCart().keySet()) {
             SellLog log = product.createSellLog();
             log.setCustomer(customerLoggedOn);
+            Database.update(log, log.getId());
             product.getSellers().get(0).addSellLog(log);
         }
     }
