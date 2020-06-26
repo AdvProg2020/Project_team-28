@@ -143,6 +143,11 @@ public class Database {
     }
 
     public static void add(Product product) {
+        for (Product productIn : allProducts) {
+            if (productIn.equals(product.getId())) {
+                allProducts.remove(productIn);
+            }
+        }
         allProducts.add(product);
         writeObject(product, product.getId());
     }
