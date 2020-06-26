@@ -165,11 +165,11 @@ public class ManagerController extends UserController {
     }
 
     public void editCategory(String category, HashMap<String, String> fields) {
-        //TODO this should change into something functional for adding/removing properties
+        // this should change into something functional for adding/removing properties
     }
 
     public void createCategory(HashMap<String, String> fields) {
-        //TODO what to do with arguments?
+        // what to do with arguments?
         Database.add(new Category(fields.get("name")));
     }
 

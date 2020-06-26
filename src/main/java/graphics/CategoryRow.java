@@ -19,6 +19,9 @@ public class CategoryRow extends RecursiveTreeObject<CategoryRow> {
         this.category = category;
         title.setValue(category.getName());
         for (Property property : category.getSpecialProperties()) {
+            if (properties.get() == null) {
+                properties.setValue(property.getName());
+            }
             properties.setValue(properties.get() + "," + property.getName());
         }
     }

@@ -12,6 +12,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -58,16 +59,22 @@ public class AddCategoryPage {
     }
 
     private void addButtonToTable() {
-        TreeTableColumn<RequestRow, Void> colBtn = new TreeTableColumn<>("Button Column");
+        TreeTableColumn<PropertyRow, Void> colBtn = new TreeTableColumn<>("Button Column");
 
-        Callback<TreeTableColumn<RequestRow, Void>, TreeTableCell<RequestRow, Void>> cellFactory = new Callback<TreeTableColumn<RequestRow, Void>, TreeTableCell<RequestRow, Void>>() {
+        Callback<TreeTableColumn<PropertyRow, Void>, TreeTableCell<PropertyRow, Void>> cellFactory = new Callback<TreeTableColumn<PropertyRow, Void>, TreeTableCell<PropertyRow, Void>>() {
             @Override
-            public TreeTableCell<RequestRow, Void> call(final TreeTableColumn<RequestRow, Void> param) {
-                final TreeTableCell<RequestRow, Void> cell = new TreeTableCell<RequestRow, Void>() {
+            public TreeTableCell<PropertyRow, Void> call(final TreeTableColumn<PropertyRow, Void> param) {
+                final TreeTableCell<PropertyRow, Void> cell = new TreeTableCell<PropertyRow, Void>() {
 
-                    private final JFXButton remove = new JFXButton("remove");
+                    private final JFXButton remove = new JFXButton("");
 
                     {
+
+                        ImageView removeImage = new ImageView(new File("src/main/resources/images/remove-icon.png").toURI().toString());
+                        removeImage.setFitHeight(20);
+                        removeImage.setPreserveRatio(true);
+                        remove.setGraphic(removeImage);
+
                         remove.setOnAction((ActionEvent actionEvent) -> {
                             Property property = treeTableView.getTreeItem(getIndex()).getValue().getProperty();
                             //Database.remove(property); TODO?
@@ -81,8 +88,10 @@ public class AddCategoryPage {
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty || treeTableView.getTreeItem(getIndex()).getValue().getProperty() == null) {
+                            System.out.println(getIndex());
                             setGraphic(null);
                         } else {
+                            System.out.println(getIndex());
                             setGraphic(remove);
                         }
                     }
@@ -90,6 +99,11 @@ public class AddCategoryPage {
                 return cell;
             }
         };
+        colBtn.setCellFactory(cellFactory);
+
+        colBtn.setPrefWidth(250);
+
+        treeTableView.getColumns().add(colBtn);
     }
 
 
