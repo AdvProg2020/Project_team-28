@@ -61,15 +61,7 @@ public class ManagerPage {
     }
 
     public void removeProductPressed(ActionEvent actionEvent) throws IOException {
-        backgroundMediaView.getMediaPlayer().stop();
-        URL url = new File("src/main/resources/fxml/RemoveProductPage.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Main.popupStage = new Stage();
-        Main.popupStage.setTitle("Remove Product");
-        Main.popupStage.setScene(new Scene(root, 250, 250));
-        Main.popupStage.initModality(Modality.WINDOW_MODAL);
-        Main.popupStage.initOwner(Main.mainStage);
-        Main.popupStage.show();
+        SellerPage.showRemovePage(backgroundMediaView);
     }
 
     public void manageCategoriesButtonPressed(ActionEvent actionEvent) throws IOException {

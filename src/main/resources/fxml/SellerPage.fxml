@@ -20,8 +20,8 @@
             </VBox>
             <VBox alignment="CENTER" spacing="30.0">
                 <JFXButton styleClass="dark-button" text="Manage Requests" onAction="#manageRequestsButtonPressed"/>
-                <JFXButton styleClass="dark-button" text="Manage Products" onAction="#manageProductsButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="Manage Sales" onAction="#manageSalesButtonPressed"/>
+                <JFXButton styleClass="dark-button" text="Remove Product" onAction="#removeProductButtonPressed"/>
             </VBox>
         </HBox>
         <stylesheets>
