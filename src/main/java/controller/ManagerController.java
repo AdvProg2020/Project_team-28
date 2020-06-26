@@ -112,7 +112,11 @@ public class ManagerController extends UserController {
                     break;
                 case "remove product":
                     Database.remove(new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));
+                    break;
                 case "advertisement":
+                    product = new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class);
+                    product = Database.getProductById(product.getId());
+                    Database.addProductToAds(product);
                     break;
                 default:
             }

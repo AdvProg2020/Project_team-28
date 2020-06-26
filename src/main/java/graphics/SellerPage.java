@@ -82,4 +82,16 @@ public class SellerPage {
     public void removeProductButtonPressed(ActionEvent actionEvent) throws IOException {
         showRemovePage(backgroundMediaView);
     }
+
+    public void advertisementPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        URL url = new File("src/main/resources/fxml/AdvertiseProductPage.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.popupStage = new Stage();
+        Main.popupStage.setTitle("Advertisement");
+        Main.popupStage.setScene(new Scene(root, 250, 250));
+        Main.popupStage.initModality(Modality.WINDOW_MODAL);
+        Main.popupStage.initOwner(Main.mainStage);
+        Main.popupStage.show();
+    }
 }

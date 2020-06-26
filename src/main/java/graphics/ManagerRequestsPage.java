@@ -146,6 +146,7 @@ public class ManagerRequestsPage {
                                 case "add product":
                                 case "edit product":
                                 case "remove product":
+                                case "advertisement":
                                     try {
                                         AddProductPage controller = new AddProductPage().show(Main.sellerController);
                                         controller.setLoadedProduct(new Gson().fromJson(requestRow.jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));
@@ -153,6 +154,7 @@ public class ManagerRequestsPage {
                                     } catch (Exception e) {
                                         Main.showErrorDialog(e);
                                     }
+                                    break;
                             }
                         });
                     }

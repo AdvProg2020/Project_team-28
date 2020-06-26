@@ -134,4 +134,20 @@ public class Discount {
         }
         return String.valueOf(randomCode);
     }
+
+    public static Discount getGiftDiscount (Customer customer, int percent) {
+        Discount discount = new Discount();
+        discount.addUser(customer);
+        discount.setRepetitionNumber(1);
+        discount.setMaximumAmount(100);
+        discount.setStartTime(LocalDateTime.now());
+        discount.setFinishTime(LocalDateTime.now().plusDays(7));
+        discount.setDiscountPercent(percent);
+        String code = generateRandomCode();
+        while (!isCodeUnique(code, discount))
+            code = generateRandomCode();
+        discount.setCode(Discount.generateRandomCode());
+        Database.add(discount);
+        return discount;
+    }
 }
