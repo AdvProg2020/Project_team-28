@@ -20,6 +20,7 @@ import main.Main;
 import model.*;
 import model.exception.DefaultUser;
 
+import javax.security.auth.callback.LanguageCallback;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -228,12 +229,10 @@ public class ProductPage {
     }
 
     public class CommentPane extends HBox {
-        int leftSize = 60;
-        int rightSize = 440;
+        int leftSize = 80;
+        int rightSize = 420;
 
         public CommentPane(Comment comment) {
-            if (comment == null)
-                System.out.println("sadadfdfsd");
             rightSize -= comment.getDepth() * leftSize;
 
             this.setMinWidth(leftSize + rightSize);
@@ -255,6 +254,11 @@ public class ProductPage {
             reply.setOnAction(event -> goToCommentPage(comment));
 
             userBox.getChildren().addAll(userImage, userLabel, dateLabel);
+            if (comment.hasBought()) {
+                Label bought = new Label("Has Bought");
+                bought.setId("hasBought");
+                userBox.getChildren().add(bought);
+            }
             if (comment.getDepth() < 3)
                 userBox.getChildren().addAll(reply);
             userBox.setMinWidth(leftSize);

@@ -7,6 +7,7 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import java.net.URL?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.AddCommentPage"
@@ -16,21 +17,30 @@
         <HBox styleClass="section" fx:id="hbox">
             <GridPane hgap="10" vgap="10" fx:id="groot">
                 <Label fx:id="inReply"
-                GridPane.columnIndex="0" GridPane.rowIndex="0"
-                GridPane.columnSpan="2"/>
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"
+                       GridPane.columnSpan="2"/>
+                <HBox
+                        GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label>Rating</Label>
+                    <Spinner fx:id="rateSpinner" promptText="1" styleClass="smallSpinner">
+                        <valueFactory>
+                            <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="5"/>
+                        </valueFactory>
+                    </Spinner>
+                </HBox>
                 <JFXTextField fx:id="commentTitle" promptText="Title"
-                              GridPane.columnIndex="0" GridPane.rowIndex="1"
+                              GridPane.columnIndex="0" GridPane.rowIndex="2"
                               GridPane.columnSpan="2"/>
                 <JFXTextArea fx:id="commentText" promptText="Write your comment" styleClass="jfx-text-area"
-                             GridPane.columnIndex="0" GridPane.rowIndex="2"
+                             GridPane.columnIndex="0" GridPane.rowIndex="3"
                              GridPane.columnSpan="2"/>
                 <Button styleClass="my-button" onAction="#addCommentPressed"
-                        GridPane.columnIndex="0" GridPane.rowIndex="3"
+                        GridPane.columnIndex="0" GridPane.rowIndex="4"
                         prefWidth="${groot.width*0.5}">
                     Add comment
                 </Button>
                 <Button styleClass="my-button" onAction="#backToProduct"
-                        GridPane.columnIndex="1" GridPane.rowIndex="3"
+                        GridPane.columnIndex="1" GridPane.rowIndex="4"
                         prefWidth="${groot.width*0.5}">
                     Back to product
                 </Button>

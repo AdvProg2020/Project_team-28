@@ -8,17 +8,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import main.Main;
 import model.Comment;
 import model.Product;
+import model.Score;
 
 public class AddCommentPage {
     public JFXTextArea commentText;
     public HBox hbox;
     public JFXTextField commentTitle;
     public Label inReply;
+    public Spinner rateSpinner;
     Comment comment;
     Product product;
 
@@ -29,6 +32,8 @@ public class AddCommentPage {
         hbox.getChildren().add(new ProductPane(product));
         if (comment.getParent() != null)
             inReply.setText("In reply to \"" + comment.getParent().getTitle() + "\"");
+        if (!comment.hasBought())
+            rateSpinner.setDisable(true);
     }
 
     public void setComment(Comment comment) {
@@ -52,7 +57,18 @@ public class AddCommentPage {
             comment.setText(commentText.getText());
             Database.add(comment);
             product.addComment(comment);
-            comment.getParent().addChild(comment);
+            Comment parent = comment.getParent();
+            if (parent != null) {
+                comment.getParent().addChild(comment);
+                Database.update(parent, parent.getId());
+            }
+            if (comment.hasBought()) {
+                Score score = new Score(comment.getUser()
+                        , Integer.parseInt(rateSpinner.getValue().toString())
+                        , comment.getProduct());
+                product.addScore(score);
+                Database.add(score);
+            }
             Database.update(product, product.getId());
             backToProduct();
         } catch (Exception e) {
