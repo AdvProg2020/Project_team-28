@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<?import graphics.TopBar?>
+
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="graphics.Cart" prefHeight="400.0" prefWidth="600.0" fx:id="mainPane">
-    <JFXTreeTableView fx:id="tableView"/>
-    <HBox alignment="CENTER" spacing="20">
-        <JFXButton text="Close cart" onAction="#closeCart" styleClass="handleButton"/>
-        <JFXButton text="Go to Payment page" onAction="#goToPaymentPage" styleClass="handleButton"/>
-    </HBox>
+      fx:controller="graphics.Cart" fx:id="mainPane">
+    <TopBar/>
+    <VBox spacing="20" style="-fx-padding: 0px 0px 20px 0px">
+        <JFXTreeTableView fx:id="tableView"/>
+        <HBox alignment="CENTER" spacing="20">
+            <JFXButton text="Close cart" onAction="#closeCart" styleClass="handleButton"/>
+            <JFXButton text="Go to Payment page" onAction="#goToPaymentPage" styleClass="handleButton"/>
+        </HBox>
 
-
+        <stylesheets>
+            <URL value="@../stylesheets/CartStyleSheet.css"/>
+        </stylesheets>
+    </VBox>
 </VBox>

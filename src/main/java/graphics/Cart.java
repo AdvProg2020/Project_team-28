@@ -3,50 +3,29 @@ package graphics;
 import com.jfoenix.controls.*;
 import controller.CustomerController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
+import main.Main;
 import model.Product;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Cart {
     private CustomerController controller;
     public VBox mainPane;
-    private Stage cartStage;
     private HashMap<Product, Integer> customerCart;
     public JFXTreeTableView<CartRow> tableView;
 
-    public void show(CustomerController controller) throws IOException {
-        URL url = new File("src/main/resources/fxml/Cart.fxml").toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-        try {
-            ((Cart) fxmlLoader.getController()).customerCart = controller.getCustomerLoggedOn().getCart();
-        } catch (Exception ignored) {
-        }
-
-        ((Cart) fxmlLoader.getController()).controller = controller;
-        ((Cart) fxmlLoader.getController()).cartStage = new Stage();
-        root.getStylesheets().add(Paths.get("src/main/resources/stylesheets/CartStyleSheet.css").toUri().toString());
-        ((Cart) fxmlLoader.getController()).cartStage.setTitle("Cart");
-        ((Cart) fxmlLoader.getController()).cartStage.setScene(new Scene(root, 600, 400));
-        ((Cart) fxmlLoader.getController()).cartStage.show();
-        ((Cart) fxmlLoader.getController()).loadCartProducts();
+    public void initialize() {
+        controller = Main.customerController;
+        customerCart = controller.getCustomerLoggedOn().getCart();
+        loadCartProducts();
     }
 
     private void loadCartProducts() {
@@ -66,6 +45,7 @@ public class Cart {
 
         allProducts.expandedProperty().setValue(true);
         tableView.setRoot(allProducts);
+        tableView.setShowRoot(false);
         addImageColumn();
         tableView.getColumns().add(columnName);
         tableView.getColumns().add(columnPrice);
@@ -91,7 +71,8 @@ public class Cart {
                         super.updateItem(item, empty);
                         if (empty || tableView.getTreeItem(getIndex()).getValue().getName().equals("All products")) {
                             setGraphic(null);
-                        } else {
+                        }
+                        else {
                             image = (tableView.getTreeItem(getIndex()).getValue().getProductImage());
                             setGraphic(image);
                         }
@@ -108,7 +89,7 @@ public class Cart {
     }
 
     private void addActionColumn() {
-        TreeTableColumn<CartRow, Void> columnAction = new TreeTableColumn<>("Quantity");
+        TreeTableColumn<CartRow, Void> columnAction = new TreeTableColumn<>("Actions");
 
         Callback<TreeTableColumn<CartRow, Void>, TreeTableCell<CartRow, Void>> cellFactory = new Callback<TreeTableColumn<CartRow, Void>, TreeTableCell<CartRow, Void>>() {
             @Override
@@ -152,7 +133,8 @@ public class Cart {
                         super.updateItem(item, empty);
                         if (empty || tableView.getTreeItem(getIndex()).getValue().getName().equals("All products")) {
                             setGraphic(null);
-                        } else {
+                        }
+                        else {
                             setGraphic(new HBox(increase, decrease));
                         }
                     }
@@ -166,11 +148,11 @@ public class Cart {
         tableView.getColumns().add(columnAction);
     }
 
-    public void goToPaymentPage(ActionEvent actionEvent) {
+    public void goToPaymentPage() {
         System.out.println("Go to payment page");
     }
 
-    public void closeCart(ActionEvent actionEvent) {
-        cartStage.close();
+    public void closeCart() {
+        Main.returnMainStage();
     }
 }

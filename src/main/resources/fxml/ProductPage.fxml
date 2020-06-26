@@ -29,7 +29,7 @@
                 <HBox spacing="10">
                     <Spinner fx:id="spinner" BorderPane.alignment="CENTER" promptText="1">
                         <valueFactory>
-                            <SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="valueFactory" min="0" max="99"/>
+                            <SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="valueFactory" min="1" max="99"/>
                         </valueFactory>
                     </Spinner>
                     <Button fx:id="cartButton" styleClass="my-button" onAction="#cartPressed">Add to cart</Button>

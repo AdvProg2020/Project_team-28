@@ -100,6 +100,10 @@ public class TopBar extends HBox {
             this.getChildren().remove(logoutButton);
         }
 
+        if (!(Main.controller.getUser() instanceof Customer)) {
+            this.getChildren().remove(cartButton);
+        }
+
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
 
@@ -169,6 +173,6 @@ public class TopBar extends HBox {
     public void cartPressed() {
         SoundPlayer.stopBackground();
         if (Main.popupStage != null) Main.popupStage.close();
-        //TODO go to cart
+        Main.setMainStage("Cart", "src/main/resources/fxml/Cart.fxml");
     }
 }
