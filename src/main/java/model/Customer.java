@@ -45,17 +45,10 @@ public class Customer extends User {
         cart.put(productId, 1);
     }
 
-    public boolean addToCart(String productId, int quantity) {
-        try {
-            Product product = Database.getProductById(productId);
-            int newQuantity = quantity + (cart.containsKey(productId) ? cart.get(productId) : 0);
-            if (newQuantity > product.getQuantity())
-                return false;
-            cart.put(productId, newQuantity);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public boolean addToCart(Product product, int quantity) {
+        cart.put(product.getId(), quantity);
+        System.out.println(cart);
+        return true;
     }
 
     public void increaseNumberInCart(String productId) {

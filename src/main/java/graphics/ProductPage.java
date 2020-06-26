@@ -75,9 +75,9 @@ public class ProductPage {
         }
 
         showSpecs();
-        
+
         showSimilar();
-        
+
         showComments();
     }
 
@@ -163,8 +163,7 @@ public class ProductPage {
         checkQuantity();
 
         Customer customer = (Customer) Main.controller.getUser();
-
-        if (customer.addToCart(product.getId(), Integer.parseInt(spinner.getValue().toString())))
+        if (customer.addToCart(product, Integer.parseInt(spinner.getValue().toString())))
             Main.setMainStage("Cart", "src/main/resources/fxml/Cart.fxml");
 
         checkQuantity();
