@@ -46,19 +46,11 @@ public class ProductPage {
         product.setImageView(productImage);
         rating.setRate(product);
 
-        if (product.getQuantity() <= 0) {
-            spinner.setDisable(true);
-            cartButton.setDisable(true);
-            infoBox.getChildren().add(new Label("Sorry, product is out of stock"));
-        }
+        checkQuantity();
         if (!(Main.controller.getUser() instanceof Customer)) {
             spinner.setDisable(true);
             cartButton.setDisable(true);
             infoBox.getChildren().add(new Label("Only customers can offer products"));
-        }
-        else {
-            valueFactory.setMax(product.getQuantity()
-                    - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
         }
 
         TableColumn<Property, String> nameColumn = new TableColumn<>("Property");
@@ -87,6 +79,25 @@ public class ProductPage {
         }
     }
 
+    private void checkQuantity() {
+        if (product.getQuantity() <= 0) {
+            spinner.setDisable(true);
+            cartButton.setDisable(true);
+            infoBox.getChildren().add(new Label("Sorry, product is out of stock"));
+        }
+        else if (product.getQuantity()
+                <= Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId())) {
+            spinner.setDisable(true);
+            cartButton.setDisable(true);
+            infoBox.getChildren().add(new Label("You cannot offer this product any more"));
+        } else {
+            spinner.setDisable(false);
+            cartButton.setDisable(false);
+        }
+        valueFactory.setMax(product.getQuantity()
+                - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
+    }
+
     private void insertComment(Comment comment) {
         commentArea.getChildren().add(new CommentPane(comment));
         for (Comment child : comment.getChildren()) {
@@ -99,12 +110,16 @@ public class ProductPage {
         initialize();
     }
 
-    public void cartPressed(ActionEvent actionEvent) throws IOException {
-        ((Customer) Main.controller.getUser()).addToCart(product.getId(),
-                Integer.parseInt(spinner.getValue().toString()));
-        new Cart().show(Main.customerController);
-        valueFactory.setMax(product.getQuantity()
-                - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
+    public void cartPressed() {
+
+        checkQuantity();
+
+        Customer customer = (Customer) Main.controller.getUser();
+
+        if (customer.addToCart(product.getId(), Integer.parseInt(spinner.getValue().toString())))
+            Main.setMainStage("Cart", "src/main/resources/fxml/Cart.fxml");
+
+        checkQuantity();
     }
 
     public void addCommentPressed() {

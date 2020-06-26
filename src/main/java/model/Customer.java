@@ -25,7 +25,7 @@ public class Customer extends User {
         return discountUsed;
     }
 
-    public void deleteDiscount () {
+    public void deleteDiscount() {
         this.discountUsed = null;
     }
 
@@ -33,7 +33,7 @@ public class Customer extends User {
         this.address = address;
     }
 
-    public boolean hasDiscount (Discount discount) {
+    public boolean hasDiscount(Discount discount) {
         return discountCodes.contains(discount.getId());
     }
 
@@ -45,29 +45,37 @@ public class Customer extends User {
         cart.put(productId, 1);
     }
 
-    public void addToCart(String productId, int quantity) {
-        if (cart.containsKey(productId))
-            cart.put(productId, cart.get(productId) + quantity);
-        else
-            cart.put(productId, quantity);
-    }
-
-    public void increaseNumberInCart (String productId) {
-        if (isProductInCart(productId)) {
-            cart.put(productId, cart.get(productId) + 1);
+    public boolean addToCart(String productId, int quantity) {
+        try {
+            Product product = Database.getProductById(productId);
+            int newQuantity = quantity + (cart.containsKey(productId) ? cart.get(productId) : 0);
+            if (newQuantity > product.getQuantity())
+                return false;
+            cart.put(productId, newQuantity);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
-    public int getProductQuantityInCart (String productId) {
+    public void increaseNumberInCart(String productId) {
+        try {
+            if (isProductInCart(productId))
+                if (cart.get(productId) < Database.getProductById(productId).getQuantity())
+                    cart.put(productId, cart.get(productId) + 1);
+        } catch (Exception ignored) {}
+    }
+
+    public int getProductQuantityInCart(String productId) {
         return cart.get(productId);
     }
 
-    public void useDiscount (Discount discount) throws Exception{
+    public void useDiscount(Discount discount) throws Exception {
         discount.useCode(this);
         discountUsed = discount;
     }
 
-    public int decreaseNumberInCart (String productId) {
+    public int decreaseNumberInCart(String productId) {
         if (isProductInCart(productId)) {
             if (cart.get(productId) <= 1)
                 return cart.get(productId);
@@ -76,25 +84,28 @@ public class Customer extends User {
         return cart.get(productId);
     }
 
-    public void removeFromCart (String productId) {
+    public void removeFromCart(String productId) {
         if (isProductInCart(productId)) {
             cart.remove(productId);
         }
     }
 
-    public void emptyCart () {
+    public void emptyCart() {
         this.cart = new HashMap<>();
     }
 
-    public HashMap<Product, Integer> getCart() throws Exception {
+    public HashMap<Product, Integer> getCart() {
         HashMap<Product, Integer> finalCart = new HashMap<>();
         for (String item : cart.keySet()) {
-            finalCart.put(Database.getProductById(item), cart.get(item));
+            try {
+                finalCart.put(Database.getProductById(item), cart.get(item));
+            } catch (Exception ignored) {
+            }
         }
         return finalCart;
     }
 
-    public void setQuantityInCart (String productId, int quantity) {
+    public void setQuantityInCart(String productId, int quantity) {
         cart.replace(productId, quantity);
     }
 
@@ -108,7 +119,7 @@ public class Customer extends User {
         return 0;
     }
 
-    public void payCredit (long cost) throws Exception{
+    public void payCredit(long cost) throws Exception {
         if (this.credit >= cost)
             this.setCredit(this.getCredit() - cost);
         else
@@ -131,7 +142,7 @@ public class Customer extends User {
         return toReturn;
     }
 
-    public boolean hasBoughtProduct (Product product) {
+    public boolean hasBoughtProduct(Product product) {
         for (String log : purchaseHistory) {
             if (Database.getPurchaseLogById(log).getProducts().containsKey(product))
                 return true;
