@@ -1,9 +1,7 @@
 package graphics;
 
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import controller.Database;
+import controller.ProductController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -14,16 +12,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import main.Main;
 import model.*;
 import model.exception.DefaultUser;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ProductPage {
+    public HBox similarBox;
     private Product product;
 
     public VBox mediaBox;
@@ -75,6 +74,29 @@ public class ProductPage {
             infoBox.getChildren().add(new Label("Only customers can offer products"));
         }
 
+        showSpecs();
+        
+        showSimilar();
+        
+        showComments();
+    }
+
+    private void showSimilar() {
+        ArrayList<Product> products = Database.getAllProducts();
+        products.remove(product);
+        products.sort(Comparator.comparingDouble(o -> ProductController.similarity(product, (Product) o)).reversed());
+        for (int i = 0; i < 3 && i < products.size(); i++)
+            similarBox.getChildren().add(new ProductsPage.ProductPane(products.get(i)));
+    }
+
+    private void showComments() {
+        for (Comment comment : product.getAllComments()) {
+            if (comment.getDepth() == 0)
+                insertComment(comment);
+        }
+    }
+
+    private void showSpecs() {
         TableColumn<Property, String> nameColumn = new TableColumn<>("Property");
         TableColumn<Property, String> valueColumn = new TableColumn<>("Value");
 
@@ -94,11 +116,6 @@ public class ProductPage {
         tableView.setPlaceholder(new Label("No specification available"));
 
         specSection.getChildren().add(tableView);
-
-        for (Comment comment : product.getAllComments()) {
-            if (comment.getDepth() == 0)
-                insertComment(comment);
-        }
     }
 
     private void checkMedia() {

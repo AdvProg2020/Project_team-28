@@ -44,10 +44,21 @@
                 <Label fx:id="productPrice" styleClass="price"/>
             </VBox>
         </HBox>
+
         <Separator/>
         <VBox fx:id="specSection" styleClass="section">
             <Label styleClass="title" alignment="TOP_CENTER">Specifications</Label>
         </VBox>
+
+        <Separator/>
+        <VBox styleClass="section">
+            <Label styleClass="title">Similar Products</Label>
+            <HBox fx:id="similarBox" spacing="10"/>
+            <stylesheets>
+                <URL value="@../stylesheets/ProductsPage.css"/>
+            </stylesheets>
+        </VBox>
+
         <Separator/>
         <VBox styleClass="section">
             <Label styleClass="title">Comments</Label>
