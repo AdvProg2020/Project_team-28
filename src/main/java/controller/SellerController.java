@@ -51,7 +51,7 @@ public class SellerController extends UserController {
     }
 
     public void editProduct(String productId, HashMap<String, String> fields) throws Exception {
-        Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), currentSeller.getId(), fields.get("category"));
+        Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), fields.get("description"), currentSeller.getId(), fields.get("category"));
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(product);
         jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
@@ -61,7 +61,7 @@ public class SellerController extends UserController {
     }
 
     public void addProduct(HashMap<String, String> fields) throws Exception {
-        Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), currentSeller.getId(), fields.get("category"));
+        Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), fields.get("description"), currentSeller.getId(), fields.get("category"));
         //Database.add(product);
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(product);

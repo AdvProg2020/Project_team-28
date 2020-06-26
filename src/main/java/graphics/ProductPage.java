@@ -22,12 +22,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 public class ProductPage {
-    public VBox commentArea;
-    public TableView<Property> tableView = new TableView<>();
-    public VBox specSection;
     private Product product;
 
+    public VBox mediaBox;
     public ImageView productImage;
+    public Button imageButton;
+    public Button videoButton;
 
     public VBox infoBox;
     public Label productName;
@@ -37,6 +37,11 @@ public class ProductPage {
     public SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory;
     public Button cartButton;
 
+    public VBox specSection;
+    public TableView<Property> tableView = new TableView<>();
+
+    public VBox commentArea;
+
     @FXML
     public void initialize() {
         if (product == null)
@@ -45,6 +50,8 @@ public class ProductPage {
         productInfo.setText(product.getDescription());
         product.setImageView(productImage);
         rating.setRate(product);
+
+        checkMedia();
 
         checkQuantity();
         if (!(Main.controller.getUser() instanceof Customer)) {
@@ -76,6 +83,15 @@ public class ProductPage {
         for (Comment comment : product.getAllComments()) {
             if (comment.getDepth() == 0)
                 insertComment(comment);
+        }
+    }
+
+    private void checkMedia() {
+        if (product.getImageAddress() == null || product.getImageAddress().contains("no-product")) {
+            imageButton.setDisable(true);
+        }
+        if (product.getVideoAddress() == null) {
+            videoButton.setDisable(true);
         }
     }
 
@@ -140,8 +156,14 @@ public class ProductPage {
     public void imagePressed() {
         FXMLLoader fxml = Main.setPopupStage("Image Zoom", "src/main/resources/fxml/ZoomPage.fxml");
         assert fxml != null;
-        ((ZoomPage) fxml.getController()).show(product.getName(), product.getProductImageAddress());
+        ((ZoomPage) fxml.getController()).show(product.getName(), product.getImageAddress());
         //Main.setPopupStageSize((productImage.getFitWidth())+70,(productImage.getFitHeight())+150);
+    }
+
+    public void videoPressed() {
+        FXMLLoader fxml = Main.setPopupStage("Video Player", "src/main/resources/fxml/VideoPlayer.fxml");
+        ((VideoPlayer)fxml.getController()).setVideo(product.getVideoAddress());
+
     }
 
     public class CommentPane extends HBox {

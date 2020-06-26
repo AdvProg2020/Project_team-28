@@ -143,8 +143,6 @@ public class ProductsPage {
                 fxmlLoader = Main.setMainStage(pane.product.getName(), "src/main/resources/fxml/ProductPage.fxml");
                 assert fxmlLoader != null;
                 ((ProductPage) fxmlLoader.getController()).setProduct(pane.getProduct());
-
-                System.out.println("Let's buy this product");
             });
         }
     }
