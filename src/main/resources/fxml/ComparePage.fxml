@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import graphics.TopBar?>
+<?import java.net.URL?>
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="graphics.ComparePage"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox prefWidth="620">
+        <TopBar/>
+        <VBox styleClass="section">
+            <HBox fx:id="productBox" alignment="TOP_CENTER">
+                <VBox minWidth="170"/>
+            </HBox>
+            <VBox alignment="TOP_CENTER" fx:id="specSection">
+            </VBox>
+        </VBox>
+    </VBox>
+    <stylesheets>
+        <URL value="@../stylesheets/ProductPage.css"/>
+    </stylesheets>
+</ScrollPane>

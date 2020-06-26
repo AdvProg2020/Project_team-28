@@ -10,6 +10,7 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.Main;
+import model.Seller;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +61,10 @@ public class SellerPage {
 
     public void viewSellLogsPressed(ActionEvent actionEvent) {
         backgroundMediaView.getMediaPlayer().stop();
-        //TODO connect to sell logs page
+        try {
+            new SellLogList().show(Main.sellerController);
+        } catch (IOException ignored) {
+        }
     }
 
     static void showRemovePage(MediaView backgroundMediaView) throws IOException {

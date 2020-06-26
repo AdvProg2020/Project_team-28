@@ -3,6 +3,8 @@ package graphics;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import controller.CustomerController;
+import controller.SellerController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
@@ -112,10 +114,7 @@ public class ProfilePage {
 
     public void viewLogsPressed(ActionEvent actionEvent) throws IOException {
         if (Main.controller.getUser().getType().equals("customer")) {
-            //TODO PurchaseLogView.show(Main.controller.getUser());
-        }
-        if (Main.controller.getUser().getType().equals("seller")) {
-            //TODO SellerLogView.show(Main.controller.getUser());
+            new PurchaseLogList().show(Main.customerController);
         }
     }
 }
