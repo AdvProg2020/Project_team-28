@@ -5,6 +5,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import main.Main;
+import model.Seller;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +60,9 @@ public class SellerPage {
 
     public void viewSellLogsPressed(ActionEvent actionEvent) {
         backgroundMediaView.getMediaPlayer().stop();
-        //TODO connect to sell logs page
+        try {
+            new SellLogList().show(Main.sellerController);
+        } catch (IOException ignored) {
+        }
     }
 }

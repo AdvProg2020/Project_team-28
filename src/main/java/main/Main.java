@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Customer;
 import model.Discount;
+import model.Seller;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
