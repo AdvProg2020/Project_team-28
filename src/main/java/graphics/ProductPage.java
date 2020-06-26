@@ -12,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import main.Main;
 import model.*;
 import model.exception.DefaultUser;
@@ -25,6 +27,7 @@ public class ProductPage {
     private Product product;
 
     public VBox mediaBox;
+    public Pane imagePane;
     public ImageView productImage;
     public Button imageButton;
     public Button videoButton;
@@ -52,12 +55,20 @@ public class ProductPage {
         productBrand.setText(product.getBrand());
         productPrice.setText(product.getPrice() + " $");
         productInfo.setText(product.getDescription());
-        product.setImageView(productImage);
         rating.setRate(product);
+        product.setImageView(productImage);
+        if (product.hasOff()) {
+            if (product.hasOff()) {
+                Label offLabel = new Label(100 - 100 * product.getPrice() / product.getPurePrice() + "%");
+                offLabel.setId("offLabel");
+                imagePane.getChildren().add(offLabel);
+            }
+        }
 
         checkMedia();
 
         checkQuantity();
+
         if (!(Main.controller.getUser() instanceof Customer)) {
             spinner.setDisable(true);
             cartButton.setDisable(true);
