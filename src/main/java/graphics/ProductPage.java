@@ -82,7 +82,7 @@ public class ProductPage {
     }
 
     private void showSimilar() {
-        ArrayList<Product> products = Database.getAllProducts();
+        ArrayList<Product> products = new ArrayList<>(Database.getAllProducts());
         products.remove(product);
         products.sort(Comparator.comparingDouble(o -> ProductController.similarity(product, (Product) o)).reversed());
         for (int i = 0; i < 3 && i < products.size(); i++)

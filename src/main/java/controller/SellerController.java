@@ -52,10 +52,23 @@ public class SellerController extends UserController {
 
     public void editProduct(String productId, HashMap<String, String> fields) throws Exception {
         Product product = new Product(fields.get("name"), fields.get("brand"), fields.get("price"), fields.get("description"), currentSeller.getId(), fields.get("category"));
+        product.setImageAddress(fields.get(""));
         Gson request = new Gson();
         JsonElement jsonElement = request.toJsonTree(product);
         jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
         jsonElement.getAsJsonObject().addProperty("productId", productId);
+        jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
+        Database.add(jsonElement.getAsJsonObject());
+    }
+
+    public void editProduct(String productId, Product newProduct) throws Exception {
+        Gson request = new Gson();
+        JsonElement jsonElement = request.toJsonTree(newProduct);
+        jsonElement.getAsJsonObject().addProperty("requestStatus", "pending");
+        jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
+        jsonElement.getAsJsonObject().addProperty("productId", productId);
+        jsonElement.getAsJsonObject().addProperty("owner", currentSeller.getId());
+        jsonElement.getAsJsonObject().add("product", request.toJsonTree(newProduct));
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement.getAsJsonObject());
     }
