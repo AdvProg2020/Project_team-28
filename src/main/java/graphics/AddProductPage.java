@@ -159,8 +159,10 @@ public class AddProductPage {
             if (thisProperty != null)
                 ((JFXTextField) child).setText(thisProperty.getValue());
         }
-        if (loadedProduct.getImageAddress() != null)
+        if (loadedProduct.getImageAddress() != null) {
             productImage.setImage(loadedProduct.getProductImage());
+            imageUri = loadedProduct.getImageAddress();
+        }
     }
 
     public void setLoadedProduct(Product product) {

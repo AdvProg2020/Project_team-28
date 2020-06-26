@@ -68,6 +68,7 @@ public class SellerController extends UserController {
         jsonElement.getAsJsonObject().addProperty("request-type", "edit product");
         jsonElement.getAsJsonObject().addProperty("productId", productId);
         jsonElement.getAsJsonObject().addProperty("owner", currentSeller.getId());
+        newProduct.setId(productId);
         jsonElement.getAsJsonObject().add("product", request.toJsonTree(newProduct));
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonElement.getAsJsonObject());
