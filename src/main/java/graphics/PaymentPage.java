@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -83,7 +85,27 @@ public class PaymentPage {
     }
 
     public void finishPayment(ActionEvent actionEvent) throws Exception {
-        controller.purchase();
+        long totalPrice = controller.purchase();
+        Discount gift;
+        if (totalPrice >= 5100 && totalPrice <= 10000) {
+            gift = Discount.getGiftDiscount(controller.getCustomerLoggedOn(), (int) ((totalPrice - 5000)/100));
+            showGiftMessage(gift);
+        }else if (totalPrice > 10000) {
+            gift = Discount.getGiftDiscount(controller.getCustomerLoggedOn(), 50);
+            showGiftMessage(gift);
+        }
+
         Main.popupStage.close();
+    }
+
+    private void showGiftMessage(Discount discount) {
+        Alert message = new Alert(Alert.AlertType.CONFIRMATION);
+        message.getButtonTypes().clear();
+        message.getButtonTypes().add(ButtonType.OK);
+        message.setHeaderText(null);
+        message.setContentText("Congratulations!\n" +
+                "You got a " + discount.getDiscountPercent() + "% discount code:\n" +
+                "Code: " + discount.getCode());
+        message.showAndWait();
     }
 }
