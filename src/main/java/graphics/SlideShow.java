@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import main.Main;
 import model.Product;
 
 import java.io.File;
@@ -42,9 +43,9 @@ public class SlideShow extends Pane {
 
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("clicked");
-                System.out.println(((ProductAdsThumb) pages.get(index[0])).product.getId());
-                //TODO
+                Product product = ((ProductAdsThumb) pages.get(index[0])).product;
+                FXMLLoader fxmlLoader = Main.setMainStage(product.getName(), "src/main/resources/fxml/ProductPage.fxml");
+                ((ProductPage) fxmlLoader.getController()).setProduct(product);
             }
         });
     }
