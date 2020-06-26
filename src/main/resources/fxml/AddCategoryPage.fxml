@@ -3,14 +3,14 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import graphics.TopBar?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<FlowPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
-          xmlns="http://javafx.com/javafx"
-          fx:controller="graphics.AddCategoryPage"
-          prefHeight="400.0" prefWidth="600.0">
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="graphics.AddCategoryPage"
+            prefHeight="400.0" prefWidth="600.0">
 
     <VBox prefWidth="600.0">
         <VBox fx:id="mainPane">
@@ -27,4 +27,4 @@
         <URL value="@../stylesheets/main.css"/>
     </stylesheets>
 
-</FlowPane>
+</ScrollPane>
