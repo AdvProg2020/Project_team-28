@@ -86,10 +86,8 @@ public class ManageCategories {
                         add.setOnAction((ActionEvent event) -> {
                             try {
                                 CategoryRow categoryRow = treeTableView.getTreeItem(getIndex()).getValue();
-                                FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/AddCategoryPage.fxml").toURI().toURL());
-                                Parent root = fxmlLoader.load();
+                                FXMLLoader fxmlLoader = Main.setMainStage("Add Category", "src/main/resources/fxml/AddCategoryPage.fxml");
                                 ((AddCategoryPage) fxmlLoader.getController()).setParentCategory(categoryRow.category);
-                                Main.mainStage.setScene(new Scene(root, 650, 580));
                             } catch (Exception e) {
                                 Main.showErrorDialog(e);
                             }

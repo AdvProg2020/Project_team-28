@@ -3,13 +3,13 @@
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import graphics.TopBar?>
 <?import javafx.scene.layout.VBox?>
-<JFXScrollPane xmlns:fx="http://javafx.com/fxml"
-               xmlns="http://javafx.com/javafx"
-               fx:controller="graphics.UserViewer"
-               prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.ScrollPane?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="graphics.UserViewer">
 
-    <VBox fx:id="mainPane">
+    <VBox fx:id="mainPane" minWidth="620.0">
         <TopBar/>
     </VBox>
 
-</JFXScrollPane>
+</ScrollPane>

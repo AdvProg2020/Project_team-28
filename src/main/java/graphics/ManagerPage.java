@@ -59,8 +59,7 @@ public class ManagerPage {
 
     public void manageUsersButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        Main.setMainStage("Add New Manager", "src/main/resources/fxml/UserViewer.fxml");
-        Main.setMainStageSize(620, 550);
+        Main.setMainStage("Manage Users", "src/main/resources/fxml/UserViewer.fxml");
     }
 
     public void removeProductPressed(ActionEvent actionEvent) throws IOException {
@@ -77,7 +76,6 @@ public class ManagerPage {
 
     public void manageCategoriesButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
-        Main.setMainStage("Add New Manager", "src/main/resources/fxml/ManageCategories.fxml");
-        Main.setMainStageSize(620, 550);
+        Main.setMainStage("Manage Categories", "src/main/resources/fxml/ManageCategories.fxml");
     }
 }
