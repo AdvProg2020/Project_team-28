@@ -25,6 +25,7 @@ public class Database {
     private static final ArrayList<SellLog> allSellLogs = new ArrayList<>();
     private static final ArrayList<Off> allOffs = new ArrayList<>();
     private static final ArrayList<Product> allProductAds = new ArrayList<>();
+    private static final ArrayList<String> allPossibleManagers = new ArrayList<>();
 
     public static void loadAllData() {
         makeDirectories();
@@ -46,6 +47,7 @@ public class Database {
         makeDirectory(SellLog.class);
         makeDirectory(Off.class);
         makeDirectory("ProductAd");
+        makeDirectory(String.class);
     }
 
     private static void loadLists() {
@@ -63,6 +65,7 @@ public class Database {
         loadList(allSellLogs, SellLog.class);
         loadList(allOffs, Off.class);
         loadList(allProductAds, Product.class, "ProductAd");
+        loadList(allPossibleManagers, String.class);
     }
 
     private static <T> String getPath(String folderName) {
@@ -122,9 +125,16 @@ public class Database {
         try {
             File file = new File(getPath(folderName) + id + ".json");
             file.delete();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void addPossibleManager(String username) {
+        if (!allPossibleManagers.contains(username)) {
+            allPossibleManagers.add(username);
+        }
+        writeObject(username, username);
     }
 
     public static void add(User user) {
@@ -203,7 +213,12 @@ public class Database {
         deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
     }
 
-    public static void removeProductFromAds (Product product) {
+    public static void removePossibleManager(String username) {
+        allPossibleManagers.remove(username);
+        deleteObject(username, username);
+    }
+
+    public static void removeProductFromAds(Product product) {
         allProductAds.remove(product);
         deleteObject(product.getId(), "ProductAd");
     }
@@ -329,6 +344,10 @@ public class Database {
         return null;
     }
 
+    public static ArrayList<String> getAllPossibleManagers() {
+        return allPossibleManagers;
+    }
+
     public static ArrayList<Category> getAllCategories() {
         return allCategories;
     }
@@ -337,7 +356,7 @@ public class Database {
         return allProducts;
     }
 
-    public static ArrayList<Product> getAllProductAds () {
+    public static ArrayList<Product> getAllProductAds() {
         return allProductAds;
     }
 
