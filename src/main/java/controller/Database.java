@@ -198,7 +198,7 @@ public class Database {
         writeObject(off, off.getId());
     }
 
-    public static void addProductToAds (Product product) {
+    public static void addProductToAds(Product product) {
         allProductAds.add(product);
         writeObject(product, product.getId(), "ProductAd");
     }
@@ -208,7 +208,8 @@ public class Database {
         deleteObject(user, user.getId());
     }
 
-    public static void remove(Product product) {
+    public static void remove(Product product) throws Exception {
+        product = getProductById(product.getId());
         allProducts.remove(product);
         deleteObject(product, product.getId());
     }

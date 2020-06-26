@@ -1,13 +1,19 @@
 package graphics;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import main.Main;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 
 public class SellerPage {
@@ -47,11 +53,6 @@ public class SellerPage {
                 "src/main/resources/fxml/SellerRequestsPage.fxml");
     }
 
-    public void manageProductsButtonPressed(ActionEvent actionEvent) {
-        backgroundMediaView.getMediaPlayer().stop();
-        //TODO connect to add product manage page
-    }
-
     public void manageSalesButtonPressed(ActionEvent actionEvent) throws IOException {
         backgroundMediaView.getMediaPlayer().stop();
         ManageSalesPage.show(Main.controller.getUser());
@@ -60,5 +61,21 @@ public class SellerPage {
     public void viewSellLogsPressed(ActionEvent actionEvent) {
         backgroundMediaView.getMediaPlayer().stop();
         //TODO connect to sell logs page
+    }
+
+    static void showRemovePage(MediaView backgroundMediaView) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        URL url = new File("src/main/resources/fxml/RemoveProductPage.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.popupStage = new Stage();
+        Main.popupStage.setTitle("Remove Product");
+        Main.popupStage.setScene(new Scene(root, 250, 250));
+        Main.popupStage.initModality(Modality.WINDOW_MODAL);
+        Main.popupStage.initOwner(Main.mainStage);
+        Main.popupStage.show();
+    }
+
+    public void removeProductButtonPressed(ActionEvent actionEvent) throws IOException {
+        showRemovePage(backgroundMediaView);
     }
 }
