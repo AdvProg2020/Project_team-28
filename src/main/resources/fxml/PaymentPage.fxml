@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import java.net.URL?>
-<?import com.jfoenix.controls.JFXTextField?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="graphics.PaymentPage" prefHeight="400.0" prefWidth="600.0">
-    <VBox spacing="10" translateX="30">
-        <HBox spacing="20">
-            <Label text="Address: "/>
-            <Label fx:id="address"/>
-            <JFXButton fx:id="changeAddress" onAction="#openProfilePage" text="Change"/>
+<AnchorPane prefHeight="355.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.PaymentPage" styleClass="mainPane">
+    <VBox spacing="20" translateX="30" translateY="30">
+        <VBox spacing="10">
+            <Label text="Address: " styleClass="titleLabel"/>
+            <JFXTextArea fx:id="address" editable="false" prefHeight="70" prefWidth="270"/>
+            <JFXButton fx:id="changeAddress" onAction="#openProfilePage" styleClass="button" text="Change"/>
+        </VBox>
+        <VBox spacing="10">
+            <HBox spacing="10">
+                <Label text="Discount Code: " styleClass="titleLabel"/>
+                <JFXTextField fx:id="discountCode" labelFloat="true" promptText="Code"/>
+            </HBox>
+            <HBox spacing="10">
+                <JFXButton fx:id="addDiscountButton" onAction="#addDiscount" text="Add"/>
+                <JFXButton fx:id="removeDiscountButton" onAction="#removeDiscount" text="Remove" visible="false"/>
+            </HBox>
+        </VBox>
+        <HBox>
+            <Label text="Total price: "  styleClass="titleLabel"/>
+            <Label fx:id="totalPriceLabel"  styleClass="titleLabel"/>
         </HBox>
         <HBox>
-            <Label text="Discount Code: "/>
-            <JFXTextField promptText="Code" labelFloat="true" fx:id="discountCode"/>
-            <JFXButton text="Add" fx:id="addDiscountButton" onAction="#addDiscount"/>
-            <JFXButton text="Remove" onAction="#removeDiscount" visible="false" fx:id="removeDiscountButton"/>
-        </HBox>
-        <HBox>
-            <Label text="Total price: "/>
-            <Label fx:id="totalPriceLabel"/>
-        </HBox>
-        <HBox>
-            <JFXButton fx:id="payButton" text="Finish payment" onAction="#finishPayment"/>
+            <JFXButton fx:id="payButton" onAction="#finishPayment" text="Finish payment" styleClass="button"/>
         </HBox>
     </VBox>
 
     <stylesheets>
-
+        <URL value="@../stylesheets/PaymentPage.css" />
     </stylesheets>
 
 </AnchorPane>

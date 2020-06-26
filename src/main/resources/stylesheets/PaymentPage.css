@@ -1,0 +1,21 @@
+.button {
+    -fx-background-color: #cfafff;
+    -fx-text-alignment: CENTER;
+    -fx-text-fill: WHITE;
+}
+.button:hover {
+    -fx-background-color: #b142ff;
+    -jfx-button-type: RAISED;
+}
+.mainPane {
+    -fx-background-color: WHITE;
+}
+.titleLabel {
+    -fx-font-weight: BOLDER;
+}
+.jfx-text-area {
+    -jfx-focus-color: #b2b2b2;
+}
+.jfx-text-field {
+    -jfx-focus-color: #b2b2b2;
+}

@@ -1,6 +1,7 @@
 package graphics;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import controller.CustomerController;
 import controller.Database;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class PaymentPage {
-    public Label address;
+    public JFXTextArea address;
     public JFXButton changeAddress;
     public JFXTextField discountCode;
     public JFXButton addDiscountButton;
@@ -36,7 +37,7 @@ public class PaymentPage {
         ((PaymentPage) fxmlLoader.getController()).controller = controller;
         Main.popupStage = new Stage();
         Main.popupStage.setTitle("Payment page");
-        Main.popupStage.setScene(new Scene(root, 600, 400));
+        Main.popupStage.setScene(new Scene(root, 330, 355));
         Main.popupStage.show();
         ((PaymentPage)fxmlLoader.getController()).refresh();
         ((PaymentPage) fxmlLoader.getController()).checkAddress();
