@@ -22,6 +22,11 @@ public class AdvertiseProductPage {
         jsonElement.getAsJsonObject().addProperty("owner", Main.controller.getUser().getId());
         jsonElement.getAsJsonObject().addProperty("id", UUID.randomUUID().toString());
         jsonElement.getAsJsonObject().add("product", request.toJsonTree(Database.getProductById(productId.getText())));
+        if (Main.controller.getUser().getCredit() >= 10) {
+            Main.controller.getUser().addToCredit(-10);
+        } else {
+            throw new Exception("Not Enough Money");
+        }
         System.out.println("Request Sent:\n" + jsonElement);
         Database.add(jsonElement.getAsJsonObject());
 
