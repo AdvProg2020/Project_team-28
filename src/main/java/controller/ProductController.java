@@ -13,13 +13,14 @@ public class ProductController {
     private ArrayList<Comparator<Product>> allComparators;
     private Filter currentFilter = new Filter();
 
-    public ProductController () {
+    public ProductController() {
         this.allComparators = new ArrayList<>();
         this.allComparators.add(new sortByViewed());
         this.allComparators.add(new sortByTime());
         this.allComparators.add(new sortByScore());
     }
-    public ProductController (Product currentProduct) {
+
+    public ProductController(Product currentProduct) {
         this.currentProduct = currentProduct;
         this.allComparators = new ArrayList<>();
         this.allComparators.add(new sortByViewed());
@@ -27,7 +28,7 @@ public class ProductController {
         this.allComparators.add(new sortByScore());
     }
 
-    public String showProduct(String productId) throws Exception{
+    public String showProduct(String productId) throws Exception {
         Product product = Database.getProductById(productId);
         assert product != null;
         product.addViewed();
@@ -40,7 +41,7 @@ public class ProductController {
                 "Description:\n" + product.getDescription();
     }
 
-    public String showProducts () {
+    public String showProducts() {
         StringBuilder result = new StringBuilder();
         result.append("id\tname\tseller\tprice\n");
         for (Product product : Database.getAllProducts()) {
@@ -49,7 +50,7 @@ public class ProductController {
         return result.toString();
     }
 
-    public String digest() throws Exception{
+    public String digest() throws Exception {
         return showProduct(this.currentProduct.getId());
     }
 
@@ -57,7 +58,7 @@ public class ProductController {
         return currentProduct;
     }
 
-    public String showAvailableFilters () {
+    public String showAvailableFilters() {
         setCategoryForFilter();
         StringBuilder result = new StringBuilder();
         result.append("Name\nBrand\nIn stock\nPrice\n");
@@ -67,14 +68,14 @@ public class ProductController {
         return result.toString();
     }
 
-    public void setCategoryForFilter () {
+    public void setCategoryForFilter() {
         for (Property property : currentFilter.getProperties()) {
             if (property.getName().equals("category"))
                 currentCategory = Database.getCategoryByName(property.getValueString());
         }
     }
 
-    public ArrayList<Product> filterProducts () {
+    public ArrayList<Product> filterProducts() {
         ArrayList<Product> result = new ArrayList<>();
         for (Product product : Database.getAllProducts()) {
             if (currentFilter.isValid(product))
@@ -83,7 +84,7 @@ public class ProductController {
         return result;
     }
 
-    public ArrayList<String> showAvailableSorts () {
+    public ArrayList<String> showAvailableSorts() {
         ArrayList<String> result = new ArrayList<>();
         result.add("time");
         result.add("score");
@@ -91,28 +92,29 @@ public class ProductController {
         return result;
     }
 
-    public void removeProduct (String productId) throws Exception {
+    public void removeProduct(String productId) throws Exception {
         Database.remove(Database.getProductById(productId));
     }
 
-    public void addFilter (String name, String value) {
+    public void addFilter(String name, String value) {
         Property restriction = new Property();
         restriction.setName(name);
         if (value.matches("\\d+")) {
             restriction.setNumber(true);
             restriction.setValueLong(Long.parseLong(value));
-        }else {
+        }
+        else {
             restriction.setNumber(false);
             restriction.setValueString(value);
         }
         currentFilter.addRestriction(restriction);
     }
 
-    public void removeFilter (String property) {
+    public void removeFilter(String property) {
         currentFilter.removeRestriction(property);
     }
 
-    public String getCurrentFilters () {
+    public String getCurrentFilters() {
         ArrayList<String> result = new ArrayList<>();
         for (Property property : currentFilter.getProperties()) {
             result.add(property.toString());
@@ -120,18 +122,18 @@ public class ProductController {
         return result.toString();
     }
 
-    public void setSort (String sortType) {
+    public void setSort(String sortType) {
         for (Comparator<Product> productComparator : allComparators) {
             if (productComparator.getClass().getName().equals(sortType))
                 comparator = productComparator;
         }
     }
 
-    public String getCurrentSort () {
+    public String getCurrentSort() {
         return this.comparator.getClass().getName();
     }
 
-    public ArrayList<String> getAttributes (Product product) {
+    public ArrayList<String> getAttributes(Product product) {
         ArrayList<String> attributes = new ArrayList<>();
         for (Property property : product.getAllProperties()) {
             attributes.add(property.toString());
@@ -142,7 +144,7 @@ public class ProductController {
         return attributes;
     }
 
-    public String compareToProducts(String productId) throws Exception{
+    public String compareToProducts(String productId) throws Exception {
         Product first = getCurrentProduct();
         Product second = Database.getProductById(productId);
         StringBuilder result = new StringBuilder();
@@ -182,16 +184,69 @@ public class ProductController {
         return result.toString();
     }
 
-    public void addPropertyToCurrentProduct (String name, String value) {
+    public void addPropertyToCurrentProduct(String name, String value) {
         Property property = new Property();
         property.setName(name);
         if (value.matches("\\d+")) {
             property.setValueLong(Long.parseLong(value));
             property.setNumber(true);
-        }else {
+        }
+        else {
             property.setValueString(value);
             property.setNumber(false);
         }
         currentProduct.addProperty(property);
+    }
+
+    public static double similarity(Product p1, Product p2) {
+        return similarity(p1.getName(), p2.getName())
+                + similarity(p1.getBrand(), p2.getBrand())
+                + similarity(String.valueOf(p1.getPrice()), String.valueOf(p2.getPrice()))
+                + similarity(p1.getDescription(), p2.getDescription()
+        );
+    }
+
+    public static double similarity(String s1, String s2) {
+        String longer = s1, shorter = s2;
+        if (s1 == null && s2 == null)
+            return 1;
+        if (s1 == null || s2 == null)
+            return 0;
+        if (s1.length() < s2.length()) {
+            longer = s2;
+            shorter = s1;
+        }
+        int longerLength = longer.length();
+        if (longerLength == 0) {
+            return 1.0;
+        }
+        return (longerLength - editDistance(longer, shorter)) / (double) longerLength;
+    }
+
+    public static int editDistance(String s1, String s2) {
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+
+        int[] costs = new int[s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++) {
+            int lastValue = i;
+            for (int j = 0; j <= s2.length(); j++) {
+                if (i == 0)
+                    costs[j] = j;
+                else {
+                    if (j > 0) {
+                        int newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                            newValue = Math.min(Math.min(newValue, lastValue),
+                                    costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if (i > 0)
+                costs[s2.length()] = lastValue;
+        }
+        return costs[s2.length()];
     }
 }

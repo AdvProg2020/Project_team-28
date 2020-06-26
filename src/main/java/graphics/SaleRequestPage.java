@@ -5,13 +5,8 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import main.Main;
 
-import java.io.File;
-import java.net.URL;
 import java.time.LocalDateTime;
 
 public class SaleRequestPage {
