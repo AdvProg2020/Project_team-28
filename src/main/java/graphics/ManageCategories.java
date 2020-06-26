@@ -89,7 +89,7 @@ public class ManageCategories {
                                 FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/AddCategoryPage.fxml").toURI().toURL());
                                 Parent root = fxmlLoader.load();
                                 ((AddCategoryPage) fxmlLoader.getController()).setParentCategory(categoryRow.category);
-                                Main.mainStage.setScene(new Scene(root, 620, 500));
+                                Main.mainStage.setScene(new Scene(root, 650, 580));
                             } catch (Exception e) {
                                 Main.showErrorDialog(e);
                             }
