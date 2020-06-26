@@ -76,7 +76,7 @@ public class RegisterMenu {
         if (!ManagerController.managerExists() && !accountType.getValue().toString().equals("Manager")) {
             throw (new Exception("Please register a manager first"));
         }
-        if (Main.controller.canBeManager(username.getText())) { //TODO check if can register
+        if (Main.controller.canBeManager(username.getText())) {
             Main.controller.registerAccount(data, true);
             return;
         }
