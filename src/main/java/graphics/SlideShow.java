@@ -5,8 +5,10 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.Product;
@@ -20,6 +22,7 @@ import java.util.TimerTask;
 
 public class SlideShow extends Pane {
     private ArrayList<Node> pages = new ArrayList<>();
+    private final int[] index = {0};
 
     public SlideShow() throws MalformedURLException {
         setMaxHeight(300);
@@ -34,6 +37,16 @@ public class SlideShow extends Pane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("clicked");
+                System.out.println(((ProductAdsThumb) pages.get(index[0])).product.getId());
+                //TODO
+            }
+        });
     }
 
     public void initialize() throws InterruptedException, IOException {
@@ -64,7 +77,6 @@ public class SlideShow extends Pane {
     }
 
     public void playSlideShow () {
-        final int[] index = {0};
         getChildren().add(pages.get(index[0]));
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {

@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import model.Product;
 
 import java.io.File;
@@ -18,7 +18,7 @@ public class ProductAdsThumb extends VBox {
     public Label price;
     public ImageView offImage;
     public Label offLabel;
-    private Product product;
+    public Product product;
 
     public ProductAdsThumb (Product product) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/ProductAdsThumb.fxml").toURI().toURL());
