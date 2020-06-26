@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<?import com.jfoenix.controls.JFXTextField?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="graphics.PaymentPage" prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="10" translateX="30">
+        <HBox spacing="20">
+            <Label text="Address: "/>
+            <Label fx:id="address"/>
+            <JFXButton fx:id="changeAddress" onAction="#openProfilePage" text="Change"/>
+        </HBox>
+        <HBox>
+            <Label text="Discount Code: "/>
+            <JFXTextField promptText="Code" labelFloat="true" fx:id="discountCode"/>
+            <JFXButton text="Add" fx:id="addDiscountButton" onAction="#addDiscount"/>
+            <JFXButton text="Remove" onAction="#removeDiscount" visible="false" fx:id="removeDiscountButton"/>
+        </HBox>
+        <HBox>
+            <Label text="Total price: "/>
+            <Label fx:id="totalPriceLabel"/>
+        </HBox>
+        <HBox>
+            <JFXButton fx:id="payButton" text="Finish payment" onAction="#finishPayment"/>
+        </HBox>
+    </VBox>
+
+    <stylesheets>
+
+    </stylesheets>
+
+</AnchorPane>

@@ -123,25 +123,43 @@ public class CustomerController extends UserController {
         Discount thisDiscount = Database.getDiscountByCode(code);
         if (thisDiscount == null)
             throw new Exception("Not a valid discount Code");
-        if (customerLoggedOn.hasDiscount(thisDiscount))
-            customerLoggedOn.useDiscount(thisDiscount);
+        customerLoggedOn.useDiscount(thisDiscount);
+    }
+
+    public void removeDiscountCode () {
+        if (customerLoggedOn.getDiscountUsed() != null)
+            customerLoggedOn.undoUseDiscount();
     }
 
     public long purchase() throws Exception {
         long totalPrice = getTotalPrice();
         customerLoggedOn.payCredit(totalPrice);
         PurchaseLog newLog = createPurchaseLog();
-        for (Product product : customerLoggedOn.getCart().keySet()) {
-            SellLog log = product.createSellLog();
-            log.setCustomer(customerLoggedOn);
-            product.getSellers().get(0).addSellLog(log);
-        }
+        createSellLogForAllProducts();
+        payEachSeller();
         customerLoggedOn.deleteDiscount();
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
         this.addCustomerToProducts();
         customerLoggedOn.emptyCart();
+        Database.update(customerLoggedOn, customerLoggedOn.getId());
         return totalPrice;
+    }
+
+    private void payEachSeller() {
+        for (Product product : customerLoggedOn.getCart().keySet()) {
+            Seller seller = product.getSellers().get(0);
+            seller.addToCredit(product.getPrice());
+            Database.update(seller, seller.getId());
+        }
+    }
+
+    public void createSellLogForAllProducts() {
+        for (Product product : customerLoggedOn.getCart().keySet()) {
+            SellLog log = product.createSellLog();
+            log.setCustomer(customerLoggedOn);
+            product.getSellers().get(0).addSellLog(log);
+        }
     }
 
     public void addCustomerToProducts() throws Exception {
@@ -154,7 +172,8 @@ public class CustomerController extends UserController {
         PurchaseLog log = new PurchaseLog();
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
-        log.setDiscount(customerLoggedOn.getDiscountUsed());
+        if (customerLoggedOn.getDiscountUsed() != null)
+            log.setDiscount(customerLoggedOn.getDiscountUsed());
         log.setProducts(customerLoggedOn.getCart());
         return log;
     }
@@ -191,5 +210,4 @@ public class CustomerController extends UserController {
             result.add(code.getCode());
         return result;
     }
-
 }

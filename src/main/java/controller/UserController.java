@@ -244,4 +244,8 @@ public class UserController {
     public void removeProduct(String productId) throws Exception {
         Database.remove(Database.getProductById(productId));
     }
+
+    public String getAddress() {
+        return userLoggedOn.getAddress();
+    }
 }

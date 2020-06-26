@@ -113,6 +113,10 @@ public abstract class User {
         this.credit = credit;
     }
 
+    public void addToCredit (long credit) {
+        this.credit += credit;
+    }
+
     public Long getCredit() {
         return credit;
     }

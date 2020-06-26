@@ -14,6 +14,7 @@ import main.Main;
 import model.Product;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class Cart {
@@ -148,8 +149,8 @@ public class Cart {
         tableView.getColumns().add(columnAction);
     }
 
-    public void goToPaymentPage() {
-        System.out.println("Go to payment page");
+    public void goToPaymentPage() throws Exception {
+        new PaymentPage().show(controller);
     }
 
     public void closeCart() {

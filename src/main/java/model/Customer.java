@@ -75,6 +75,11 @@ public class Customer extends User {
         discountUsed = discount;
     }
 
+    public void undoUseDiscount () {
+        discountUsed.undoUseCode(this);
+        discountUsed = null;
+    }
+
     public int decreaseNumberInCart(String productId) {
         if (isProductInCart(productId)) {
             if (cart.get(productId) <= 1)
@@ -148,5 +153,14 @@ public class Customer extends User {
                 return true;
         }
         return false;
+    }
+
+    public void setDiscountUsed(Discount discountUsed) {
+        this.discountUsed = discountUsed;
+    }
+
+    @Override
+    public String toString() {
+        return  username;
     }
 }

@@ -299,11 +299,11 @@ public class Product {
 
     public SellLog createSellLog() {
         SellLog log = new SellLog();
-        Database.add(log);
         log.setSoldProduct(this);
         log.setDate(LocalDateTime.now());
         log.setAmountReceived(this.getPrice());
         log.setAmountReduced(this.price - this.getPrice());
+        Database.add(log);
         return log;
     }
 

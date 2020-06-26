@@ -95,12 +95,18 @@ public class Discount {
     }
 
     public void useCode (User user) throws Exception {
+        System.out.println("Users of this code: " + getUsers());
         if (!this.users.containsKey(user.getId()))
-            throw new Exception("You dont own this code");
-        if (this.users.get(user.getId()) > 0 && validateTime())
+            throw new Exception("You do not own this code");
+        if (this.users.get(user.getId()) > 0 && validateTime()) {
             this.users.replace(user.getId(), this.users.get(user.getId()) - 1);
-        else
+            Database.update(this, id);
+        }else
             throw new Exception("Code Expired");
+    }
+
+    public void undoUseCode (User user) {
+        this.users.replace(user.getId(), this.users.get(user.getId()) + 1);
     }
 
     public boolean validateTime () {
