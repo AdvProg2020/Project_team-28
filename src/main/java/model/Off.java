@@ -3,7 +3,6 @@ package model;
 import controller.Database;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,8 +73,8 @@ public class Off {
         this.id = id;
     }
 
-    public ArrayList<Product> getProducts() {
-        return null;
+    public List<String> getProducts() {
+        return products;
     }
 
     public LocalDateTime getStartTime() {

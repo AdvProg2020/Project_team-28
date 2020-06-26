@@ -118,6 +118,7 @@ public class SellerController extends UserController {
         jsonObject.addProperty("owner", currentSeller.getId());
         jsonObject.addProperty("request-type", "edit off");
         jsonObject.addProperty("requestStatus", "pending");
+        jsonObject.addProperty("offId", data.get("offId"));
         jsonObject.addProperty("id", UUID.randomUUID().toString());
         Database.add(jsonObject);
     }

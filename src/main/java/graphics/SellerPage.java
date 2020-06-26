@@ -48,14 +48,17 @@ public class SellerPage {
     }
 
     public void manageProductsButtonPressed(ActionEvent actionEvent) {
+        backgroundMediaView.getMediaPlayer().stop();
         //TODO connect to add product manage page
     }
 
-    public void manageSalesButtonPressed(ActionEvent actionEvent) {
-        //TODO connect to add sale manage page
+    public void manageSalesButtonPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        ManageSalesPage.show(Main.controller.getUser());
     }
 
     public void viewSellLogsPressed(ActionEvent actionEvent) {
+        backgroundMediaView.getMediaPlayer().stop();
         //TODO connect to sell logs page
     }
 }
