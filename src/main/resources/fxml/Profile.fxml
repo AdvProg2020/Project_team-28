@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.*?>
 <?import graphics.*?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Separator?>
@@ -55,8 +53,12 @@
                 <EditableTextField fx:id="username" promptText="username" onAction="#propertyChanged"/>
                 <EditableTextArea fx:id="address" promptText="address" onAction="#propertyChanged"/>
                 <EditableTextField fx:id="credit" promptText="credit" onAction="#propertyChanged"/>
-                <JFXButton fx:id="discountButton" styleClass="simple-button" text="view discount codes"
-                           onAction="#viewDiscountsPressed"/>
+                <HBox>
+                    <JFXButton fx:id="discountButton" styleClass="simple-button" text="view discount codes"
+                               onAction="#viewDiscountsPressed"/>
+                    <JFXButton fx:id="historyButton" styleClass="simple-button" text="view purchases"
+                               onAction="#viewLogsPressed"/>
+                </HBox>
             </VBox>
         </HBox>
     </VBox>
