@@ -23,12 +23,14 @@ import main.Main;
 import model.Category;
 import model.Product;
 import model.Property;
+import model.Seller;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddProductPage {
     public JFXButton selectCategoryButton;
@@ -72,11 +74,11 @@ public class AddProductPage {
         return (AddProductPage) fxmlLoader.getController();
     }
 
-    public void setController (SellerController controller) {
+    public void setController(SellerController controller) {
         this.controller = controller;
     }
 
-    public void initialize () {
+    public void initialize() {
         controller = Main.sellerController;
         priceValid.setRegexPattern("\\d+");
         numberValid.setRegexPattern("\\d+");
@@ -134,15 +136,8 @@ public class AddProductPage {
         }
     }
 
-    public void loadProduct() throws IOException {
-        URL url = new File("src/main/resources/fxml/ProductsList.fxml").toURI().toURL();
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = loader.load();
-        popupStage = new Stage();
-        popupStage.setTitle("Select A Product");
-        popupStage.setScene(new Scene(root, 300, 400));
-        popupStage.showAndWait();
-
+    public void loadProduct() throws Exception {
+        FXMLLoader loader = new ProductsList().show((Seller) controller.getUser());
         ProductsList list = loader.getController();
         loadedProduct = list.getSelectedProduct();
         if (loadedProduct != null)
@@ -166,12 +161,6 @@ public class AddProductPage {
         }
         if (loadedProduct.getImageAddress() != null)
             productImage.setImage(loadedProduct.getProductImage());
-        disableTextFields();
-        description.setEditable(false);
-        description.setDisable(true);
-        selectCategoryButton.setDisable(true);
-        imageButton.setDisable(true);
-        videoButton.setDisable(true);
     }
 
     public void setLoadedProduct(Product product) {
@@ -238,37 +227,38 @@ public class AddProductPage {
         }
     }
 
-    public void submitProduct() {
-        if (loadedProduct == null) {
-            boolean allInputs = name.validate() && brand.validate() && price.validate() && quantity.validate();
-            if (!allInputs) {
-                return;
-            }
-            Product product = new Product(name.getText(), brand.getText(),
-                    price.getText(), description.getText(), controller.getUser().getId(), categoryName.getText());
-            product.setQuantity(Integer.parseInt(quantity.getText()));
-            product.setImageAddress(imageUri);
-            product.setVideoAddress(videoUri);
-            for (Node child : categoryBox.getChildren()) {
-                if (child instanceof JFXTextField) {
-                    Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));
-                    if (((JFXTextField) child).getText().matches("\\d+")) {
-                        property.setNumber(true);
-                        property.setValueLong(Long.parseLong(((JFXTextField) child).getText()));
-                    } else {
-                        property.setNumber(false);
-                        property.setValueString(((JFXTextField) child).getText());
-                    }
-                    Database.add(property);
-                    product.addSpecialProperty(property);
-                }
-            }
-            controller.addProduct(product);
-        }else {
-            if (!loadedProduct.getSellers().contains(controller.getUser()))
-                loadedProduct.addSeller(controller.getUser());
-            loadedProduct.setQuantity(loadedProduct.getQuantity() + Integer.parseInt(quantity.getText()));
+    public void submitProduct() throws Exception {
+        boolean allInputs = name.validate() && brand.validate() && price.validate() && quantity.validate();
+        if (!allInputs) {
+            return;
         }
+        Product product = new Product(name.getText(), brand.getText(),
+                price.getText(), description.getText(), controller.getUser().getId(), categoryName.getText());
+        product.setQuantity(Integer.parseInt(quantity.getText()));
+        product.setImageAddress(imageUri);
+        product.setVideoAddress(videoUri);
+        for (Node child : categoryBox.getChildren()) {
+            if (child instanceof JFXTextField) {
+                Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));
+                if (((JFXTextField) child).getText().matches("\\d+")) {
+                    property.setNumber(true);
+                    property.setValueLong(Long.parseLong(((JFXTextField) child).getText()));
+                } else {
+                    property.setNumber(false);
+                    property.setValueString(((JFXTextField) child).getText());
+                }
+                Database.add(property);
+                product.addSpecialProperty(property);
+            }
+        }
+        if (loadedProduct != null) {
+            controller.editProduct(loadedProduct.getId(), product);
+        } else
+            controller.addProduct(product);
+//            if (!loadedProduct.getSellers().contains(controller.getUser()))
+//                loadedProduct.addSeller(controller.getUser());
+//            loadedProduct.setQuantity(loadedProduct.getQuantity() + Integer.parseInt(quantity.getText()));
+
         Main.popupStage.close();
     }
 }
