@@ -1,12 +1,16 @@
 package graphics;
 
+import com.jfoenix.controls.JFXTextField;
 import controller.Database;
 import controller.ProductController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -16,6 +20,9 @@ import main.Main;
 import model.*;
 import model.exception.DefaultUser;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
@@ -45,6 +52,9 @@ public class ProductPage {
     public TableView<Property> tableView = new TableView<>();
 
     public VBox commentArea;
+
+    public JFXTextField anotherId;
+    public VBox compareArea;
 
     @FXML
     public void initialize() {
@@ -86,7 +96,7 @@ public class ProductPage {
         products.remove(product);
         products.sort(Comparator.comparingDouble(o -> ProductController.similarity(product, (Product) o)).reversed());
         for (int i = 0; i < 3 && i < products.size(); i++)
-            similarBox.getChildren().add(new ProductsPage.ProductPane(products.get(i)));
+            similarBox.getChildren().add(new ProductPane(products.get(i)));
     }
 
     private void showComments() {
@@ -195,6 +205,26 @@ public class ProductPage {
         FXMLLoader fxml = Main.setPopupStage("Video Player", "src/main/resources/fxml/VideoPlayer.fxml");
         ((VideoPlayer)fxml.getController()).setVideo(product.getVideoAddress());
 
+    }
+
+    public void comparePressed() {
+        try {
+            Product anotherProduct = Database.getProductById(anotherId.getText());
+            if (product.equals(anotherProduct))
+                throw new Exception("Choose a different product");
+            FXMLLoader fxml = Main.setMainStage("Compare Page", "src/main/resources/fxml/ComparePage.fxml");
+            ((ComparePage)fxml.getController()).setProducts(product, anotherProduct);
+
+        } catch (Exception e) {
+            Main.showErrorDialog(e);
+        }
+    }
+
+    public void copyPressed() {
+        StringSelection stringSelection = new StringSelection(product.getId());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+        compareArea.getChildren().add(new Label("product id copied into clipboard"));
     }
 
     public class CommentPane extends HBox {

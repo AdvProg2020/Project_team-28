@@ -9,10 +9,10 @@
 <?import java.net.URL?>
 <?import graphics.Rating?>
 
+<?import com.jfoenix.controls.JFXTextField?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="graphics.ProductPage"
-            prefHeight="400.0" prefWidth="620.0">
+            fx:controller="graphics.ProductPage">
     <VBox prefWidth="620">
         <TopBar/>
         <HBox styleClass="section">
@@ -64,6 +64,14 @@
             <Label styleClass="title">Comments</Label>
             <VBox fx:id="commentArea" styleClass="left-section"/>
             <Button styleClass="my-button" onAction="#addCommentPressed">Add comment</Button>
+        </VBox>
+
+        <Separator/>
+        <VBox styleClass="section" fx:id="compareArea">
+            <Label styleClass="title">Compare with another product</Label>
+            <JFXTextField promptText="another product id" maxWidth="120" fx:id="anotherId"/>
+            <Button styleClass="my-button" text="Compare" onAction="#comparePressed"/>
+            <Button styleClass="my-button" text="Copy id" onAction="#copyPressed"/>
         </VBox>
     </VBox>
 
