@@ -5,34 +5,45 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Product;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SlideShow {
+public class SlideShow extends Pane {
     private ArrayList<Node> pages = new ArrayList<>();
-    public Pane root;
 
-    public void initialize () throws InterruptedException, IOException {
+    public SlideShow() throws MalformedURLException {
+        setMaxHeight(300);
+        setMaxWidth(300);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/SlideShow.fxml").toURI().toURL());
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    public void initialize() throws InterruptedException, IOException {
         for (Product product : Database.getAllProductAds()) {
             addPage(new ProductAdsThumb(product));
         }
         playSlideShow();
     }
 
-    private FadeTransition getFadeTransition (Node node, Interpolator interpolator, String kind) {
+    private FadeTransition getFadeTransition(Node node, Interpolator interpolator, String kind) {
         FadeTransition fade = new FadeTransition();
         fade.setNode(node);
         fade.setInterpolator(interpolator);
@@ -54,16 +65,16 @@ public class SlideShow {
 
     public void playSlideShow () {
         final int[] index = {0};
-        root.getChildren().add(pages.get(index[0]));
+        getChildren().add(pages.get(index[0]));
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
                     if (index[0] != 0)
-                        root.getChildren().remove(pages.get(index[0] - 1));
+                        getChildren().remove(pages.get(index[0] - 1));
                     else
-                        root.getChildren().remove(pages.get(pages.size() - 1));
+                        getChildren().remove(pages.get(pages.size() - 1));
                     Node pageToRemove, pageToAdd;
                     pageToRemove = pages.get(index[0]);
                     if (index[0] != pages.size() - 1)
@@ -73,10 +84,10 @@ public class SlideShow {
                         pageToAdd = pages.get(0);
                     }
 //                    System.out.println("round: " + index[0]);
-//                    System.out.println(root.getChildren());
+//                    System.out.println(getChildren());
                     FadeTransition out = getFadeTransition(pageToRemove, Interpolator.EASE_OUT, "out");
                     FadeTransition in = getFadeTransition(pageToAdd, Interpolator.EASE_IN, "in");
-                    root.getChildren().add(pageToAdd);
+                    getChildren().add(pageToAdd);
                     SequentialTransition transition = new SequentialTransition(out, in);
                     transition.play();
                     index[0]++;

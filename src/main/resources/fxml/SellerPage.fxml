@@ -17,6 +17,7 @@
                 <JFXButton styleClass="dark-button" text="Add New Product" onAction="#newProductButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="Add New Sale" onAction="#newSaleButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="View Sell Logs" onAction="#viewSellLogsPressed"/>
+                <JFXButton styleClass="dark-button" text="ADD ADVERTISEMENT" onAction="#advertisementPressed"/>
             </VBox>
             <VBox alignment="CENTER" spacing="30.0">
                 <JFXButton styleClass="dark-button" text="Manage Requests" onAction="#manageRequestsButtonPressed"/>

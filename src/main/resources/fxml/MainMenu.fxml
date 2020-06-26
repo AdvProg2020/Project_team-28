@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import graphics.SlideShow?>
 <?import graphics.TopBar?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<?import javafx.scene.layout.StackPane?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="450.0" prefWidth="620.0"
            xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.MainMenu">
     <VBox>
@@ -23,11 +21,7 @@
 
             <Separator orientation="VERTICAL"/>
 
-            <ImageView fitHeight="300.0" preserveRatio="true">
-                <image>
-                    <Image url="@../images/big-logo.png"/>
-                </image>
-            </ImageView>
+            <SlideShow/>
 
             <stylesheets>
                 <URL value="@../stylesheets/main.css"/>
