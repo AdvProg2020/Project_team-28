@@ -52,6 +52,7 @@ public class AddCommentPage {
             comment.setText(commentText.getText());
             Database.add(comment);
             product.addComment(comment);
+            comment.getParent().addChild(comment);
             Database.update(product, product.getId());
             backToProduct();
         } catch (Exception e) {

@@ -31,12 +31,7 @@ public class ZoomPage {
 
     public void show(String title, String path) {
         root.setAlignment(Pos.CENTER);
-        Image source = null;
-        try {
-            source = new Image(new FileInputStream(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Image source = new Image(path);
 
         ImageView image = new ImageView(source);
         double ratio = source.getWidth() / source.getHeight();
@@ -58,7 +53,6 @@ public class ZoomPage {
         image.setFitHeight(height);
         height = (int) source.getHeight();
         width = (int) source.getWidth();
-        System.out.println("height = " + height + "\nwidth = " + width);
         HBox zoom = new HBox(10);
         zoom.setAlignment(Pos.CENTER);
 

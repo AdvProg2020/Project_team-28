@@ -16,6 +16,7 @@
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import com.jfoenix.validation.RegexValidator?>
 <?import com.jfoenix.validation.NumberValidator?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxWidth="250.0" prefHeight="250.0"
                xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.AddProductPage">
     <VBox fx:id="mainBox" spacing="40" prefHeight="250" minWidth="250">
@@ -33,6 +34,9 @@
             <JFXTextField fx:id="price" promptText="Price" labelFloat="true"/>
             <JFXTextField fx:id="quantity" promptText="Quantity" labelFloat="true" text="100"/>
         </HBox>
+        <HBox>
+            <JFXTextArea fx:id="description" promptText="Description" labelFloat="true"/>
+        </HBox>
 
         <Separator/>
 
@@ -48,10 +52,16 @@
         <Separator/>
 
         <VBox>
-            <Label text="Select product image" styleClass="secondary-text" fx:id="filePath"/>
-            <JFXButton fx:id="browseButton" styleClass="handleButton" onAction="#browseForFile" text="Browse"/>
+            <Label text="Select product image" styleClass="secondary-text" fx:id="imagePath"/>
+            <JFXButton fx:id="imageButton" styleClass="handleButton" onAction="#browseForImage" text="Browse Image"/>
             <Label text="preview:" styleClass="secondary-text"/>
             <ImageView fx:id="productImage" fitHeight="80" fitWidth="80"/>
+        </VBox>
+
+        <Separator/>
+        <VBox>
+            <Label text="Select product video" styleClass="secondary-text" fx:id="videoPath"/>
+            <JFXButton fx:id="videoButton" styleClass="handleButton" onAction="#browseForVideo" text="Browse Video"/>
         </VBox>
         <JFXButton text="Submit" styleClass="finalButton" alignment="BOTTOM_CENTER" onAction="#submitProduct"/>
     </VBox>

@@ -97,7 +97,6 @@ public class ManagerRequestsPage {
                     private final JFXButton view = new JFXButton("");
 
                     {
-                        //TODO doesn't work logically correct
                         ImageView acceptImage = new ImageView(new Image(new File("src/main/resources/images/check-icon.png").toURI().toString()));
                         acceptImage.setFitWidth(20);
                         acceptImage.setPreserveRatio(true);

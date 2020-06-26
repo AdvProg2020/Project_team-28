@@ -8,6 +8,7 @@ public class Filler {
         fields.put("name", true);
         fields.put("brand", true);
         fields.put("price", true);
+        fields.put("description", true);
         fields.put("category", true);
     }
 
@@ -15,6 +16,7 @@ public class Filler {
         fields.put("name", true);
         fields.put("brand", true);
         fields.put("price", false);
+        fields.put("description", true);
         fields.put("category", true);
     }
 

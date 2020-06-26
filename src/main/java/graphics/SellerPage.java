@@ -29,7 +29,6 @@ public class SellerPage {
     }
 
     public void newProductButtonPressed(ActionEvent actionEvent) {
-        //TODO connect to add product page
         try {
             new AddProductPage().show(Main.sellerController);
         } catch (IOException e) {

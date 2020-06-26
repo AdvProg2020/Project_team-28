@@ -16,14 +16,19 @@
     <VBox prefWidth="620">
         <TopBar/>
         <HBox styleClass="section">
-            <VBox>
-                <ImageView fx:id="productImage" fitWidth="250.0" preserveRatio="true" onMouseClicked="#imagePressed">
+            <VBox fx:id="mediaBox" spacing="10">
+                <ImageView fx:id="productImage" fitWidth="250.0" preserveRatio="true">
                     <Image url="@../images/no-product.png"/>
                 </ImageView>
+                <HBox spacing="20" prefWidth="250">
+                    <Button text="Zoom Image" onAction="#imagePressed" styleClass="my-button" fx:id="imageButton"/>
+                    <Button text="Play Video" onAction="#videoPressed" styleClass="my-button" fx:id="videoButton"/>
+                </HBox>
             </VBox>
             <Separator orientation="VERTICAL"/>
             <VBox fx:id="infoBox" spacing="10">
                 <Label fx:id="productName" styleClass="title"/>
+                <Label fx:id="productBrand" styleClass="brand"/>
                 <Label fx:id="productInfo" wrapText="true"/>
                 <Rating fx:id="rating"/>
                 <HBox spacing="10">
@@ -34,6 +39,7 @@
                     </Spinner>
                     <Button fx:id="cartButton" styleClass="my-button" onAction="#cartPressed">Add to cart</Button>
                 </HBox>
+                <Label fx:id="productPrice" styleClass="price"/>
             </VBox>
         </HBox>
         <Separator/>

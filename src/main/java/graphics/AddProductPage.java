@@ -1,6 +1,7 @@
 package graphics;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
@@ -39,11 +40,14 @@ public class AddProductPage {
     public JFXTextField name;
     public JFXTextField brand;
     public JFXTextField price;
+    public JFXTextArea description;
     public RegexValidator priceValid;
     public FileChooser fileChooser;
-    public Label filePath;
+    public Label imagePath;
+    public Label videoPath;
     public ImageView productImage;
-    public JFXButton browseButton;
+    public JFXButton imageButton;
+    public JFXButton videoButton;
     public Image selectedImage;
     public Label categoryName;
     public VBox categoryBox;
@@ -52,6 +56,7 @@ public class AddProductPage {
     private Product loadedProduct;
     private String selectedCategory;
     private String imageUri;
+    private String videoUri;
 
     public AddProductPage show(SellerController controller) throws IOException {
         System.out.println("show: " + controller);
@@ -105,21 +110,31 @@ public class AddProductPage {
         });
     }
 
-    public void browseForFile(ActionEvent actionEvent) throws MalformedURLException {
+    public void browseForImage() throws MalformedURLException {
         fileChooser = new FileChooser();
-        String[] extensions = {"png", "jpeg", "jpg", "bmp"};
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files",
                 "*.png", "*.jpeg", "*.jpg", "*.bmp"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             imageUri = file.toURI().toURL().toString();
             selectedImage = new Image(imageUri);
-            filePath.setText(file.getAbsolutePath());
+            imagePath.setText(file.getAbsolutePath());
             productImage.setImage(selectedImage);
         }
     }
 
-    public void loadProduct(ActionEvent actionEvent) throws IOException {
+    public void browseForVideo() throws MalformedURLException {
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video Files",
+                "*.mp4"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            videoUri = file.toURI().toURL().toString();
+            videoPath.setText(file.getAbsolutePath());
+        }
+    }
+
+    public void loadProduct() throws IOException {
         URL url = new File("src/main/resources/fxml/ProductsList.fxml").toURI().toURL();
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
@@ -138,6 +153,7 @@ public class AddProductPage {
         price.setText(String.valueOf(loadedProduct.getPrice()));
         name.setText(loadedProduct.getName());
         brand.setText(loadedProduct.getBrand());
+        description.setText(loadedProduct.getDescription());
         selectedCategory = loadedProduct.getCategory().getName();
         addCategoryFields();
         categoryName.setText(selectedCategory);
@@ -148,11 +164,14 @@ public class AddProductPage {
             if (thisProperty != null)
                 ((JFXTextField) child).setText(thisProperty.getValue());
         }
-        if (loadedProduct.getProductImageAddress() != null)
+        if (loadedProduct.getImageAddress() != null)
             productImage.setImage(loadedProduct.getProductImage());
         disableTextFields();
+        description.setEditable(false);
+        description.setDisable(true);
         selectCategoryButton.setDisable(true);
-        browseButton.setDisable(true);
+        imageButton.setDisable(true);
+        videoButton.setDisable(true);
     }
 
     public void setLoadedProduct(Product product) {
@@ -198,9 +217,7 @@ public class AddProductPage {
     }
 
     private void addCategoryFields() {
-        for (int i = categoryBox.getChildren().size() - 1; i >= 0 ; i--) {
-            categoryBox.getChildren().remove(i);
-        }
+        categoryBox.getChildren().clear();
         Category category = Database.getCategoryByName(selectedCategory);
         if (category.getSpecialProperties() == null)
             return;
@@ -221,16 +238,17 @@ public class AddProductPage {
         }
     }
 
-    public void submitProduct(ActionEvent actionEvent) {
+    public void submitProduct() {
         if (loadedProduct == null) {
-            boolean allInputs = name.validate() && brand.validate() && price.validate();
+            boolean allInputs = name.validate() && brand.validate() && price.validate() && quantity.validate();
             if (!allInputs) {
                 return;
             }
             Product product = new Product(name.getText(), brand.getText(),
-                    price.getText(), controller.getUser().getId(), categoryName.getText());
+                    price.getText(), description.getText(), controller.getUser().getId(), categoryName.getText());
             product.setQuantity(Integer.parseInt(quantity.getText()));
-            product.setProductImageAddress(imageUri);
+            product.setImageAddress(imageUri);
+            product.setVideoAddress(videoUri);
             for (Node child : categoryBox.getChildren()) {
                 if (child instanceof JFXTextField) {
                     Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));

@@ -21,12 +21,12 @@ public class Product {
     private String name;
     private String brand;
     private long price;
+    private String description;
     private ArrayList<String> sellers;
     private boolean inStock;
     private int quantity = 100;
     private String category;
     private String off;
-    private String description;
     private int viewed = 0;
     private ArrayList<String> allScores;
     private ArrayList<String> allComments;
@@ -35,8 +35,9 @@ public class Product {
     private ArrayList<String> allBuyers;
     private String id;
     private String productImageAddress;
+    private String videoAddress = null;
 
-    public Product(String name, String brand, String price, String seller, String category) {
+    public Product(String name, String brand, String price, String description, String seller, String category) {
         allScores = new ArrayList<>();
         allComments = new ArrayList<>();
         allProperties = new ArrayList<>();
@@ -48,16 +49,25 @@ public class Product {
         this.name = name;
         this.brand = brand;
         this.price = Long.parseLong(price);
+        this.description = description;
         this.sellers.add(seller);
         this.category = Objects.requireNonNull(Database.getCategoryByName(category)).getId();
         this.productImageAddress = null;
     }
 
-    public void setProductImageAddress(String imageUrl) {
+    public void setImageAddress(String imageUrl) {
         this.productImageAddress = imageUrl;
     }
 
-    public String getProductImageAddress() {
+    public void setVideoAddress (String videoAddress) {
+        this.videoAddress = videoAddress;
+    }
+
+    public String getVideoAddress() {
+        return videoAddress;
+    }
+
+    public String getImageAddress() {
         return productImageAddress;
     }
 
@@ -283,6 +293,10 @@ public class Product {
             return Long.max((price * (100 - this.getOff().getPercentage())) / 100, price - this.getOff().getMaxAmount());
         else
             return price;
+    }
+
+    public long getPurePrice() {
+        return price;
     }
 
     public Property getSpecialPropertyByName(String name) {

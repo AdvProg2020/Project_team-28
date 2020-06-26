@@ -104,7 +104,11 @@ public class ManagerController extends UserController {
                     break;
                 case "add product":
                 case "edit product":
-                    Database.add(new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));
+                    Product product = new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class);
+                    Category category = product.getCategory();
+                    Database.add(product);
+                    category.addProduct(product);
+                    Database.update(category, category.getId());
                     break;
                 case "remove product":
                     Database.remove(new Gson().fromJson(jsonElement.getAsJsonObject().get("product").getAsJsonObject(), Product.class));

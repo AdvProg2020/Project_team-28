@@ -35,6 +35,7 @@ public class ProfilePage {
     public EditableTextArea address;
     public EditableTextField credit;
     public JFXButton discountButton;
+    public JFXButton historyButton;
     private FileChooser fileChooser = new FileChooser();
 
     public String user = Main.controller.getPersonalInfo("username");
@@ -49,6 +50,8 @@ public class ProfilePage {
         if (!Main.controller.getUser().getType().equals("customer")) {
             discountButton.setManaged(false);
             discountButton.setVisible(false);
+            historyButton.setManaged(false);
+            historyButton.setVisible(false);
         }
 
         firstName.setText(Main.controller.getPersonalInfo(user, "firstName"));
@@ -98,12 +101,21 @@ public class ProfilePage {
                 Main.controller.changePersonalInfo(user, "gender", (String) ((JFXComboBox) actionEvent.getSource()).getValue());
                 break;
             default:
-                System.out.println(((TextInputControl) actionEvent.getSource()).getPromptText() + ".setText(Main.controller.getPersonalInfo(\"" + ((TextInputControl) actionEvent.getSource()).getPromptText() + "\");"); // TODO text area and password
+                System.out.println(((TextInputControl) actionEvent.getSource()).getPromptText() + ".setText(Main.controller.getPersonalInfo(\"" + ((TextInputControl) actionEvent.getSource()).getPromptText() + "\");");
                 Main.controller.changePersonalInfo(user, ((TextInputControl) actionEvent.getSource()).getPromptText(), ((TextInputControl) actionEvent.getSource()).getText());
         }
     }
 
     public void viewDiscountsPressed(ActionEvent actionEvent) throws IOException {
         ManageDiscountsPage.show(Main.controller.getUser());
+    }
+
+    public void viewLogsPressed(ActionEvent actionEvent) throws IOException {
+        if (Main.controller.getUser().getType().equals("customer")) {
+            //TODO PurchaseLogView.show(Main.controller.getUser());
+        }
+        if (Main.controller.getUser().getType().equals("seller")) {
+            //TODO SellerLogView.show(Main.controller.getUser());
+        }
     }
 }
