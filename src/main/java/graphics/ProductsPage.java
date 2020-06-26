@@ -1,5 +1,6 @@
 package graphics;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.IntegerValidator;
 import controller.Database;
@@ -25,6 +26,8 @@ public class ProductsPage {
     public GridPane gridPane;
     public ChoiceBox<Category> categoryBox;
     public VBox filtersBox;
+    public JFXCheckBox inStock;
+    public JFXCheckBox hasOff;
     public JFXTextField nameField;
     public JFXTextField minPrice;
     public JFXTextField maxPrice;
@@ -35,6 +38,7 @@ public class ProductsPage {
     Comparator<Product> comparator;
     ArrayList<Product> products = Database.getAllProducts();
     ArrayList<JFXTextField> fields = new ArrayList<>();
+    ArrayList<JFXCheckBox> checkBoxes = new ArrayList<>();
     Filter filter = new Filter();
 
     @FXML
@@ -83,6 +87,9 @@ public class ProductsPage {
         fields.add(maxPrice);
         fields.add(brandField);
         fields.add(sellerField);
+        checkBoxes = new ArrayList<>();
+        checkBoxes.add(inStock);
+        checkBoxes.add(hasOff);
         minPrice.setValidators(numberValidator);
         maxPrice.setValidators(numberValidator);
 
@@ -99,18 +106,26 @@ public class ProductsPage {
         for (JFXTextField field : fields) {
             field.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (field.validate()) {
-                    System.out.println("hey");
                     applyFilters();
                 }
             });
         }
+        for (JFXCheckBox box : checkBoxes) {
+            box.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        }
+
         filtersBox.getChildren().clear();
+        filtersBox.getChildren().addAll(checkBoxes);
         filtersBox.getChildren().addAll(fields);
         applyFilters();
     }
 
     private void applyFilters() {
         filter = new Filter();
+        for (JFXCheckBox box : checkBoxes) {
+            if (box.isSelected())
+                filter.addRestriction(new Property(box.getText(), ""));
+        }
         for (JFXTextField field : fields) {
             if (!field.getText().trim().isEmpty() && field.validate()) {
                 if (field.getValidators().isEmpty())
@@ -173,7 +188,7 @@ public class ProductsPage {
 
             this.getChildren().addAll(imagePane, productLabel);
 
-            if (product.getPrice() < product.getPurePrice()) {
+            if (product.hasOff()) {
                 Text oldPrice = new Text(product.getPurePrice() + "$");
                 oldPrice.setId("oldPrice");
                 this.getChildren().add(oldPrice);

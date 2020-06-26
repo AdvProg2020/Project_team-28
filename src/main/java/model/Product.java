@@ -23,7 +23,7 @@ public class Product {
     private long price;
     private String description;
     private ArrayList<String> sellers;
-    private boolean inStock;
+    //private boolean inStock;
     private int quantity = 100;
     private String category;
     private String off;
@@ -203,7 +203,7 @@ public class Product {
     }
 
     public boolean isInStock() {
-        return inStock;
+        return quantity > 0;
     }
 
     public Category getCategory() {
@@ -265,13 +265,13 @@ public class Product {
                         return true;
                 }
                 return false;
+            case "Only in-stock":
+                return this.isInStock();
+            case "Only with off":
+                return this.hasOff();
             // following cases aren't handled in graphic:
             case "category":
                 return this.category.equals(property.getValueString());
-            case "inStock":
-                return (this.inStock ? 1 : 0) == property.getValueLong();
-            case "hasOff":
-                return ((this.hasOff()) ? 1 : 0) == property.getValueLong();
         }
         for (String thisProperty : allProperties) {
             if (property.equals(Database.getPropertyById(thisProperty)))

@@ -54,4 +54,8 @@ public class SellerPage {
     public void manageSalesButtonPressed(ActionEvent actionEvent) {
         //TODO connect to add sale manage page
     }
+
+    public void viewSellLogsPressed(ActionEvent actionEvent) {
+        //TODO connect to sell logs page
+    }
 }

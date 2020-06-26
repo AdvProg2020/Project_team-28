@@ -16,6 +16,14 @@
     -fx-font-weight: bold;
 }
 
+#offLabel {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: RED;
+    -fx-border-color: RED;
+    -fx-padding: 3px;
+}
+
 .section {
     -fx-padding: 30px 50px 50px 50px;
     -fx-spacing: 10px;
