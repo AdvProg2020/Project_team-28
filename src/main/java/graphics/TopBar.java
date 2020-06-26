@@ -43,6 +43,7 @@ public class TopBar extends HBox {
     public Text username;
 
     public TopBar() throws MalformedURLException {
+        setMinWidth(620);
 
         FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/TopBar.fxml").toURI().toURL());
         fxmlLoader.setRoot(this);

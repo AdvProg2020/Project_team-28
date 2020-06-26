@@ -41,5 +41,6 @@
     <stylesheets>
         <URL value="@../stylesheets/main.css"/>
         <URL value="@../stylesheets/ProductPage.css"/>
+        <URL value="@../stylesheets/ProductsPage.css"/>
     </stylesheets>
 </ScrollPane>

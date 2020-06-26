@@ -295,6 +295,10 @@ public class Product {
             return price;
     }
 
+    public long getPurePrice() {
+        return price;
+    }
+
     public Property getSpecialPropertyByName(String name) {
         for (Property property : this.getAllSpecialProperties()) {
             if (property.getName().equals(name))

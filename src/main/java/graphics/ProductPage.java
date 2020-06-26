@@ -31,6 +31,8 @@ public class ProductPage {
 
     public VBox infoBox;
     public Label productName;
+    public Label productBrand;
+    public Label productPrice;
     public Label productInfo;
     public Rating rating;
     public Spinner spinner;
@@ -47,6 +49,8 @@ public class ProductPage {
         if (product == null)
             return;
         productName.setText(product.getName());
+        productBrand.setText(product.getBrand());
+        productPrice.setText(product.getPrice() + " $");
         productInfo.setText(product.getDescription());
         product.setImageView(productImage);
         rating.setRate(product);
@@ -171,6 +175,8 @@ public class ProductPage {
         int rightSize = 440;
 
         public CommentPane(Comment comment) {
+            if (comment == null)
+                System.out.println("sadadfdfsd");
             rightSize -= comment.getDepth() * leftSize;
 
             this.setMinWidth(leftSize + rightSize);

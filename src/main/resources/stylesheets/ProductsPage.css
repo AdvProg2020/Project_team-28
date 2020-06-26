@@ -13,9 +13,21 @@
 
 #price {
     -fx-font-weight: bold;
-    -fx-text-fill: black;
+}
+
+#oldPrice {
+    -fx-strikethrough: true;
 }
 
 #score {
     -fx-text-fill: green;
+}
+
+#offLabel {
+    -fx-font-weight: bold;
+    -fx-text-fill: RED;
+    -fx-border-width: medium;
+    -fx-border-color: RED;
+    -fx-padding: 3px;
+    /*-fx-rotate: -45deg;*/
 }
