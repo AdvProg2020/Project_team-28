@@ -14,6 +14,7 @@
 <?import com.jfoenix.validation.IntegerValidator?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductsPage" fitToWidth="true">
@@ -50,7 +51,9 @@
                     <!--                    Filters -->
                     <Label>Filters:</Label>
                     <IntegerValidator fx:id="numberValidator" message="Enter a valid number"/>
-                    <VBox fx:id="filtersBox" spacing="35">
+                    <VBox fx:id="filtersBox" spacing="20">
+                        <JFXCheckBox fx:id="inStock">Only in-stock</JFXCheckBox>
+                        <JFXCheckBox fx:id="hasOff">Only with off</JFXCheckBox>
                         <JFXTextField fx:id="nameField" promptText="Name" labelFloat="true"/>
                         <JFXTextField fx:id="minPrice" promptText="Min Price" labelFloat="true"/>
                         <JFXTextField fx:id="maxPrice" promptText="Max Price" labelFloat="true"/>

@@ -26,8 +26,6 @@
 #offLabel {
     -fx-font-weight: bold;
     -fx-text-fill: RED;
-    -fx-border-width: medium;
     -fx-border-color: RED;
     -fx-padding: 3px;
-    /*-fx-rotate: -45deg;*/
 }
