@@ -29,7 +29,6 @@ public class Comment {
         this.time = LocalDate.now();
         this.bought = user instanceof Customer && ((Customer) user).hasBoughtProduct(product);
         if (parent != null) {
-            parent.addChild(this);
             this.parent = parent.getId();
             depth = parent.depth + 1;
         }

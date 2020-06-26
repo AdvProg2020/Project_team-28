@@ -7,6 +7,15 @@
     -fx-font-size: 20;
 }
 
+
+.brand {
+    -fx-text-fill: #7B1FA2;
+}
+
+.price {
+    -fx-font-weight: bold;
+}
+
 .section {
     -fx-padding: 30px 50px 50px 50px;
     -fx-spacing: 10px;

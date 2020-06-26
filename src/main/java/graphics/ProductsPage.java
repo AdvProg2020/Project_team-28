@@ -11,6 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import main.Main;
 import model.Category;
 import model.Filter;
@@ -165,18 +166,30 @@ public class ProductsPage {
             ImageView imageView = product.setImageView(new ImageView());
             imageView.setFitWidth(prefSize - 20);
             imageView.setFitHeight(prefSize - 20);
-
-            this.getChildren().add(imageView);
-
+            Pane imagePane = new Pane();
+            imagePane.getChildren().add(imageView);
+            imagePane.setMinSize(imageView.getFitWidth(), imageView.getFitHeight());
             Label productLabel = new Label(product.getName());
+
+            this.getChildren().addAll(imagePane, productLabel);
+
+            if (product.getPrice() < product.getPurePrice()) {
+                Text oldPrice = new Text(product.getPurePrice() + "$");
+                oldPrice.setId("oldPrice");
+                this.getChildren().add(oldPrice);
+                Label offLabel = new Label(100 - 100 * product.getPrice() / product.getPurePrice() + "%");
+                offLabel.setId("offLabel");
+                imagePane.getChildren().add(offLabel);
+            }
             Label priceLabel = new Label(product.getPrice() + " $");
+
             Rating rating = new Rating();
             rating.setRate(product).setSize(18);
             productLabel.setId("productName");
             priceLabel.setId("price");
             this.getStyleClass().add("bobble");
 
-            this.getChildren().addAll(productLabel, priceLabel, rating);
+            this.getChildren().addAll(priceLabel, rating);
         }
     }
 }

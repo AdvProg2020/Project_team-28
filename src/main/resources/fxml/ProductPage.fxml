@@ -28,6 +28,7 @@
             <Separator orientation="VERTICAL"/>
             <VBox fx:id="infoBox" spacing="10">
                 <Label fx:id="productName" styleClass="title"/>
+                <Label fx:id="productBrand" styleClass="brand"/>
                 <Label fx:id="productInfo" wrapText="true"/>
                 <Rating fx:id="rating"/>
                 <HBox spacing="10">
@@ -38,6 +39,7 @@
                     </Spinner>
                     <Button fx:id="cartButton" styleClass="my-button" onAction="#cartPressed">Add to cart</Button>
                 </HBox>
+                <Label fx:id="productPrice" styleClass="price"/>
             </VBox>
         </HBox>
         <Separator/>
