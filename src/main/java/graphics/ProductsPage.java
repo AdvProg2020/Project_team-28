@@ -152,6 +152,13 @@ public class ProductsPage {
             gridPane.getChildren().add(pane);
             GridPane.setConstraints(pane, counter % 2, counter / 2);
             counter++;
+
+            pane.setOnMouseClicked(event -> {
+                FXMLLoader fxmlLoader;
+                fxmlLoader = Main.setMainStage(product.getName(), "src/main/resources/fxml/ProductPage.fxml");
+                assert fxmlLoader != null;
+                ((ProductPage) fxmlLoader.getController()).setProduct(product);
+            });
         }
     }
 
@@ -197,12 +204,6 @@ public class ProductsPage {
             this.getStyleClass().add("bobble");
 
             this.getChildren().addAll(priceLabel, rating);
-            this.setOnMouseClicked(event -> {
-                FXMLLoader fxmlLoader;
-                fxmlLoader = Main.setMainStage(this.product.getName(), "src/main/resources/fxml/ProductPage.fxml");
-                assert fxmlLoader != null;
-                ((ProductPage) fxmlLoader.getController()).setProduct(this.getProduct());
-            });
         }
     }
 }
