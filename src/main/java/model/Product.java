@@ -284,6 +284,16 @@ public class Product {
         return false;
     }
 
+    public String getPropertyValue (String propertyName) {
+        for (String propertyId : allSpecialProperties) {
+            Property property = Database.getPropertyById(propertyId);
+            assert property != null;
+            if (property.getName().equals(propertyName))
+                return property.getValue();
+        }
+        return "";
+    }
+
     public void setMainSeller(Seller seller) {
         this.sellers.add(0, seller.getId());
     }

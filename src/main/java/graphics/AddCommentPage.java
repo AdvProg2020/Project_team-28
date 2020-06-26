@@ -26,7 +26,7 @@ public class AddCommentPage {
     public void initialize() {
         if (comment == null)
             return;
-        hbox.getChildren().add(new ProductsPage.ProductPane(product));
+        hbox.getChildren().add(new ProductPane(product));
         if (comment.getParent() != null)
             inReply.setText("In reply to \"" + comment.getParent().getTitle() + "\"");
     }
