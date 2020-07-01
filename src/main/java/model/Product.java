@@ -318,7 +318,14 @@ public class Product {
     }
 
     public boolean hasOff() {
-        return this.off != null;
+        if (off != null) {
+            if (Database.getOffById(off).getFinishTime().isBefore(LocalDateTime.now())) {
+                this.off = null;
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     public SellLog createSellLog() {

@@ -23,12 +23,12 @@
 
             <Separator orientation="VERTICAL"/>
 
-<!--            <SlideShow/>-->
-            <ImageView fitHeight="300.0" preserveRatio="true">
-                <image>
-                    <Image url="@../images/shop-logo.png"/>
-                </image>
-            </ImageView>
+            <SlideShow/>
+<!--            <ImageView fitHeight="300.0" preserveRatio="true">-->
+<!--                <image>-->
+<!--                    <Image url="@../images/shop-logo.png"/>-->
+<!--                </image>-->
+<!--            </ImageView>-->
 
             <stylesheets>
                 <URL value="@../stylesheets/main.css"/>

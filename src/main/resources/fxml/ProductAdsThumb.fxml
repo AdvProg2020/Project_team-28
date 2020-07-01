@@ -8,15 +8,15 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import java.net.URL?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" spacing="10">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" spacing="-80">
     <HBox>
-        <Pane>
+        <Pane maxHeight="250">
             <ImageView fx:id="image" fitWidth="250" fitHeight="250"/>
             <ImageView fx:id="offImage" visible="false" fitHeight="100" preserveRatio="true" styleClass="offImage"/>
         </Pane>
     </HBox>
     <HBox>
-        <VBox>
+        <VBox maxHeight="50">
             <Label fx:id="name" styleClass="imageLabel"/>
             <Label fx:id="price" styleClass="imageLabel"/>
         </VBox>

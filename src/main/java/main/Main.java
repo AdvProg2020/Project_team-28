@@ -175,6 +175,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
+//        Database.addProductToAds(Database.getProductById("111388d0-ac14-4a24-b54f-fda183df6c2d"));
+//        Database.addProductToAds(Database.getProductById("efe8e6bf-4b3c-4699-b3cf-16c6fd89c483"));
         mainStage = primaryStage;
         Main.setMainStage("", "src/main/resources/fxml/MainMenu.fxml");
         primaryStage.show();

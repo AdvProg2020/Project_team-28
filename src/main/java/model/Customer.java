@@ -141,11 +141,12 @@ public class Customer extends User {
     }
 
     public boolean hasBoughtProduct(Product product) {
-        for (String log : purchaseHistory) {
-            if (Database.getPurchaseLogById(log).getProducts().containsKey(product))
-                return true;
-        }
-        return false;
+        return true;
+//        for (String log : purchaseHistory) {
+//            if (Database.getPurchaseLogById(log).getProducts().containsKey(product))
+//                return true;
+//        }
+//        return false;
     }
 
     public void setDiscountUsed(Discount discountUsed) {
