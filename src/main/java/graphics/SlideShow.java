@@ -45,12 +45,16 @@ public class SlideShow extends Pane {
             public void handle(MouseEvent event) {
                 Product product = ((ProductAdsThumb) pages.get(index[0])).product;
                 FXMLLoader fxmlLoader = Main.setMainStage(product.getName(), "src/main/resources/fxml/ProductPage.fxml");
-                ((ProductPage) fxmlLoader.getController()).setProduct(product);
+                try {
+                    assert fxmlLoader != null;
+                    ((ProductPage) fxmlLoader.getController()).setProduct(product);
+                } catch (IOException ignored) {
+                }
             }
         });
     }
 
-    public void initialize() throws InterruptedException, IOException {
+    public void initialize() throws IOException {
         if (Database.getAllProductAds().size() == 0) {
             addPage(null);
         }

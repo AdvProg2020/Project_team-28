@@ -6,13 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.*;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Database {
+    private static String shopBankAccountId;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Product> allProducts = new ArrayList<>();
     private static final ArrayList<JsonObject> allRequests = new ArrayList<>();
@@ -30,6 +28,34 @@ public class Database {
     public static void loadAllData() {
         makeDirectories();
         loadLists();
+    }
+
+    public static boolean loadShopAccount() throws Exception {
+        File file = new File("Database/accountId.dll");
+        if (!file.exists()) {
+            file.createNewFile();
+            return false;
+        }
+        ObjectInputStream inputStream;
+        try {
+            inputStream = new ObjectInputStream(new FileInputStream(file));
+            shopBankAccountId = (String) inputStream.readObject();
+            inputStream.close();
+            return true;
+        } catch (EOFException ignored) {
+        }
+        return false;
+    }
+
+    public static void saveShopAccount (String accountId) throws Exception {
+        File file = new File("Database/accountId.dll");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+        outputStream.writeObject(shopBankAccountId);
+        outputStream.flush();
+        outputStream.close();
     }
 
     private static void makeDirectories() {
@@ -400,6 +426,10 @@ public class Database {
 
     public static ArrayList<Off> getAllOffs() {
         return allOffs;
+    }
+
+    public static String getShopBankAccountId () {
+        return shopBankAccountId;
     }
 
     public static void update(Object object, String id) {

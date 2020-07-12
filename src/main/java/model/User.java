@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 public abstract class User {
@@ -12,6 +13,7 @@ public abstract class User {
     protected String password;
     protected long credit;
     protected String id;
+    protected String bankAccountId;
     protected String birthDate = "2007-12-03";
     protected String gender = "Prefer not to say";
     protected String Address;

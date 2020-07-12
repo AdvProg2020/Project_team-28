@@ -24,15 +24,15 @@ public class BankAPI {
 
     private String createReceipt (String token, String receiptType, long money, String sourceId,
                                   String destId) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder("create_receipt").append(" ")
-                .append(token).append(" ")
-                .append(receiptType).append(" ")
-                .append(money).append(" ")
-                .append(sourceId).append(" ")
-                .append(destId).append(" ")
-                .append(money).append("_").append(receiptType).append("_from_")
-                .append(sourceId).append("_to_").append(destId);
-        return sendMessage(stringBuilder.toString());
+        String stringBuilder = "create_receipt" + " " +
+                token + " " +
+                receiptType + " " +
+                money + " " +
+                sourceId + " " +
+                destId + " " +
+                money + "_" + receiptType + "_from_" +
+                sourceId + "_to_" + destId;
+        return sendMessage(stringBuilder);
     }
 
     private String payReceipt (String receiptId) throws IOException {
@@ -40,13 +40,21 @@ public class BankAPI {
     }
 
     public String createBankAccount (User user) throws IOException {
-        StringBuilder message = new StringBuilder("create_account ");
-        message.append(user.getFirstName()).append(" ")
-                .append(user.getSurname()).append(" ")
-                .append(user.getUsername()).append(" ")
-                .append(user.getPassword()).append(" ")
-                .append(user.getPassword()).append(" ");
-        return sendMessage(message.toString());
+        String message = "create_account " + user.getFirstName() + " " +
+                user.getSurname() + " " +
+                user.getUsername() + " " +
+                user.getPassword() + " " +
+                user.getPassword();
+        return sendMessage(message);
+    }
+
+    public String createShopAccount () throws Exception {
+        String message = "create_account " + "MyShop" + " " +
+                "OnlineShop" + " " +
+                "shopAccount" + " " +
+                "1234" + " " +
+                "1234";
+        return sendMessage(message);
     }
 
     public String getToken (String username, String password) throws IOException {

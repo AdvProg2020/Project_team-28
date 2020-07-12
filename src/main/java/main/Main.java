@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.BankAPI;
 import model.Customer;
 import model.Discount;
 import model.Seller;
@@ -41,8 +42,10 @@ public class Main extends Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Database.loadAllData();
+        if (!Database.loadShopAccount())
+            Database.saveShopAccount(createShopBankAccount());
         controller = new UserController(null, Menu.productController);
         customerController = new CustomerController((Customer) controller.getUser(), Menu.productController);
         productController = new ProductController();
@@ -51,6 +54,10 @@ public class Main extends Application {
 
         launch(args);
         new RegisterLoginMenu(new UserController(null, Menu.productController));
+    }
+
+    private static String createShopBankAccount() throws Exception {
+        return new BankAPI().createShopAccount();
     }
 
     private static void makeRandomDiscounts() {
@@ -173,7 +180,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
 //        Database.addProductToAds(Database.getProductById("111388d0-ac14-4a24-b54f-fda183df6c2d"));
 //        Database.addProductToAds(Database.getProductById("efe8e6bf-4b3c-4699-b3cf-16c6fd89c483"));

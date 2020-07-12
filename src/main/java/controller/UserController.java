@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.exception.UserNotFoundException;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class UserController {
     protected User userLoggedOn;
     protected ProductController productController;
 
-    public UserController(User userLoggedOn, ProductController productController) {
+    public UserController(User userLoggedOn, ProductController productController) throws IOException {
         if (userLoggedOn == null) {
             userLoggedOn = CustomerController.newDefaultUser();
         }
@@ -229,7 +230,7 @@ public class UserController {
         return Database.getAllPossibleManagers().contains(username);
     }
 
-    public void logout() {
+    public void logout() throws IOException {
         userLoggedOn = CustomerController.newDefaultUser();
     }
 

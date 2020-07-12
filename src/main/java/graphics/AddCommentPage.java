@@ -16,6 +16,8 @@ import model.Comment;
 import model.Product;
 import model.Score;
 
+import java.io.IOException;
+
 public class AddCommentPage {
     public JFXTextArea commentText;
     public HBox hbox;
@@ -45,7 +47,7 @@ public class AddCommentPage {
         initialize();
     }
 
-    public void backToProduct() {
+    public void backToProduct() throws IOException {
         FXMLLoader fxml = Main.setMainStage("Product", "src/main/resources/fxml/ProductPage.fxml");
         assert fxml != null;
         ((ProductPage) fxml.getController()).setProduct(product);

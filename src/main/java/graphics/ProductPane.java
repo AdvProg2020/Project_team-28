@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import main.Main;
 import model.Product;
 
+import java.io.IOException;
+
 public class ProductPane extends VBox {
 
     public ProductPane(Product product) {
@@ -50,7 +52,11 @@ public class ProductPane extends VBox {
             FXMLLoader fxmlLoader;
             fxmlLoader = Main.setMainStage(product.getName(), "src/main/resources/fxml/ProductPage.fxml");
             assert fxmlLoader != null;
-            ((ProductPage) fxmlLoader.getController()).setProduct(product);
+            try {
+                ((ProductPage) fxmlLoader.getController()).setProduct(product);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }

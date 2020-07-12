@@ -2,6 +2,7 @@ package model;
 
 import controller.Database;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,8 +13,9 @@ public class Customer extends User {
     private ArrayList<String> purchaseHistory = new ArrayList<>();
     private ArrayList<String> discountCodes = new ArrayList<>();
 
-    public Customer(String username, String name, String surname, String email, String phoneNumber, String password, long credit) {
+    public Customer(String username, String name, String surname, String email, String phoneNumber, String password, long credit) throws IOException {
         super(username, name, surname, email, phoneNumber, password, credit);
+        this.bankAccountId = new BankAPI().createBankAccount(this);
     }
 
     @Override

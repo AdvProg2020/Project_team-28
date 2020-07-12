@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import model.*;
 import model.exception.UserNotFoundException;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class ManagerController extends UserController {
     private Discount selectedDiscount;
     private Gson selectedRequest;
 
-    public ManagerController(User user, ProductController productController) {
+    public ManagerController(User user, ProductController productController) throws IOException {
         super(user, productController);
     }
 

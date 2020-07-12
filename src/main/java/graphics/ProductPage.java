@@ -24,6 +24,7 @@ import javax.security.auth.callback.LanguageCallback;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ProductPage {
     public VBox compareArea;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         if (product == null)
             return;
         productName.setText(product.getName());
@@ -100,7 +101,7 @@ public class ProductPage {
             similarBox.getChildren().add(new ProductPane(products.get(i)));
     }
 
-    private void showComments() {
+    private void showComments() throws IOException {
         for (Comment comment : product.getAllComments()) {
             if (comment.getDepth() == 0)
                 insertComment(comment);
@@ -157,14 +158,14 @@ public class ProductPage {
                 - Main.customerController.getCustomerLoggedOn().getProductInCart(product.getId()));
     }
 
-    private void insertComment(Comment comment) {
+    private void insertComment(Comment comment) throws IOException {
         commentArea.getChildren().add(new CommentPane(comment));
         for (Comment child : comment.getChildren()) {
             insertComment(child);
         }
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(Product product) throws IOException {
         this.product = product;
         initialize();
     }
@@ -232,7 +233,7 @@ public class ProductPage {
         int leftSize = 80;
         int rightSize = 420;
 
-        public CommentPane(Comment comment) {
+        public CommentPane(Comment comment) throws IOException {
             rightSize -= comment.getDepth() * leftSize;
 
             this.setMinWidth(leftSize + rightSize);

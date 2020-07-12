@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.exception.DefaultUser;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +15,12 @@ public class CustomerController extends UserController {
         return customerLoggedOn;
     }
 
-    public CustomerController(Customer user, ProductController productController) {
+    public CustomerController(Customer user, ProductController productController) throws IOException {
         super(user, productController);
-        this.customerLoggedOn = (Customer) user;
+        this.customerLoggedOn = user;
     }
 
-    public static Customer newDefaultUser() {
+    public static Customer newDefaultUser() throws IOException {
         return new DefaultUser();
     }
 
@@ -49,7 +50,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public String viewCartProducts() throws Exception {
+    public String viewCartProducts() {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();
@@ -101,7 +102,7 @@ public class CustomerController extends UserController {
             removeFromCart(productId);
     }
 
-    public long getTotalPrice() throws Exception {
+    public long getTotalPrice() {
         long totalPrice = 0;
         for (Product product : customerLoggedOn.getCart().keySet()) {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
@@ -163,7 +164,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void addCustomerToProducts() throws Exception {
+    public void addCustomerToProducts() {
         for (Product product : this.customerLoggedOn.getCart().keySet()) {
             product.addBuyer(this.customerLoggedOn);
         }

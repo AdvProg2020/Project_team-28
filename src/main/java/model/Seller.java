@@ -2,6 +2,7 @@ package model;
 
 import controller.Database;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Seller extends User {
@@ -11,10 +12,11 @@ public class Seller extends User {
     private ArrayList<String> productsToSell;
     private ArrayList<String> allOffs;
 
-    public Seller(String username, String name, String surname, String email, String phoneNumber, String password, long credit, String companyName, String companyInfo) {
+    public Seller(String username, String name, String surname, String email, String phoneNumber, String password, long credit, String companyName, String companyInfo) throws IOException {
         super(username, name, surname, email, phoneNumber, password, credit);
         this.companyName = companyName;
         this.companyInfo = companyInfo;
+        this.bankAccountId = new BankAPI().createBankAccount(this);
     }
 
     public String getCompanyName() {
