@@ -40,14 +40,16 @@ public class CustomerController extends UserController {
     }
 
     public String getPaymentCheck() {
-        try {
-            long totalPrice = purchase();
-            return "Succesfully purchased\n" +
-                    "Total price: " + totalPrice + "\n" +
-                    "Your current credit: " + customerLoggedOn.getCredit();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
+        //phase 1!
+//        try {
+//            long totalPrice = purchase();
+//            return "Succesfully purchased\n" +
+//                    "Total price: " + totalPrice + "\n" +
+//                    "Your current credit: " + customerLoggedOn.getCredit();
+//        } catch (Exception e) {
+//            return e.getMessage();
+//        }
+        return null;
     }
 
     public String viewCartProducts() {
@@ -132,12 +134,16 @@ public class CustomerController extends UserController {
             customerLoggedOn.undoUseDiscount();
     }
 
-    public long purchase() throws Exception {
+    public long purchase(String paymentMethod) throws Exception {
         long totalPrice = getTotalPrice();
-        customerLoggedOn.payCredit(totalPrice);
+        if (paymentMethod.equalsIgnoreCase("e-wallet")) {
+            customerLoggedOn.payCredit(totalPrice);
+            payEachSellerInCredit();
+        }else if (paymentMethod.equalsIgnoreCase("bank account")) {
+            payViaBankAccount(totalPrice);
+        }
         PurchaseLog newLog = createPurchaseLog();
         createSellLogForAllProducts();
-        payEachSeller();
         customerLoggedOn.deleteDiscount();
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
@@ -147,12 +153,25 @@ public class CustomerController extends UserController {
         return totalPrice;
     }
 
-    private void payEachSeller() {
+    private void payViaBankAccount(long totalPrice) throws IOException {
+        BankAPI api = new BankAPI();
+        String token = api.getToken(customerLoggedOn.getUsername(), customerLoggedOn.getPassword());
+        String result = api.moveBalance(token, totalPrice, customerLoggedOn.getBankAccountId(),
+                Database.getShopBankAccountId());
+        System.out.println(result);
+        payEachSellerInBank();
+    }
+
+    private void payEachSellerInCredit() {
         for (Product product : customerLoggedOn.getCart().keySet()) {
             Seller seller = product.getSellers().get(0);
-            seller.addToCredit(product.getPrice());
+            seller.addToCredit(product.getPrice()*(1 - ManagerController.getWagePercent()));
             Database.update(seller, seller.getId());
         }
+    }
+
+    private void payEachSellerInBank () {
+        //each seller should be paid
     }
 
     public void createSellLogForAllProducts() {

@@ -48,6 +48,10 @@ public abstract class User {
         return Address;
     }
 
+    public String getBankAccountId() {
+        return bankAccountId;
+    }
+
     public void setAddress(String address) {
         Address = address;
     }

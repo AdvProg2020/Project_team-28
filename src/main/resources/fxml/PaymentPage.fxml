@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="355.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+<AnchorPane prefHeight="400.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.PaymentPage" styleClass="mainPane">
     <VBox spacing="20" translateX="30" translateY="30">
         <VBox spacing="10">
@@ -26,6 +26,11 @@
         <HBox>
             <Label text="Total price: "  styleClass="titleLabel"/>
             <Label fx:id="totalPriceLabel"  styleClass="titleLabel"/>
+        </HBox>
+        <HBox spacing="8">
+            <Label text="Payment method: " styleClass="titleLabel"/>
+            <JFXRadioButton text="E-wallet" fx:id="walletButton" onAction="#updatePaymentMethod"/>
+            <JFXRadioButton text="Bank account" fx:id="bankButton" onAction="#updatePaymentMethod"/>
         </HBox>
         <HBox>
             <JFXButton fx:id="payButton" onAction="#finishPayment" text="Finish payment" styleClass="button"/>

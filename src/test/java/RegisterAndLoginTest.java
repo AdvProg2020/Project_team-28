@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import view.Menu;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,7 @@ public class RegisterAndLoginTest {
     public static UserController controller;
 
     @BeforeClass
-    public static void maintainController() {
+    public static void maintainController() throws IOException {
         controller = new UserController(null, Menu.productController);
     }
 

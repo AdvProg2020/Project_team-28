@@ -16,9 +16,14 @@ import java.util.HashMap;
 public class ManagerController extends UserController {
     private Discount selectedDiscount;
     private Gson selectedRequest;
+    private static long wagePercent; // between 0 and 1
 
     public ManagerController(User user, ProductController productController) throws IOException {
         super(user, productController);
+    }
+
+    public static long getWagePercent () {
+        return wagePercent;
     }
 
     public static boolean managerExists() {
