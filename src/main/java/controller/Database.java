@@ -6,13 +6,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.*;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Database {
+    private static final String USER_AGENT = "Mozilla/5.0";
+    private static final String serverUrl = "http://localhost:8888/";
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Product> allProducts = new ArrayList<>();
     private static final ArrayList<JsonObject> allRequests = new ArrayList<>();
@@ -26,6 +28,8 @@ public class Database {
     private static final ArrayList<Off> allOffs = new ArrayList<>();
     private static final ArrayList<Product> allProductAds = new ArrayList<>();
     private static final ArrayList<String> allPossibleManagers = new ArrayList<>();
+
+    private static String token = "random-customer";
 
     public static void loadAllData() {
         makeDirectories();
@@ -69,7 +73,7 @@ public class Database {
     }
 
     private static <T> String getPath(String folderName) {
-        return "Database\\" + folderName  + "\\";
+        return "Database\\" + folderName + "\\";
     }
 
     private static String getPath(Object object) {
@@ -101,11 +105,89 @@ public class Database {
         }
     }
 
-    static void writeObject(Object object, String id) {
+    private static JsonObject sendGET(String url, String objectClass, String objectId) throws Exception {
+        url = serverUrl + url + "?token=" + token + "&className=" + objectClass + "&objectId=" + objectId;
+        System.out.println(url);
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        System.out.println("GET Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+        token = convertedObject.get("token").getAsString();
+
+        return convertedObject;
+    }
+
+
+    private static void sendPost(String url, String objectClass, String objectId, Object object) throws Exception {
+        url = serverUrl + url;
+        System.out.println(url + objectClass + objectId);
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setDoOutput(true);
+        try (OutputStream os = con.getOutputStream()) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("className", objectClass);
+            jsonObject.addProperty("objectId", objectId);
+            jsonObject.addProperty("token", token);
+            jsonObject.add("object", new Gson().toJsonTree(object).getAsJsonObject());
+            String jsonInputString = new Gson().toJson(jsonObject);
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+        token = convertedObject.get("token").getAsString();
+    }
+
+    private static JsonObject getJsonObjectFromReader(HttpURLConnection con, int responseCode) throws Exception {
+        BufferedReader in;
+        if (responseCode >= 200 && responseCode < 300) {
+            in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {
+            in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            String json = getStringFromReader(in);
+            JsonObject convertedObject = new Gson().fromJson(json, JsonObject.class);
+            con.disconnect();
+            throw new Exception("Network Error: " + convertedObject.get("error").getAsString());
+        }
+        String json = getStringFromReader(in);
+        con.disconnect();
+        return new Gson().fromJson(json, JsonObject.class);
+    }
+
+
+    private static String getStringFromReader(BufferedReader in) throws IOException {
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        return response.toString();
+    }
+
+
+    static void writeObject(Object object, String id) throws Exception {
         writeObject(object, id, object.getClass().getSimpleName());
     }
 
-    static void writeObject(Object object, String id, String folderName) {
+    static void writeObject(Object object, String id, String folderName) throws Exception {
+        sendPost("resource", folderName, id, object);
+
         String fileName = getPath(folderName) + id + ".json";
         FileWriter writer;
         try {
@@ -130,19 +212,19 @@ public class Database {
         }
     }
 
-    public static void addPossibleManager(String username) {
+    public static void addPossibleManager(String username) throws Exception {
         if (!allPossibleManagers.contains(username)) {
             allPossibleManagers.add(username);
         }
         writeObject(username, username);
     }
 
-    public static void add(User user) {
+    public static void add(User user) throws Exception {
         allUsers.add(user);
         writeObject(user, user.getId());
     }
 
-    public static void add(Product product) {
+    public static void add(Product product) throws Exception {
         for (Product productIn : allProducts) {
             if (productIn.equals(product.getId())) {
                 allProducts.remove(productIn);
@@ -152,42 +234,42 @@ public class Database {
         writeObject(product, product.getId());
     }
 
-    public static void add(JsonObject request) {
+    public static void add(JsonObject request) throws Exception {
         allRequests.add(request);
         writeObject(request, request.getAsJsonObject().get("id").getAsString());
     }
 
-    public static void add(Discount discount) {
+    public static void add(Discount discount) throws Exception {
         allDiscountCodes.add(discount);
         writeObject(discount, discount.getId());
     }
 
-    public static void add(Category category) {
+    public static void add(Category category) throws Exception {
         allCategories.add(category);
         writeObject(category, category.getId());
     }
 
-    public static void add(Comment comment) {
+    public static void add(Comment comment) throws Exception {
         allComments.add(comment);
         writeObject(comment, comment.getId());
     }
 
-    public static void add(Property property) {
+    public static void add(Property property) throws Exception {
         allProperties.add(property);
         writeObject(property, property.getId());
     }
 
-    public static void add(Score score) {
+    public static void add(Score score) throws Exception {
         allScores.add(score);
         writeObject(score, score.getId());
     }
 
-    public static void add(PurchaseLog log) {
+    public static void add(PurchaseLog log) throws Exception {
         allPurchaseLogs.add(log);
         writeObject(log, log.getId());
     }
 
-    public static void add (SellLog log) {
+    public static void add(SellLog log) throws Exception {
         allSellLogs.add(log);
         writeObject(log, log.getId());
     }
@@ -198,7 +280,7 @@ public class Database {
         writeObject(off, off.getId());
     }
 
-    public static void addProductToAds(Product product) {
+    public static void addProductToAds(Product product) throws Exception {
         allProductAds.add(product);
         writeObject(product, product.getId(), "ProductAd");
     }
@@ -230,19 +312,32 @@ public class Database {
     }
 
     public static Product getProductById(String id) throws Exception {
-        for (Product product : allProducts) {
-            if (product.getId().equals(id))
-                return product;
+        try {
+            System.out.println("get product by id");
+            JsonObject jsonObject = sendGET("resource", "Product", id);
+            return new Gson().fromJson(jsonObject.get("object"), Product.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            for (Product product : allProducts) {
+                if (product.getId().equals(id))
+                    return product;
+            }
+            throw new Exception("product id not found");
         }
-        throw new Exception("product id not found");
     }
 
     public static User getUserById(String id) {
-        for (User user : allUsers) {
-            if (user.getId().equals(id))
-                return user;
+        try {
+            JsonObject jsonObject = sendGET("resource", "User", id);
+            return new Gson().fromJson(jsonObject.get("object"), User.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            for (User user : allUsers) {
+                if (user.getId().equals(id))
+                    return user;
+            }
+            return null;
         }
-        return null;
     }
 
     public static JsonElement getRequestById(String id) {
@@ -310,7 +405,7 @@ public class Database {
         return null;
     }
 
-    public static SellLog getSellLogById (String id) {
+    public static SellLog getSellLogById(String id) {
         for (SellLog log : allSellLogs) {
             if (log.getId().equals(id))
                 return log;
@@ -402,7 +497,7 @@ public class Database {
         return allOffs;
     }
 
-    public static void update(Object object, String id) {
+    public static void update(Object object, String id) throws Exception {
         writeObject(object, id);
     }
 

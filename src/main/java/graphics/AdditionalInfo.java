@@ -11,7 +11,6 @@ import javafx.stage.FileChooser;
 import main.Main;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 
 public class AdditionalInfo {
@@ -23,7 +22,7 @@ public class AdditionalInfo {
     private FileChooser fileChooser = new FileChooser();
 
 
-    public void submitButtonPressed(ActionEvent actionEvent) {
+    public void submitButtonPressed(ActionEvent actionEvent) throws Exception {
         HashMap<String, String> data = new HashMap<>();
         data.put("email", email.getText());
         data.put("gender", gender.getValue().toString());
@@ -33,7 +32,7 @@ public class AdditionalInfo {
         Main.popupStage.close();
     }
 
-    public void chooseProfilePicture(ActionEvent actionEvent) throws MalformedURLException {
+    public void chooseProfilePicture(ActionEvent actionEvent) throws Exception {
         fileChooser.setTitle("Choose new profile picture...");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(Main.popupStage);

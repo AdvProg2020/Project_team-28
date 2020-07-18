@@ -113,19 +113,19 @@ public class UserController {
         }
     }
 
-    public void changePersonalInfo(String field, String newValue) {
+    public void changePersonalInfo(String field, String newValue) throws Exception {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(field, newValue);
         changePersonalInfo(hashMap);
     }
 
-    public void changePersonalInfo(String username, String field, String newValue) {
+    public void changePersonalInfo(String username, String field, String newValue) throws Exception {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(field, newValue);
         changePersonalInfo(username, hashMap);
     }
 
-    public void changePersonalInfo(String username, HashMap<String, String> infoToSet) {
+    public void changePersonalInfo(String username, HashMap<String, String> infoToSet) throws Exception {
         User user = Database.getUserByUsername(username);
         for (String info : infoToSet.keySet()) {
             String value = infoToSet.get(info);
@@ -168,7 +168,7 @@ public class UserController {
         Database.writeObject(user, user.getId());
     }
 
-    public void changePersonalInfo(HashMap<String, String> infoToSet) {
+    public void changePersonalInfo(HashMap<String, String> infoToSet) throws Exception {
         for (String info : infoToSet.keySet()) {
             String value = infoToSet.get(info);
             switch (info) {
@@ -210,7 +210,7 @@ public class UserController {
         Database.writeObject(userLoggedOn, userLoggedOn.getId());
     }
 
-    public void addReview(String title, String text) {
+    public void addReview(String title, String text) throws Exception {
         Comment thisComment = new Comment(null, this.userLoggedOn,
                 productController.getCurrentProduct(),
                 title, text);

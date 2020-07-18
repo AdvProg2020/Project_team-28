@@ -119,7 +119,7 @@ public class AddCategoryPage {
         Main.popupStage.show();
     }
 
-    public void submitPressed(ActionEvent actionEvent) throws IOException {
+    public void submitPressed(ActionEvent actionEvent) throws Exception {
         if (category.getName() == null) {
             category.setName(name.getText());
             Database.add(category);
@@ -134,7 +134,7 @@ public class AddCategoryPage {
         Main.setMainStage("Manage Categories", "src/main/resources/fxml/ManageCategories.fxml");
     }
 
-    public void addProperty(String name, String type) {
+    public void addProperty(String name, String type) throws Exception {
         Property property = new Property();
         property.setNumber(type.equals("Integer"));
         property.setName(name);

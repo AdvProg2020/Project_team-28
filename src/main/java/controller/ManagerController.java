@@ -32,7 +32,7 @@ public class ManagerController extends UserController {
         throw new Exception("got a discount code: " + data);
     }
 
-    public void createDiscount(Discount discount) {
+    public void createDiscount(Discount discount) throws Exception {
         Database.add(discount);
     }
 
@@ -176,7 +176,7 @@ public class ManagerController extends UserController {
         // this should change into something functional for adding/removing properties
     }
 
-    public void createCategory(HashMap<String, String> fields) {
+    public void createCategory(HashMap<String, String> fields) throws Exception {
         // what to do with arguments?
         Database.add(new Category(fields.get("name")));
     }

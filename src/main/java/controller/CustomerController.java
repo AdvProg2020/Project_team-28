@@ -16,7 +16,7 @@ public class CustomerController extends UserController {
 
     public CustomerController(Customer user, ProductController productController) {
         super(user, productController);
-        this.customerLoggedOn = (Customer) user;
+        this.customerLoggedOn = user;
     }
 
     public static Customer newDefaultUser() {
@@ -30,7 +30,7 @@ public class CustomerController extends UserController {
                 "Phone number: " + customerLoggedOn.getPhoneNumber() + "\n";
     }
 
-    public void changePersonalInfo(HashMap<String, String> infoToSet) {
+    public void changePersonalInfo(HashMap<String, String> infoToSet) throws Exception {
         super.changePersonalInfo(infoToSet);
     }
 
@@ -146,7 +146,7 @@ public class CustomerController extends UserController {
         return totalPrice;
     }
 
-    private void payEachSeller() {
+    private void payEachSeller() throws Exception {
         for (Product product : customerLoggedOn.getCart().keySet()) {
             Seller seller = product.getSellers().get(0);
             seller.addToCredit(product.getPrice());
@@ -154,7 +154,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void createSellLogForAllProducts() {
+    public void createSellLogForAllProducts() throws Exception {
         for (Product product : customerLoggedOn.getCart().keySet()) {
             SellLog log = product.createSellLog();
             log.setCustomer(customerLoggedOn);

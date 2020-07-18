@@ -135,7 +135,7 @@ public class Discount {
         return String.valueOf(randomCode);
     }
 
-    public static Discount getGiftDiscount (Customer customer, int percent) {
+    public static Discount getGiftDiscount(Customer customer, int percent) throws Exception {
         Discount discount = new Discount();
         discount.addUser(customer);
         discount.setRepetitionNumber(1);

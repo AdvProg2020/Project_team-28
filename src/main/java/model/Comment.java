@@ -79,7 +79,7 @@ public class Comment {
         return time;
     }
 
-    public void addChild(Comment comment) {
+    public void addChild(Comment comment) throws Exception {
         childern.add(comment.getId());
         Database.update(this, getId());
     }

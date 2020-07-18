@@ -84,7 +84,7 @@ public class SellerController extends UserController {
         Database.add(jsonElement.getAsJsonObject());
     }
 
-    public void addProduct (Product product) {
+    public void addProduct(Product product) throws Exception {
         Gson request = new Gson();
         JsonElement jsonElement = new JsonObject();
         jsonElement.getAsJsonObject().addProperty("requestStatus", "pending"); //pending, accepted, rejected

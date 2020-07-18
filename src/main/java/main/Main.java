@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Customer;
 import model.Discount;
-import model.Seller;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
@@ -72,7 +71,11 @@ public class Main extends Application {
                         discount.setRepetitionNumber(1);
                         discount.addUser(Database.getAllUsers().get(userIndex));
                         System.out.println(Database.getAllUsers().get(userIndex).getUsername());
-                        Database.add(discount);
+                        try {
+                            Database.add(discount);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 

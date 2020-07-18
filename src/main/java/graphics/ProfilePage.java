@@ -3,8 +3,6 @@ package graphics;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
-import controller.CustomerController;
-import controller.SellerController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
@@ -15,7 +13,6 @@ import main.Main;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 
 public class ProfilePage {
@@ -79,7 +76,7 @@ public class ProfilePage {
         }
     }
 
-    public void chooseProfilePicture(ActionEvent actionEvent) throws MalformedURLException {
+    public void chooseProfilePicture(ActionEvent actionEvent) throws Exception {
         fileChooser.setTitle("Choose new profile picture...");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(Main.popupStage);
@@ -92,7 +89,7 @@ public class ProfilePage {
         }
     }
 
-    public void propertyChanged(ActionEvent actionEvent) {
+    public void propertyChanged(ActionEvent actionEvent) throws Exception {
         switch (actionEvent.getSource().getClass().getName()) {
             case "com.jfoenix.controls.JFXDatePicker":
                 System.out.println(((JFXDatePicker) actionEvent.getSource()).getValue().toString());

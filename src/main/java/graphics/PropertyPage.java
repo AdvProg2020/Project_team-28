@@ -11,7 +11,7 @@ public class PropertyPage {
 
     public AddCategoryPage categoryPage;
 
-    public void submitPressed(ActionEvent actionEvent) {
+    public void submitPressed(ActionEvent actionEvent) throws Exception {
         categoryPage.addProperty(name.getText(), type.getValue().toString());
         Main.popupStage.close();
     }
