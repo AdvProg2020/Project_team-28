@@ -19,6 +19,7 @@ public class UserController {
     }
 
     public void loginUser(String username, String password) throws Exception {
+        Database.login(username, password);
         User thisUser = Database.getUserByUsername(username);
         if (thisUser == null)
             throw new UserNotFoundException();
@@ -229,7 +230,8 @@ public class UserController {
         return Database.getAllPossibleManagers().contains(username);
     }
 
-    public void logout() {
+    public void logout() throws Exception {
+        Database.logout();
         userLoggedOn = CustomerController.newDefaultUser();
     }
 

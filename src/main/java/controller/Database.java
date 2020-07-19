@@ -329,7 +329,7 @@ public class Database {
     public static User getUserById(String id) {
         try {
             JsonObject jsonObject = sendGET("resource", "User", id);
-            return new Gson().fromJson(jsonObject.get("object"), User.class);
+            return (User) new Gson().fromJson(jsonObject.get("object"), Class.forName("model." + jsonObject.get("className").getAsString()));
         } catch (Exception e) {
             e.printStackTrace();
             for (User user : allUsers) {
@@ -507,5 +507,57 @@ public class Database {
         }
         allCategories.remove(category);
         deleteObject(category, category.getId());
+    }
+
+    public static void login(String username, String password) throws Exception {
+        String url = serverUrl + "login";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        String urlParameters = "username=" + username + "&password=" + password;
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        con.setDoOutput(true);
+        con.setInstanceFollowRedirects(false);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        con.setRequestProperty("charset", "utf-8");
+        con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+        con.setUseCaches(false);
+        try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+            wr.write(postData);
+        }
+
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+        token = convertedObject.get("token").getAsString();
+    }
+
+    public static void logout() throws Exception {
+        String url = serverUrl + "logout";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        String urlParameters = "token=" + token;
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        con.setDoOutput(true);
+        con.setInstanceFollowRedirects(false);
+        con.setRequestMethod("DELETE");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        con.setRequestProperty("charset", "utf-8");
+        con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+        con.setUseCaches(false);
+        try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+            wr.write(postData);
+        }
+
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+        token = "random-customer";
     }
 }
