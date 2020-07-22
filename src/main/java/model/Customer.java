@@ -16,6 +16,7 @@ public class Customer extends User {
         super(username, name, surname, email, phoneNumber, password, credit);
         try {
             this.bankAccountId = createBankAccount();
+            System.out.println("successfully created bank account!");
         } catch (Exception ignored) {
         }
     }

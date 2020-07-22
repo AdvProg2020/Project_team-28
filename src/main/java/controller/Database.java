@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8888/";
+    private static final String serverUrl = "http://localhost:8080/";
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Product> allProducts = new ArrayList<>();
     private static final ArrayList<JsonObject> allRequests = new ArrayList<>();
