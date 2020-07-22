@@ -189,7 +189,8 @@ public class CustomerController extends UserController {
         System.out.println("GET Response Code :: " + responseCode);
         System.out.println(" Response Body : " + con.getResponseMessage());
         JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
-
+        if (convertedObject.get("ok").getAsString().equalsIgnoreCase("false"))
+            throw new Exception(convertedObject.get("error").getAsString());
         return convertedObject.get("reply").getAsString();
     }
 
