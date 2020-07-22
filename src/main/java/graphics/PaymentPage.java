@@ -1,6 +1,7 @@
 package graphics;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import controller.CustomerController;
@@ -13,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.Main;
@@ -31,6 +34,10 @@ public class PaymentPage {
     public Label totalPriceLabel;
     public JFXButton payButton;
     private CustomerController controller;
+    public JFXRadioButton bankButton;
+    public JFXRadioButton walletButton;
+    private ToggleGroup radioGroup = new ToggleGroup();
+    private String paymentMethod = "e-wallet";
 
     public void show(CustomerController controller) throws Exception {
         URL url = new File("src/main/resources/fxml/PaymentPage.fxml").toURI().toURL();
@@ -43,6 +50,14 @@ public class PaymentPage {
         Main.popupStage.show();
         ((PaymentPage)fxmlLoader.getController()).refresh();
         ((PaymentPage) fxmlLoader.getController()).checkAddress();
+        ((PaymentPage) fxmlLoader.getController()).toggleButtons();
+    }
+
+    private void toggleButtons() {
+        walletButton.setToggleGroup(radioGroup);
+        bankButton.setToggleGroup(radioGroup);
+        bankButton.setSelectedColor(Color.rgb(177, 66, 255));
+        walletButton.setSelectedColor(Color.rgb(177, 66, 255));
     }
 
     private void checkAddress() throws Exception {
@@ -85,7 +100,7 @@ public class PaymentPage {
     }
 
     public void finishPayment(ActionEvent actionEvent) throws Exception {
-        long totalPrice = controller.purchase();
+        long totalPrice = controller.purchase(paymentMethod);
         Discount gift;
         if (totalPrice >= 5100 && totalPrice <= 10000) {
             gift = Discount.getGiftDiscount(controller.getCustomerLoggedOn(), (int) ((totalPrice - 5000)/100));
@@ -107,5 +122,9 @@ public class PaymentPage {
                 "You got a " + discount.getDiscountPercent() + "% discount code:\n" +
                 "Code: " + discount.getCode());
         message.showAndWait();
+    }
+
+    public void updatePaymentMethod(ActionEvent actionEvent) {
+        paymentMethod = ((JFXRadioButton)radioGroup.getSelectedToggle()).getText();
     }
 }

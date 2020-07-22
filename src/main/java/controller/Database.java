@@ -152,7 +152,7 @@ public class Database {
         token = convertedObject.get("token").getAsString();
     }
 
-    private static JsonObject getJsonObjectFromReader(HttpURLConnection con, int responseCode) throws Exception {
+    public static JsonObject getJsonObjectFromReader(HttpURLConnection con, int responseCode) throws Exception {
         BufferedReader in;
         if (responseCode >= 200 && responseCode < 300) {
             in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -491,6 +491,14 @@ public class Database {
 
     public static ArrayList<SellLog> getAllSellLogs() {
         return allSellLogs;
+    }
+
+    public static String getServerUrl() {
+        return serverUrl;
+    }
+
+    public static String getUserAgent() {
+        return USER_AGENT;
     }
 
     public static ArrayList<Off> getAllOffs() {

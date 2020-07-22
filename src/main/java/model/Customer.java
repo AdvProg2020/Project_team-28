@@ -14,6 +14,10 @@ public class Customer extends User {
 
     public Customer(String username, String name, String surname, String email, String phoneNumber, String password, long credit) {
         super(username, name, surname, email, phoneNumber, password, credit);
+        try {
+            this.bankAccountId = createBankAccount();
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
@@ -115,13 +119,6 @@ public class Customer extends User {
         if (cart.containsKey(productId))
             return cart.get(productId);
         return 0;
-    }
-
-    public void payCredit(long cost) throws Exception {
-        if (this.credit >= cost)
-            this.setCredit(this.getCredit() - cost);
-        else
-            throw new Exception("Not enough credit");
     }
 
     public ArrayList<PurchaseLog> getPurchaseHistory() {

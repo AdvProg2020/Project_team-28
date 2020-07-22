@@ -1,11 +1,16 @@
 package controller;
 
+import com.google.gson.JsonObject;
 import model.*;
 import model.exception.DefaultUser;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static controller.Database.getJsonObjectFromReader;
 
 public class CustomerController extends UserController {
     private Customer customerLoggedOn;
@@ -40,7 +45,7 @@ public class CustomerController extends UserController {
 
     public String getPaymentCheck() {
         try {
-            long totalPrice = purchase();
+            long totalPrice = purchase("e-wallet");
             return "Succesfully purchased\n" +
                     "Total price: " + totalPrice + "\n" +
                     "Your current credit: " + customerLoggedOn.getCredit();
@@ -49,7 +54,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public String viewCartProducts() throws Exception {
+    public String viewCartProducts() {
         StringBuilder stringToReturn = new StringBuilder();
         stringToReturn.append("Product ID\tProduct name\tUnit price\tNumber\n");
         HashMap<Product, Integer> customerCart = customerLoggedOn.getCart();
@@ -101,11 +106,19 @@ public class CustomerController extends UserController {
             removeFromCart(productId);
     }
 
-    public long getTotalPrice() throws Exception {
+    public long getTotalPrice() {
         long totalPrice = 0;
         for (Product product : customerLoggedOn.getCart().keySet()) {
             totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
         }
+        if (customerLoggedOn.getDiscountUsed() != null)
+            totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) / 100;
+        return totalPrice;
+    }
+
+    public long getProductPrice (Product product) {
+        long totalPrice = 0;
+        totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
         if (customerLoggedOn.getDiscountUsed() != null)
             totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) / 100;
         return totalPrice;
@@ -131,13 +144,14 @@ public class CustomerController extends UserController {
             customerLoggedOn.undoUseDiscount();
     }
 
-    public long purchase() throws Exception {
+    public long purchase(String method) throws Exception {
         long totalPrice = getTotalPrice();
-        customerLoggedOn.payCredit(totalPrice);
+        payEachSeller(method);
+        //creating log
         PurchaseLog newLog = createPurchaseLog();
         createSellLogForAllProducts();
-        payEachSeller();
         customerLoggedOn.deleteDiscount();
+        //should be changed?
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
         this.addCustomerToProducts();
@@ -146,12 +160,43 @@ public class CustomerController extends UserController {
         return totalPrice;
     }
 
-    private void payEachSeller() throws Exception {
+    private void payEachSeller(String method) throws Exception {
         for (Product product : customerLoggedOn.getCart().keySet()) {
-            Seller seller = product.getSellers().get(0);
-            seller.addToCredit(product.getPrice());
-            Database.update(seller, seller.getId());
+            String destId = product.getSellers().get(0).getId();
+            String reply;
+            if (method.equalsIgnoreCase("e-wallet"))
+                reply = sendCreditPaymentRequest(getProductPrice(product), destId);
+            else
+                reply = sendBankPaymentRequest(getProductPrice(product), destId);
+            System.out.println(product.getName() + ": " + reply);
         }
+    }
+
+    private String sendBankPaymentRequest(long productPrice, String destId) throws Exception {
+        String url = Database.getServerUrl() + "/paySellerByBankAccount" + "?username=" + userLoggedOn.getUsername()
+                + "&password=" + userLoggedOn.getPassword() + "&money=" + productPrice + "&sourceId="
+                + userLoggedOn.getBankAccountId() + "&destId=" + destId;
+        return sendRequestToServer(url);
+    }
+
+    private String sendRequestToServer(String url) throws Exception {
+        System.out.println(url);
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", Database.getUserAgent());
+        int responseCode = con.getResponseCode();
+        System.out.println("GET Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+        return convertedObject.get("reply").getAsString();
+    }
+
+    private String sendCreditPaymentRequest(long productPrice, String destId) throws Exception {
+        String url = Database.getServerUrl() + "/paySellerCredit" + "?sourceId=" + userLoggedOn.getId()
+                + "&money=" + productPrice + "&destId=" + destId;
+        return sendRequestToServer(url);
     }
 
     public void createSellLogForAllProducts() throws Exception {
@@ -163,13 +208,13 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void addCustomerToProducts() throws Exception {
+    public void addCustomerToProducts() {
         for (Product product : this.customerLoggedOn.getCart().keySet()) {
             product.addBuyer(this.customerLoggedOn);
         }
     }
 
-    private PurchaseLog createPurchaseLog() throws Exception {
+    private PurchaseLog createPurchaseLog() {
         PurchaseLog log = new PurchaseLog();
         log.setDate(LocalDateTime.now());
         log.setAmountPaid(getTotalPrice());
