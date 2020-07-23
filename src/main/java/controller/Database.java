@@ -28,6 +28,7 @@ public class Database {
     private static final ArrayList<Off> allOffs = new ArrayList<>();
     private static final ArrayList<Product> allProductAds = new ArrayList<>();
     private static final ArrayList<String> allPossibleManagers = new ArrayList<>();
+    private static final ArrayList<String> allPossibleSupporters = new ArrayList<>();
 
     private static String token = "random-customer";
 
@@ -38,6 +39,7 @@ public class Database {
 
     private static void makeDirectories() {
         makeDirectory(Manager.class);
+        makeDirectory(Supporter.class);
         makeDirectory(Seller.class);
         makeDirectory(Customer.class);
         makeDirectory(Product.class);
@@ -52,10 +54,12 @@ public class Database {
         makeDirectory(Off.class);
         makeDirectory("ProductAd");
         makeDirectory(String.class);
+        makeDirectory("PossibleSupporter");
     }
 
     private static void loadLists() {
         loadList(allUsers, Manager.class);
+        loadList(allUsers, Supporter.class);
         loadList(allUsers, Seller.class);
         loadList(allUsers, Customer.class);
         loadList(allProducts, Product.class);
@@ -70,6 +74,7 @@ public class Database {
         loadList(allOffs, Off.class);
         loadList(allProductAds, Product.class, "ProductAd");
         loadList(allPossibleManagers, String.class);
+        loadList(allPossibleSupporters, String.class, "PossibleSupporter");
     }
 
     private static <T> String getPath(String folderName) {
@@ -217,6 +222,13 @@ public class Database {
             allPossibleManagers.add(username);
         }
         writeObject(username, username);
+    }
+
+    public static void addPossibleSupporter(String username) throws Exception {
+        if (!allPossibleSupporters.contains(username)) {
+            allPossibleSupporters.add(username);
+        }
+        writeObject(username, username, "PossibleSupporter");
     }
 
     public static void add(User user) throws Exception {
@@ -447,6 +459,10 @@ public class Database {
 
     public static ArrayList<String> getAllPossibleManagers() {
         return allPossibleManagers;
+    }
+
+    public static ArrayList<String> getAllPossibleSupporters() {
+        return allPossibleSupporters;
     }
 
     public static ArrayList<Category> getAllCategories() {
