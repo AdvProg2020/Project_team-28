@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8888/";
+    private static final String serverUrl = "http://localhost:8080/";
     private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
     private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
     private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);
@@ -166,7 +166,7 @@ public class Database {
         token = convertedObject.get("token").getAsString();
     }
 
-    private static JsonObject getJsonObjectFromReader(HttpURLConnection con, int responseCode) throws Exception {
+    public static JsonObject getJsonObjectFromReader(HttpURLConnection con, int responseCode) throws Exception {
         BufferedReader in;
         if (responseCode >= 200 && responseCode < 300) {
             in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -506,6 +506,14 @@ public class Database {
 
     public static ArrayList<SellLog> getAllSellLogs() {
         return allSellLogs;
+    }
+
+    public static String getServerUrl() {
+        return serverUrl;
+    }
+
+    public static String getUserAgent() {
+        return USER_AGENT;
     }
 
     public static ArrayList<Off> getAllOffs() {

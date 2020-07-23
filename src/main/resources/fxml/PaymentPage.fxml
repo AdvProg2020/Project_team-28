@@ -27,6 +27,11 @@
             <Label text="Total price: "  styleClass="titleLabel"/>
             <Label fx:id="totalPriceLabel"  styleClass="titleLabel"/>
         </HBox>
+        <HBox spacing="8">
+            <Label text="Payment method: " styleClass="titleLabel"/>
+            <JFXRadioButton text="E-wallet" fx:id="walletButton" onAction="#updatePaymentMethod"/>
+            <JFXRadioButton text="Bank account" fx:id="bankButton" onAction="#updatePaymentMethod"/>
+        </HBox>
         <HBox>
             <JFXButton fx:id="payButton" onAction="#finishPayment" text="Finish payment" styleClass="button"/>
         </HBox>
