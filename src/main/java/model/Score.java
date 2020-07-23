@@ -1,9 +1,10 @@
 package model;
 
 import controller.Database;
+
 import java.util.UUID;
 
-public class Score {
+public class Score implements BaseModel {
     private String user;
     private int score;
     private String product;

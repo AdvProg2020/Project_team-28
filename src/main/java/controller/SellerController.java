@@ -162,7 +162,7 @@ public class SellerController extends UserController {
         return res;
     }
 
-    public Iterable<? extends JsonElement> viewRequests() {
+    public ArrayList<Request> viewRequests() {
         return Database.getAllRequests();
     }
 }

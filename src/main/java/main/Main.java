@@ -41,7 +41,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        Database.loadAllData();
+        try {
+            Database.loadAllData();
+        } catch (Exception ignore) {
+        }
         controller = new UserController(null, Menu.productController);
         customerController = new CustomerController((Customer) controller.getUser(), Menu.productController);
         productController = new ProductController();

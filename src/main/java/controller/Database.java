@@ -15,23 +15,23 @@ import java.util.ArrayList;
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String serverUrl = "http://localhost:8888/";
-    private static final ArrayList<User> allUsers = new ArrayList<>();
-    private static final ArrayList<Product> allProducts = new ArrayList<>();
-    private static final ArrayList<JsonObject> allRequests = new ArrayList<>();
-    private static final ArrayList<Discount> allDiscountCodes = new ArrayList<>();
-    private static final ArrayList<Category> allCategories = new ArrayList<>();
-    private static final ArrayList<Comment> allComments = new ArrayList<>();
-    private static final ArrayList<Property> allProperties = new ArrayList<>();
-    private static final ArrayList<Score> allScores = new ArrayList<>();
-    private static final ArrayList<PurchaseLog> allPurchaseLogs = new ArrayList<>();
-    private static final ArrayList<SellLog> allSellLogs = new ArrayList<>();
-    private static final ArrayList<Off> allOffs = new ArrayList<>();
-    private static final ArrayList<Product> allProductAds = new ArrayList<>();
-    private static final ArrayList<String> allPossibleManagers = new ArrayList<>();
+    private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
+    private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
+    private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);
+    private static final NetworkArray<Discount> allDiscountCodes = new NetworkArray<>(Discount.class);
+    private static final NetworkArray<Category> allCategories = new NetworkArray<>(Category.class);
+    private static final NetworkArray<Comment> allComments = new NetworkArray<>(Comment.class);
+    private static final NetworkArray<Property> allProperties = new NetworkArray<>(Property.class);
+    private static final NetworkArray<Score> allScores = new NetworkArray<>(Score.class);
+    private static final NetworkArray<PurchaseLog> allPurchaseLogs = new NetworkArray<>(PurchaseLog.class);
+    private static final NetworkArray<SellLog> allSellLogs = new NetworkArray<>(SellLog.class);
+    private static final NetworkArray<Off> allOffs = new NetworkArray<>(Off.class);
+    private static final NetworkArray<Product> allProductAds = new NetworkArray<>(Product.class);
+    private static final NetworkArray<PossibleManager> allPossibleManagers = new NetworkArray<>(PossibleManager.class);
 
     private static String token = "random-customer";
 
-    public static void loadAllData() {
+    public static void loadAllData() throws Exception {
         makeDirectories();
         loadLists();
     }
@@ -41,7 +41,7 @@ public class Database {
         makeDirectory(Seller.class);
         makeDirectory(Customer.class);
         makeDirectory(Product.class);
-        makeDirectory(JsonObject.class);
+        makeDirectory(Request.class);
         makeDirectory(Discount.class);
         makeDirectory(Category.class);
         makeDirectory(Comment.class);
@@ -51,15 +51,15 @@ public class Database {
         makeDirectory(SellLog.class);
         makeDirectory(Off.class);
         makeDirectory("ProductAd");
-        makeDirectory(String.class);
+        makeDirectory(PossibleManager.class);
     }
 
-    private static void loadLists() {
+    private static void loadLists() throws Exception {
         loadList(allUsers, Manager.class);
         loadList(allUsers, Seller.class);
         loadList(allUsers, Customer.class);
         loadList(allProducts, Product.class);
-        loadList(allRequests, JsonObject.class);
+        loadList(allRequests, Request.class);
         loadList(allDiscountCodes, Discount.class);
         loadList(allCategories, Category.class);
         loadList(allComments, Comment.class);
@@ -69,7 +69,7 @@ public class Database {
         loadList(allSellLogs, SellLog.class);
         loadList(allOffs, Off.class);
         loadList(allProductAds, Product.class, "ProductAd");
-        loadList(allPossibleManagers, String.class);
+        loadList(allPossibleManagers, PossibleManager.class);
     }
 
     private static <T> String getPath(String folderName) {
@@ -88,11 +88,12 @@ public class Database {
         new File(getPath(folderName)).mkdirs();
     }
 
-    private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls) {
+    private static <T extends BaseModel> void loadList(ArrayList<T> list, Class<? extends T> cls) throws Exception {
         loadList(list, cls, cls.getSimpleName());
     }
 
-    private static <T> void loadList(ArrayList<T> list, Class<? extends T> cls, String folderName) {
+    private static <T extends BaseModel> void loadList(ArrayList<T> list, Class<? extends T> cls, String folderName) throws Exception {
+        ((NetworkArray<T>) list).load();
         for (final File fileEntry : new File(getPath(folderName)).listFiles()) {
             try {
                 FileReader fileReader = new FileReader(fileEntry);
@@ -105,8 +106,17 @@ public class Database {
         }
     }
 
-    private static JsonObject sendGET(String url, String objectClass, String objectId) throws Exception {
-        url = serverUrl + url + "?token=" + token + "&className=" + objectClass + "&objectId=" + objectId;
+    public static Object getObjectFromNetwork(String objectId, Class<Object> objectClass) throws Exception {
+        JsonObject jsonObject = sendGET("resource", objectClass.getSimpleName(), objectId);
+        return new Gson().fromJson(jsonObject.get("object"), Class.forName("model." + jsonObject.get("className").getAsString()));
+    }
+
+    public static JsonObject sendGET(String url, String objectClass, String objectId) throws Exception {
+        return sendGET(url + "?className=" + objectClass + "&objectId=" + objectId);
+    }
+
+    public static JsonObject sendGET(String url) throws Exception {
+        url = serverUrl + url + "&token=" + token;
         System.out.println(url);
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -120,6 +130,10 @@ public class Database {
         token = convertedObject.get("token").getAsString();
 
         return convertedObject;
+    }
+
+    public static JsonObject sendGETall(Class className) throws Exception {
+        return sendGET("allResources?className=" + className.getSimpleName());
     }
 
 
@@ -214,7 +228,7 @@ public class Database {
 
     public static void addPossibleManager(String username) throws Exception {
         if (!allPossibleManagers.contains(username)) {
-            allPossibleManagers.add(username);
+            allPossibleManagers.add(new PossibleManager(username));
         }
         writeObject(username, username);
     }
@@ -235,7 +249,7 @@ public class Database {
     }
 
     public static void add(JsonObject request) throws Exception {
-        allRequests.add(request);
+        allRequests.add(new Request(request));
         writeObject(request, request.getAsJsonObject().get("id").getAsString());
     }
 
@@ -341,7 +355,8 @@ public class Database {
     }
 
     public static JsonElement getRequestById(String id) {
-        for (JsonElement jsonElement : allRequests) {
+        for (Request request : allRequests) {
+            JsonElement jsonElement = request.getJsonObject();
             if (jsonElement.getAsJsonObject().get("id").getAsString().equals(id)) {
                 return jsonElement;
             }
@@ -445,7 +460,7 @@ public class Database {
         return null;
     }
 
-    public static ArrayList<String> getAllPossibleManagers() {
+    public static ArrayList<PossibleManager> getAllPossibleManagers() {
         return allPossibleManagers;
     }
 
@@ -465,7 +480,7 @@ public class Database {
         return allUsers;
     }
 
-    public static ArrayList<JsonObject> getAllRequests() {
+    public static ArrayList<Request> getAllRequests() {
         return allRequests;
     }
 
@@ -510,22 +525,15 @@ public class Database {
     }
 
     public static void login(String username, String password) throws Exception {
-        String url = serverUrl + "login";
+        String url = serverUrl + "login?" + "username=" + username + "&password=" + password;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        String urlParameters = "username=" + username + "&password=" + password;
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-        int postDataLength = postData.length;
         con.setDoOutput(true);
         con.setInstanceFollowRedirects(false);
-        con.setRequestMethod("POST");
+        con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("charset", "utf-8");
-        con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
         con.setUseCaches(false);
-        try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-            wr.write(postData);
-        }
 
         int responseCode = con.getResponseCode();
         System.out.println("POST Response Code :: " + responseCode);

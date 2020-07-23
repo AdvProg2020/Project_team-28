@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import main.Main;
 import model.Product;
+import model.Request;
 
 import java.io.File;
 
@@ -34,7 +35,8 @@ public class ManagerRequestsPage {
         TreeItem<RequestRow> removeProduct = new TreeItem<>(new RequestRow("remove product"));
         TreeItem<RequestRow> ads = new TreeItem<>(new RequestRow("advertisement"));
 
-        for (JsonElement json : (Main.managerController).viewRequests()) {
+        for (Request request : (Main.managerController).viewRequests()) {
+            JsonElement json = request.getJsonObject();
             if (json.getAsJsonObject().get("requestStatus").getAsString().equals("pending")) {
                 switch (json.getAsJsonObject().get("request-type").getAsString()) {
                     case "add off":

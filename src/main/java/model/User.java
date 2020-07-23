@@ -3,7 +3,7 @@ package model;
 import java.io.File;
 import java.util.UUID;
 
-public abstract class User {
+public abstract class User implements BaseModel {
     protected String username;
     protected String name;
     protected String surname;

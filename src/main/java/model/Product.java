@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Product {
+public class Product implements BaseModel {
     private enum productStatus {WaitingForProduction, WaitingForEdition, Confirmed}
 
     private productStatus status = productStatus.WaitingForProduction;

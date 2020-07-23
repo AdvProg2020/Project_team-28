@@ -7,6 +7,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.VBox;
 import main.Main;
+import model.Request;
 
 public class SellerRequestsPage {
     public VBox mainPane;
@@ -22,7 +23,8 @@ public class SellerRequestsPage {
         TreeItem<RequestRow> removeProduct = new TreeItem<>(new RequestRow("remove product"));
         TreeItem<RequestRow> ads = new TreeItem<>(new RequestRow("advertisement"));
 
-        for (JsonElement json : Main.sellerController.viewRequests()) {
+        for (Request request : Main.sellerController.viewRequests()) {
+            JsonElement json = request.getJsonObject();
             if (!json.getAsJsonObject().get("owner").getAsString().equals(Main.controller.getUser().getId())) {
                 continue;
             }

@@ -3,7 +3,6 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import model.*;
 import model.exception.UserNotFoundException;
 
@@ -22,6 +21,7 @@ public class ManagerController extends UserController {
 
     public static boolean managerExists() {
         for (User user : Database.getAllUsers()) {
+            System.out.println(user);
             if (user.getClass() == Manager.class)
                 return true;
         }
@@ -76,7 +76,7 @@ public class ManagerController extends UserController {
     public void removeProduct(String discountCode) {
     }
 
-    public ArrayList<JsonObject> viewRequests() {
+    public ArrayList<Request> viewRequests() {
         return Database.getAllRequests();
     }
 
