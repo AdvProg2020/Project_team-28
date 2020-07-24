@@ -1,9 +1,6 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -51,44 +48,51 @@ public class FileSender extends Thread {
             try {
                 Socket client = serverSocket.accept();
                 connectedClients.incrementAndGet();
-                new Thread(() -> handleClient(client)).start();
-            } catch (IOException e) {
+                new Thread(() -> {
+                    try {
+                        handleClient(client);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void handleClient(Socket client) {
+    private void handleClient(Socket client) throws IOException {
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        OutputStream os = null;
         try {
             Socket threadClient = client;
-            PrintWriter clientOut = new PrintWriter(threadClient.getOutputStream(), true);
+            //PrintWriter clientOut = new PrintWriter(threadClient.getOutputStream(), true);
             BufferedReader clientIn = new BufferedReader(new InputStreamReader(threadClient.getInputStream()));
-            clientOut.println("connected");
+            //clientOut.println("connected");
             clientIn.readLine();
+
+            ServerSocket servsock = serverSocket;
 
             String input = clientIn.readLine();
 
+            File myFile = new File(input);
+            byte[] myByteArray = new byte[(int) myFile.length()];
+            fis = new FileInputStream(myFile);
+            bis = new BufferedInputStream(fis);
+            bis.read(myByteArray, 0, myByteArray.length);
+            os = client.getOutputStream();
+            System.out.println("Sending " + input + "(" + myByteArray.length + " bytes)");
+            os.write(myByteArray, 0, myByteArray.length);
+            os.flush();
+            System.out.println("Done.");
 
-            while (true) {
-                input = clientIn.readLine();
-                if (input == null) break;
-                String[] data = input.split("``");
-                String user = data[0];
-                int value = Integer.parseInt(data[1]);
-                synchronized (lock) {
-                    System.out.println("got" + input);
-                    if (!accounts.containsKey(data[0])) {
-                        accounts.put(user, 0);
-                    }
-                    System.out.println("user" + data[0] + " " + accounts.get(data[0]));
-                    if (accounts.get(user) >= -value) {
-                        accounts.put(user, accounts.get(user) + value);
-                    }
-                }
-                clientOut.println("got it");
-            }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (bis != null) bis.close();
+            if (os != null) os.close();
+            if (client != null) client.close();
         }
     }
 }

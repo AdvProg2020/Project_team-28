@@ -3,6 +3,7 @@ package graphics;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import controller.CustomerController;
+import controller.FileSender;
 import controller.ManagerController;
 import controller.SellerController;
 import javafx.event.ActionEvent;
@@ -29,6 +30,7 @@ public class LoginMenu {
         }
         if (Main.controller.getUser().getClass() == Seller.class) {
             Main.sellerController = new SellerController(Main.controller.getUser(), Main.productController);
+            new FileSender().start();
         }
         if (Main.controller.getUser().getClass() == Manager.class) {
             Main.managerController = new ManagerController(Main.controller.getUser(), Main.productController);

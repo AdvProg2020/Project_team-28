@@ -187,6 +187,7 @@ public class Database {
         try (OutputStream os = con.getOutputStream()) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("token", token);
+            jsonObject.addProperty("port", Integer.toString(port));
             String jsonInputString = new Gson().toJson(jsonObject);
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
