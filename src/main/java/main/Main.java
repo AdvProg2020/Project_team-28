@@ -1,8 +1,6 @@
 package main;
 
 import controller.*;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import model.Customer;
-import model.Discount;
 import view.Menu;
 import view.userstuff.RegisterLoginMenu;
 
@@ -22,8 +18,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.Random;
 import java.util.Stack;
 
 public class Main extends Application {
@@ -49,41 +43,8 @@ public class Main extends Application {
         customerController = new CustomerController((Customer) controller.getUser(), Menu.productController);
         productController = new ProductController();
 
-        makeRandomDiscounts();
-
         launch(args);
         new RegisterLoginMenu(new UserController(null, Menu.productController));
-    }
-
-    private static void makeRandomDiscounts() {
-        Timeline workStuff = new Timeline();
-        workStuff.setCycleCount(Timeline.INDEFINITE);
-        Random random = new Random();
-
-        KeyFrame kf = new KeyFrame(
-                Duration.seconds(5),                // 1 FPS
-                ae -> {
-                    if (random.nextDouble() < 0.1) {
-                        int userIndex = random.nextInt(Database.getAllUsers().size());
-                        Discount discount = new Discount();
-                        discount.setCode(Discount.generateRandomCode());
-                        discount.setDiscountPercent(random.nextInt(50) + 1);
-                        discount.setStartTime(LocalDateTime.now());
-                        discount.setFinishTime(LocalDateTime.now().plusDays(1));
-                        discount.setMaximumAmount(random.nextInt(11) + 10);
-                        discount.setRepetitionNumber(1);
-                        discount.addUser(Database.getAllUsers().get(userIndex));
-                        System.out.println(Database.getAllUsers().get(userIndex).getUsername());
-                        try {
-                            Database.add(discount);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-        workStuff.getKeyFrames().add(kf);
-        workStuff.play();
     }
 
     private static void showError(Thread t, Throwable e) {

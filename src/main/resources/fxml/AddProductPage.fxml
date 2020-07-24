@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.validation.RegexValidator?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXScrollPane?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<?import javafx.scene.image.ImageView?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.shape.Box?>
-<?import com.jfoenix.validation.RequiredFieldValidator?>
-<?import com.jfoenix.validation.RegexValidator?>
-<?import com.jfoenix.validation.NumberValidator?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxWidth="250.0" prefHeight="250.0"
                xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.AddProductPage">
     <VBox fx:id="mainBox" spacing="40" prefHeight="250" minWidth="250">
@@ -62,6 +53,12 @@
         <VBox>
             <Label text="Select product video" styleClass="secondary-text" fx:id="videoPath"/>
             <JFXButton fx:id="videoButton" styleClass="handleButton" onAction="#browseForVideo" text="Browse Video"/>
+        </VBox>
+
+        <Separator/>
+        <VBox>
+            <Label text="Select product file" styleClass="secondary-text" fx:id="filePath"/>
+            <JFXButton fx:id="fileButton" styleClass="handleButton" onAction="#browseForFile" text="Browse Files"/>
         </VBox>
         <JFXButton text="Submit" styleClass="finalButton" alignment="BOTTOM_CENTER" onAction="#submitProduct"/>
     </VBox>

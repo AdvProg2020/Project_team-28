@@ -30,12 +30,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AddProductPage {
     public JFXButton selectCategoryButton;
     public JFXTextField quantity;
     public VBox mainBox;
+    public Label filePath;
+    public JFXButton fileButton;
     private SellerController controller;
     public RequiredFieldValidator requiredVal;
     public RegexValidator numberValid;
@@ -59,6 +60,7 @@ public class AddProductPage {
     private String selectedCategory;
     private String imageUri;
     private String videoUri;
+    private String fileUri;
 
     public AddProductPage show(SellerController controller) throws IOException {
         System.out.println("show: " + controller);
@@ -133,6 +135,17 @@ public class AddProductPage {
         if (file != null) {
             videoUri = file.toURI().toURL().toString();
             videoPath.setText(file.getAbsolutePath());
+        }
+    }
+
+    public void browseForFile() throws MalformedURLException {
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Files",
+                "*.*"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            fileUri = file.toURI().toURL().toString();
+            filePath.setText(file.getAbsolutePath());
         }
     }
 
@@ -239,6 +252,7 @@ public class AddProductPage {
         product.setQuantity(Integer.parseInt(quantity.getText()));
         product.setImageAddress(imageUri);
         product.setVideoAddress(videoUri);
+        product.setFileAddress(fileUri);
         for (Node child : categoryBox.getChildren()) {
             if (child instanceof JFXTextField) {
                 Property property = new Property(Database.getPropertyByName(((JFXTextField) child).getPromptText()));
