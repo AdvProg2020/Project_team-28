@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8080/";
+    private static final String serverUrl = "http://localhost:8888/";
     private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
     private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
     private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);
@@ -121,11 +121,12 @@ public class Database {
     }
 
     public static JsonObject sendGET(String url) throws Exception {
-        url = serverUrl + url + "&token=" + token;
+        url = serverUrl + url;
         System.out.println(url);
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
+        con.setRequestProperty("AuthToken", token);
         con.setRequestProperty("User-Agent", USER_AGENT);
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
@@ -151,6 +152,7 @@ public class Database {
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json; utf-8");
         con.setRequestProperty("Accept", "application/json");
+        con.setRequestProperty("AuthToken", token);
         con.setRequestProperty("User-Agent", USER_AGENT);
         con.setDoOutput(true);
         try (OutputStream os = con.getOutputStream()) {
@@ -159,6 +161,32 @@ public class Database {
             jsonObject.addProperty("objectId", objectId);
             jsonObject.addProperty("token", token);
             jsonObject.add("object", new Gson().toJsonTree(object).getAsJsonObject());
+            String jsonInputString = new Gson().toJson(jsonObject);
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+        token = convertedObject.get("token").getAsString();
+    }
+
+    public static void sendPOSTsellerPort(int port) throws Exception {
+        String url = serverUrl + "p2p";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setRequestProperty("AuthToken", token);
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setDoOutput(true);
+        try (OutputStream os = con.getOutputStream()) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("token", token);
             String jsonInputString = new Gson().toJson(jsonObject);
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
@@ -244,7 +272,7 @@ public class Database {
         if (!allPossibleSupporters.contains(possibleSupporter)) {
             allPossibleSupporters.add(possibleSupporter);
         }
-        writeObject(possibleSupporter, possibleSupporter.getID());
+        writeObject(possibleSupporter, possibleSupporter.getId());
     }
 
     public static void add(User user) throws Exception {
@@ -263,8 +291,9 @@ public class Database {
     }
 
     public static void add(JsonObject request) throws Exception {
-        allRequests.add(new Request(request));
-        writeObject(request, request.getAsJsonObject().get("id").getAsString());
+        Request req = new Request(request);
+        allRequests.add(req);
+        writeObject(req, req.getId());
     }
 
     public static void add(Discount discount) throws Exception {
@@ -478,7 +507,7 @@ public class Database {
         return allPossibleManagers;
     }
 
-    public static ArrayList<String> getAllPossibleSupporters() {
+    public static ArrayList<PossibleSupporter> getAllPossibleSupporters() {
         return allPossibleSupporters;
     }
 
