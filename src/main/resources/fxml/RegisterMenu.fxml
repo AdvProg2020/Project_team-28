@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <?import java.lang.String?>
 <?import java.net.URL?>
-<JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxWidth="250.0" prefHeight="250.0"
+<JFXScrollPane xmlns:fx="http://javafx.com/fxml/1" maxWidth="250.0" prefHeight="250.0"
                xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="graphics.RegisterMenu">
     <VBox fx:id="mainBox" id="main-box" alignment="CENTER" prefWidth="250.0" maxWidth="250.0" spacing="20.0">
 
@@ -22,6 +22,7 @@
                     <String fx:value="Customer"/>
                     <String fx:value="Seller"/>
                     <String fx:value="Manager"/>
+                    <String fx:value="Supporter"/>
                 </FXCollections>
             </items>
         </JFXComboBox>

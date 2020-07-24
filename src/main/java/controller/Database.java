@@ -28,6 +28,7 @@ public class Database {
     private static final NetworkArray<Off> allOffs = new NetworkArray<>(Off.class);
     private static final NetworkArray<Product> allProductAds = new NetworkArray<>(Product.class);
     private static final NetworkArray<PossibleManager> allPossibleManagers = new NetworkArray<>(PossibleManager.class);
+    private static final NetworkArray<PossibleSupporter> allPossibleSupporters = new NetworkArray<>(PossibleManager.class);
 
     private static String token = "random-customer";
 
@@ -38,6 +39,7 @@ public class Database {
 
     private static void makeDirectories() {
         makeDirectory(Manager.class);
+        makeDirectory(Supporter.class);
         makeDirectory(Seller.class);
         makeDirectory(Customer.class);
         makeDirectory(Product.class);
@@ -52,10 +54,12 @@ public class Database {
         makeDirectory(Off.class);
         makeDirectory("ProductAd");
         makeDirectory(PossibleManager.class);
+        makeDirectory("PossibleSupporter");
     }
 
     private static void loadLists() throws Exception {
         loadList(allUsers, Manager.class);
+        loadList(allUsers, Supporter.class);
         loadList(allUsers, Seller.class);
         loadList(allUsers, Customer.class);
         loadList(allProducts, Product.class);
@@ -70,6 +74,7 @@ public class Database {
         loadList(allOffs, Off.class);
         loadList(allProductAds, Product.class, "ProductAd");
         loadList(allPossibleManagers, PossibleManager.class);
+        loadList(allPossibleSupporters, PossibleSupporter.class);
     }
 
     private static <T> String getPath(String folderName) {
@@ -227,10 +232,19 @@ public class Database {
     }
 
     public static void addPossibleManager(String username) throws Exception {
-        if (!allPossibleManagers.contains(username)) {
+        PossibleManager possibleManager = new PossibleManager(username);
+        if (!allPossibleManagers.contains(possibleManager)) {
             allPossibleManagers.add(new PossibleManager(username));
         }
-        writeObject(username, username);
+        writeObject(possibleManager, possibleManager.getId());
+    }
+
+    public static void addPossibleSupporter(String username) throws Exception {
+        PossibleSupporter possibleSupporter = new PossibleSupporter(username);
+        if (!allPossibleSupporters.contains(possibleSupporter)) {
+            allPossibleSupporters.add(possibleSupporter);
+        }
+        writeObject(possibleSupporter, possibleSupporter.getID());
     }
 
     public static void add(User user) throws Exception {
@@ -462,6 +476,10 @@ public class Database {
 
     public static ArrayList<PossibleManager> getAllPossibleManagers() {
         return allPossibleManagers;
+    }
+
+    public static ArrayList<String> getAllPossibleSupporters() {
+        return allPossibleSupporters;
     }
 
     public static ArrayList<Category> getAllCategories() {

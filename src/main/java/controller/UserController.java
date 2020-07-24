@@ -54,6 +54,15 @@ public class UserController {
                         data.get("password"), Long.parseLong(data.get("credit")));
                 Database.add(manager);
                 break;
+            case "Supporter":
+                if (canBeSupporter(data.get("username")))
+                    throw new Exception("You can't create a supporter account");
+                Supporter supporter = new Supporter(data.get("username"),
+                        data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
+                        data.get("password"), Long.parseLong(data.get("credit")));
+                Database.add(supporter);
+                break;
+
             case "Seller":
                 Seller seller = new Seller(data.get("username"),
                         data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
@@ -227,6 +236,10 @@ public class UserController {
     }
 
     public boolean canBeManager(String username) {
+        return Database.getAllPossibleManagers().contains(username);
+    }
+
+    public boolean canBeSupporter(String username) {
         return Database.getAllPossibleManagers().contains(username);
     }
 
