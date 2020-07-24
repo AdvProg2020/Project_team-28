@@ -23,6 +23,7 @@ public class FileGetter {
     public static void getProduct(Product product) throws Exception {
         Seller seller = product.getSellers().get(0);
         FILE_ADDRESS = product.getFileAddress();
+        FILE_TO_RECEIVED = "C:\\Users\\morabba\\myDownloads\\download";
         JsonObject jsonObject = Database.sendGET("p2p?seller=" + seller.getUsername());
         SOCKET_PORT = Integer.parseInt(jsonObject.get("port").getAsString());
         SERVER = jsonObject.get("ip").getAsString();

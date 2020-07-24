@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import graphics.TopBar?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import java.net.URL?>
-<?import graphics.Rating?>
-
 <?import com.jfoenix.controls.JFXTextField?>
+<?import graphics.Rating?>
+<?import graphics.TopBar?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="graphics.ProductPage">
@@ -25,6 +23,7 @@
                 <HBox spacing="20" prefWidth="250">
                     <Button text="Zoom Image" onAction="#imagePressed" styleClass="my-button" fx:id="imageButton"/>
                     <Button text="Play Video" onAction="#videoPressed" styleClass="my-button" fx:id="videoButton"/>
+                    <Button text="Download" onAction="#downloadPressed" styleClass="my-button" fx:id="downloadButton"/>
                 </HBox>
             </VBox>
             <Separator orientation="VERTICAL"/>

@@ -2,15 +2,16 @@ package graphics;
 
 import com.jfoenix.controls.JFXTextField;
 import controller.Database;
+import controller.FileGetter;
 import controller.ProductController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -20,7 +21,6 @@ import main.Main;
 import model.*;
 import model.exception.DefaultUser;
 
-import javax.security.auth.callback.LanguageCallback;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -31,6 +31,7 @@ import java.util.Comparator;
 
 public class ProductPage {
     public HBox similarBox;
+    public Button downloadButton;
     private Product product;
 
     public VBox mediaBox;
@@ -226,6 +227,10 @@ public class ProductPage {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
         compareArea.getChildren().add(new Label("product id copied into clipboard"));
+    }
+
+    public void downloadPressed(ActionEvent actionEvent) throws Exception {
+        FileGetter.getProduct(product);
     }
 
     public class CommentPane extends HBox {
