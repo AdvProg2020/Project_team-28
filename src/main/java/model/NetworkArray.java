@@ -92,6 +92,7 @@ public class NetworkArray<T extends BaseModel> extends ArrayList<T> {
 
     public void load() throws Exception {
         JsonObject jsonObject = Database.sendGETall(tClass);
+        elementData.clear();
         elementData.addAll(new Gson().fromJson(jsonObject.get("list"), elementData.getClass()));
     }
 }
