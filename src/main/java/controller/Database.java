@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8888/";
+    private static final String serverUrl = "http://localhost:8080/";
     private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
     private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
     private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);

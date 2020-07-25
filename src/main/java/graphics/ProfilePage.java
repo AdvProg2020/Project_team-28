@@ -101,7 +101,22 @@ public class ProfilePage {
                 break;
             default:
                 System.out.println(((TextInputControl) actionEvent.getSource()).getPromptText() + ".setText(Main.controller.getPersonalInfo(\"" + ((TextInputControl) actionEvent.getSource()).getPromptText() + "\");");
+                if (((TextInputControl) actionEvent.getSource()).getPromptText().equals("credit") )
+                    makeTransaction(Long.parseLong(((TextInputControl) actionEvent.getSource()).getText()));
                 Main.controller.changePersonalInfo(user, ((TextInputControl) actionEvent.getSource()).getPromptText(), ((TextInputControl) actionEvent.getSource()).getText());
+        }
+    }
+
+    private void makeTransaction(long newValue) throws Exception {
+        long oldValue = Main.controller.getUser().getCredit();
+        System.out.println("OldVal= " + oldValue);
+        System.out.println("newVal= " + newValue);
+        if (newValue < oldValue) {
+            String result = Main.controller.depositCredit(oldValue - newValue);
+            System.out.println(result);
+        }else if (newValue > oldValue) {
+            String result = Main.controller.withdrawCredit(newValue - oldValue);
+            System.out.println(result);
         }
     }
 

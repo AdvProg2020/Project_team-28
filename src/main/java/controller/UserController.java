@@ -1,10 +1,15 @@
 package controller;
 
+import com.google.gson.JsonObject;
 import model.*;
 import model.exception.UserNotFoundException;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+
+import static controller.Database.getJsonObjectFromReader;
 
 public class UserController {
     protected User userLoggedOn;
@@ -262,5 +267,34 @@ public class UserController {
 
     public String getAddress() {
         return userLoggedOn.getAddress();
+    }
+
+    protected String sendRequestToServer(String url) throws Exception {
+        System.out.println(url);
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", Database.getUserAgent());
+        int responseCode = con.getResponseCode();
+        System.out.println("GET Response Code :: " + responseCode);
+        System.out.println(" Response Body : " + con.getResponseMessage());
+        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+        if (convertedObject.get("ok").getAsString().equalsIgnoreCase("false"))
+            throw new Exception(convertedObject.get("error").getAsString());
+        return convertedObject.get("reply").getAsString();
+    }
+
+    public String depositCredit(long money) throws Exception {
+        String url = Database.getServerUrl() + "/makeTransaction" + "?username=" + userLoggedOn.getUsername()
+                + "&password=" + userLoggedOn.getPassword() + "&type=deposit" + "&money=" + money + "&sourceId=-1"
+                + "&destId=" + userLoggedOn.getBankAccountId();
+        return sendRequestToServer(url);
+    }
+
+    public String withdrawCredit(long money) throws Exception {
+        String url = Database.getServerUrl() + "/makeTransaction" + "?username=" + userLoggedOn.getUsername()
+                + "&password=" + userLoggedOn.getPassword() + "&type=withdraw" + "&money=" + money + "&sourceId="
+                + userLoggedOn.getBankAccountId() + "&destId=-1";
+        return sendRequestToServer(url);
     }
 }

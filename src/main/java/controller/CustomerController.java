@@ -179,21 +179,6 @@ public class CustomerController extends UserController {
         return sendRequestToServer(url);
     }
 
-    private String sendRequestToServer(String url) throws Exception {
-        System.out.println(url);
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", Database.getUserAgent());
-        int responseCode = con.getResponseCode();
-        System.out.println("GET Response Code :: " + responseCode);
-        System.out.println(" Response Body : " + con.getResponseMessage());
-        JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
-        if (convertedObject.get("ok").getAsString().equalsIgnoreCase("false"))
-            throw new Exception(convertedObject.get("error").getAsString());
-        return convertedObject.get("reply").getAsString();
-    }
-
     private String sendCreditPaymentRequest(long productPrice, String destId) throws Exception {
         String url = Database.getServerUrl() + "/paySellerCredit" + "?sourceId=" + userLoggedOn.getId()
                 + "&money=" + productPrice + "&destId=" + destId;
