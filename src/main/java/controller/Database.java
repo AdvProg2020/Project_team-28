@@ -252,6 +252,23 @@ public class Database {
 
     private static void deleteObject(String id, String folderName) {
         try {
+            String url = serverUrl + "resource?" + "id=" + id + "&folderName=" + folderName;
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setDoOutput(true);
+            con.setInstanceFollowRedirects(false);
+            con.setRequestMethod("DELETE");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.setRequestProperty("charset", "utf-8");
+            con.setRequestProperty("AuthToken", token);
+            con.setUseCaches(false);
+
+            int responseCode = con.getResponseCode();
+            System.out.println("DELETE Response Code :: " + responseCode);
+            System.out.println(" Response Body : " + con.getResponseMessage());
+            JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+            token = convertedObject.get("token").getAsString();
             File file = new File(getPath(folderName) + id + ".json");
             file.delete();
         } catch (Exception e) {
@@ -476,6 +493,7 @@ public class Database {
             if (user.getUsername().equals(username))
                 return user;
         }
+
         return null;
     }
 
