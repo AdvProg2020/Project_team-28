@@ -43,18 +43,17 @@ public class FileGetter {
             PrintWriter clientOut = new PrintWriter(sock.getOutputStream(), true);
 
             clientOut.println(FILE_ADDRESS);
+            System.out.println("client: " + FILE_ADDRESS);
             // receive file
             byte[] mybytearray = new byte[FILE_SIZE];
             InputStream is = sock.getInputStream();
             fos = new FileOutputStream(FILE_TO_RECEIVED);
             bos = new BufferedOutputStream(fos);
-            is.read();
             bytesRead = is.read(mybytearray, 0, mybytearray.length);
             current = bytesRead;
 
             do {
-                bytesRead =
-                        is.read(mybytearray, current, (mybytearray.length - current));
+                bytesRead = is.read(mybytearray, current, (mybytearray.length - current));
                 if (bytesRead >= 0) current += bytesRead;
             } while (bytesRead > -1);
 
