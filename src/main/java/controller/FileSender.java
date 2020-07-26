@@ -69,13 +69,13 @@ public class FileSender extends Thread {
             Socket threadClient = client;
             //PrintWriter clientOut = new PrintWriter(threadClient.getOutputStream(), true);
             BufferedReader clientIn = new BufferedReader(new InputStreamReader(threadClient.getInputStream()));
-            //clientOut.println("connected");
-            clientIn.readLine();
+
 
             ServerSocket servsock = serverSocket;
 
             String input = clientIn.readLine();
-
+            input = input.replaceAll("file:", "");
+            System.out.println("Server: " + input);
             File myFile = new File(input);
             byte[] myByteArray = new byte[(int) myFile.length()];
             fis = new FileInputStream(myFile);

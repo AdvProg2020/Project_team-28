@@ -14,13 +14,14 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8888/";
+    private static final String serverUrl = "http://localhost:8080/";
     private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
     private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
     private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);
     private static final NetworkArray<Discount> allDiscountCodes = new NetworkArray<>(Discount.class);
     private static final NetworkArray<Category> allCategories = new NetworkArray<>(Category.class);
     private static final NetworkArray<Comment> allComments = new NetworkArray<>(Comment.class);
+    private static final NetworkArray<Chat> allChats = new NetworkArray<>(Chat.class);
     private static final NetworkArray<Property> allProperties = new NetworkArray<>(Property.class);
     private static final NetworkArray<Score> allScores = new NetworkArray<>(Score.class);
     private static final NetworkArray<PurchaseLog> allPurchaseLogs = new NetworkArray<>(PurchaseLog.class);
@@ -47,6 +48,7 @@ public class Database {
         makeDirectory(Discount.class);
         makeDirectory(Category.class);
         makeDirectory(Comment.class);
+        makeDirectory(Chat.class);
         makeDirectory(Property.class);
         makeDirectory(Score.class);
         makeDirectory(PurchaseLog.class);
@@ -67,6 +69,7 @@ public class Database {
         loadList(allDiscountCodes, Discount.class);
         loadList(allCategories, Category.class);
         loadList(allComments, Comment.class);
+        loadList(allChats, Chat.class);
         loadList(allProperties, Property.class);
         loadList(allScores, Score.class);
         loadList(allPurchaseLogs, PurchaseLog.class);
@@ -253,6 +256,23 @@ public class Database {
 
     private static void deleteObject(String id, String folderName) {
         try {
+            String url = serverUrl + "resource?" + "id=" + id + "&folderName=" + folderName;
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setDoOutput(true);
+            con.setInstanceFollowRedirects(false);
+            con.setRequestMethod("DELETE");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.setRequestProperty("charset", "utf-8");
+            con.setRequestProperty("AuthToken", token);
+            con.setUseCaches(false);
+
+            int responseCode = con.getResponseCode();
+            System.out.println("DELETE Response Code :: " + responseCode);
+            System.out.println(" Response Body : " + con.getResponseMessage());
+            JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
+
+            token = convertedObject.get("token").getAsString();
             File file = new File(getPath(folderName) + id + ".json");
             file.delete();
         } catch (Exception e) {
@@ -266,6 +286,14 @@ public class Database {
             allPossibleManagers.add(new PossibleManager(username));
         }
         writeObject(possibleManager, possibleManager.getId());
+    }
+
+    public static void allPossibleSupporter(String username) throws Exception {
+        PossibleManager possibleSupporter = new PossibleManager(username);
+        if (!allPossibleManagers.contains(possibleSupporter)) {
+            allPossibleManagers.add(new PossibleManager(username));
+        }
+        writeObject(possibleSupporter, possibleSupporter.getId());
     }
 
     public static void addPossibleSupporter(String username) throws Exception {
@@ -282,11 +310,7 @@ public class Database {
     }
 
     public static void add(Product product) throws Exception {
-        for (Product productIn : allProducts) {
-            if (productIn.equals(product.getId())) {
-                allProducts.remove(productIn);
-            }
-        }
+        allProducts.removeIf(productIn -> productIn.getId().equals(product.getId()));
         allProducts.add(product);
         writeObject(product, product.getId());
     }
@@ -310,6 +334,11 @@ public class Database {
     public static void add(Comment comment) throws Exception {
         allComments.add(comment);
         writeObject(comment, comment.getId());
+    }
+
+    public static void add(Chat chat) throws Exception {
+        allChats.add(chat);
+        writeObject(chat, chat.getId());
     }
 
     public static void add(Property property) throws Exception {
@@ -357,6 +386,11 @@ public class Database {
     public static void remove(JsonElement jsonElement) {
         allRequests.remove(jsonElement);
         deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
+    }
+
+    public static void remove(Request request) {
+        allRequests.remove(request);
+        deleteObject(request, request.getId());
     }
 
     public static void removePossibleManager(String username) {
@@ -432,6 +466,14 @@ public class Database {
         return null;
     }
 
+    public static Chat getChatById(String id) {
+        for (Chat chat : allChats) {
+            if (chat.getId().equals(id))
+                return chat;
+        }
+        return null;
+    }
+
     public static Property getPropertyById(String id) {
         for (Property property : allProperties) {
             if (property.getId().equals(id))
@@ -477,6 +519,7 @@ public class Database {
             if (user.getUsername().equals(username))
                 return user;
         }
+
         return null;
     }
 
@@ -538,6 +581,10 @@ public class Database {
 
     public static ArrayList<Comment> getAllComments() {
         return allComments;
+    }
+
+    public static ArrayList<Chat> getAllChats() {
+        return allChats;
     }
 
     public static ArrayList<Property> getAllProperties() {

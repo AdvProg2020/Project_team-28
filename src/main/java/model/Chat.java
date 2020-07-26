@@ -1,14 +1,15 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import controller.Database;
 
-public class Chat {
+import java.util.*;
+
+public class Chat implements BaseModel {
     private final String id;
     boolean isPublic = false;
-    private final ArrayList<String> users = new ArrayList<>();
+    private final Set<String> users = new HashSet<>();
     private final ArrayList<ChatMessage> messages = new ArrayList<>();
+    private final Set<String> usernames = new HashSet<>();
 
     public Chat() {
         this.id = UUID.randomUUID().toString();
@@ -20,6 +21,7 @@ public class Chat {
 
     public void addUser(String userId) {
         users.add(userId);
+        usernames.add(Objects.requireNonNull(Database.getUserById(userId)).getUsername());
     }
 
     private boolean hasUser(String userId) {
@@ -51,7 +53,11 @@ public class Chat {
         return id;
     }
 
-    public ArrayList<String> getUsers() {
+    public Set<String> getUsers() {
         return users;
+    }
+
+    public Set<String> getUsernames() {
+        return usernames;
     }
 }

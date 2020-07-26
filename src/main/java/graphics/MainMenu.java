@@ -37,15 +37,16 @@ public class MainMenu {
             SoundPlayer.stopBackground();
             String fxmlPath;
             switch (Main.controller.getPersonalInfo("type")) {
-                case "customer":
-                    fxmlPath =  "src/main/resources/fxml/Profile.fxml";
-                    break;
+//                case "customer":
+//                    fxmlPath =  "src/main/resources/fxml/Profile.fxml";
+//                    break;
                 case "seller":
                     fxmlPath = "src/main/resources/fxml/SellerPage.fxml";
                     break;
                 case "manager":
                     fxmlPath = "src/main/resources/fxml/ManagerPage.fxml";
                     break;
+                case "customer":
                 case "supporter":
                     fxmlPath = "src/main/resources/fxml/SupporterPage.fxml";
                     break;

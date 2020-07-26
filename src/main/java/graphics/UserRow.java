@@ -10,6 +10,7 @@ public class UserRow extends RecursiveTreeObject<UserRow> {
     private StringProperty username = new SimpleStringProperty();
     private StringProperty firstName = new SimpleStringProperty();
     private StringProperty surname = new SimpleStringProperty();
+    private StringProperty id = new SimpleStringProperty();
 
     public UserRow() {
 
@@ -23,6 +24,7 @@ public class UserRow extends RecursiveTreeObject<UserRow> {
         username.setValue(user.getUsername());
         firstName.setValue(user.getFirstName());
         surname.setValue(user.getSurname());
+        id.setValue(user.getId());
     }
 
     public StringProperty usernameProperty() {
@@ -35,6 +37,18 @@ public class UserRow extends RecursiveTreeObject<UserRow> {
 
     public void setUsername(String username) {
         this.username.set(username);
+    }
+
+    public StringProperty idProperty() {
+        return id;
+    }
+
+    public String getId() {
+        return id.get();
+    }
+
+    public void setId(String id) {
+        this.id.set(id);
     }
 
     public StringProperty firstNameProperty() {

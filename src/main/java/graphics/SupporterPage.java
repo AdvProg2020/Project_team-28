@@ -28,5 +28,7 @@ public class SupporterPage {
     }
 
     public void supportPressed() {
+        backgroundMediaView.getMediaPlayer().stop();
+        Main.setMainStage("Support Area", "src/main/resources/fxml/SupportArea.fxml");
     }
 }

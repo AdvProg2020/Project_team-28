@@ -60,6 +60,11 @@ public class NetworkArray<T extends BaseModel> extends ArrayList<T> {
 
     @Override
     public Iterator<T> iterator() {
+        try {
+            load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return new Iterator<T>() {
             private int index = 0;
