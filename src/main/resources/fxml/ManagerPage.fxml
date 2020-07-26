@@ -22,6 +22,7 @@
                 <JFXButton styleClass="dark-button" text="Add New Manager" onAction="#addManagerButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="Add New Discount" onAction="#addDiscountButtonPressed"/>
                 <JFXButton styleClass="dark-button" text="Remove Product" onAction="#removeProductPressed"/>
+                <JFXButton styleClass="dark-button" text="Set Constants" onAction="#setConstantsPressed"/>
             </VBox>
         </HBox>
         <stylesheets>

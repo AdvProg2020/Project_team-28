@@ -68,4 +68,16 @@ public class ManagerPage {
         backgroundMediaView.getMediaPlayer().stop();
         Main.setMainStage("Manage Categories", "src/main/resources/fxml/ManageCategories.fxml");
     }
+
+    public void setConstantsPressed(ActionEvent actionEvent) throws IOException {
+        backgroundMediaView.getMediaPlayer().stop();
+        URL url = new File("src/main/resources/fxml/SetConstantsMenu.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Main.popupStage = new Stage();
+        Main.popupStage.setTitle("Set constants");
+        Main.popupStage.setScene(new Scene(root, 250, 350));
+        Main.popupStage.initModality(Modality.WINDOW_MODAL);
+        Main.popupStage.initOwner(Main.mainStage);
+        Main.popupStage.show();
+    }
 }
