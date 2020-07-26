@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import controller.ManagerController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,7 +16,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class RegisterMenu {
-    public JFXComboBox accountType;
+    public JFXComboBox<String> accountType;
     public JFXTextField firstName;
     public JFXTextField lastName;
     public JFXTextField phoneNumber;
@@ -30,7 +29,7 @@ public class RegisterMenu {
     public JFXTextArea companyInfo;
 
 
-    public void registerPressed(ActionEvent actionEvent) throws Exception {
+    public void registerPressed() throws Exception {
         registerAccount();
         URL url = new File("src/main/resources/fxml/LoginMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
@@ -63,7 +62,7 @@ public class RegisterMenu {
             throw (new Exception(errorText));
         }
         HashMap<String, String> data = new HashMap<>();
-        data.put("type", accountType.getValue().toString());
+        data.put("type", accountType.getValue());
         data.put("name", firstName.getText());
         data.put("surname", lastName.getText());
         data.put("phoneNumber", phoneNumber.getText());
@@ -73,7 +72,7 @@ public class RegisterMenu {
         data.put("companyInfo", companyInfo.getText());
         data.put("credit", "0");
 
-        if (!ManagerController.managerExists() && !accountType.getValue().toString().equals("Manager")) {
+        if (!ManagerController.managerExists() && !accountType.getValue().equals("Manager")) {
             throw (new Exception("Please register a manager first"));
         }
         if (Main.controller.canBeManager(username.getText())) {
@@ -83,29 +82,29 @@ public class RegisterMenu {
         Main.controller.registerAccount(data, false);
     }
 
-    public void additionalInfoPressed(ActionEvent actionEvent) throws Exception {
+    public void additionalInfoPressed() throws Exception {
         registerAccount();
         URL url = new File("src/main/resources/fxml/AdditionalInfo.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Main.popupStage.setScene(new Scene(root, 300, 400));
     }
 
-    public void accountTypeChanged(ActionEvent actionEvent) {
+    public void accountTypeChanged() {
         System.out.println("called");
         System.out.println();
-        if (accountType.getValue().toString().equals("Seller")) {
+        if (accountType.getValue().equals("Seller")) {
             sellerBox.setManaged(true);
             sellerBox.setVisible(true);
             managerBox.setManaged(false);
             managerBox.setVisible(false);
         }
-        if (accountType.getValue().toString().equals("Manager")) {
+        if (accountType.getValue().equals("Manager")) {
             sellerBox.setManaged(false);
             sellerBox.setVisible(false);
             managerBox.setManaged(true);
             managerBox.setVisible(true);
         }
-        if (accountType.getValue().toString().equals("Customer")) {
+        if (accountType.getValue().equals("Supporter") || accountType.getValue().equals("Customer")) {
             sellerBox.setManaged(false);
             sellerBox.setVisible(false);
             managerBox.setManaged(false);

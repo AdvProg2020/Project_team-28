@@ -29,7 +29,7 @@ public class Database {
     private static final NetworkArray<Off> allOffs = new NetworkArray<>(Off.class);
     private static final NetworkArray<Product> allProductAds = new NetworkArray<>(Product.class);
     private static final NetworkArray<PossibleManager> allPossibleManagers = new NetworkArray<>(PossibleManager.class);
-    private static final NetworkArray<PossibleSupporter> allPossibleSupporters = new NetworkArray<>(PossibleManager.class);
+    private static final NetworkArray<PossibleSupporter> allPossibleSupporters = new NetworkArray<>(PossibleSupporter.class);
 
     private static String token = "random-customer";
 

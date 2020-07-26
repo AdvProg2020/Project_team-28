@@ -60,7 +60,7 @@ public class UserController {
                 Database.add(manager);
                 break;
             case "Supporter":
-                if (canBeSupporter(data.get("username")))
+                if (!canBeSupporter(data.get("username")))
                     throw new Exception("You can't create a supporter account");
                 Supporter supporter = new Supporter(data.get("username"),
                         data.get("name"), data.get("surname"), data.get("email"), data.get("phoneNumber"),
@@ -248,11 +248,19 @@ public class UserController {
     }
 
     public boolean canBeManager(String username) {
-        return Database.getAllPossibleManagers().contains(username);
+        for (PossibleManager manager : Database.getAllPossibleManagers()) {
+            if (manager.getUsername().equals(username))
+                return true;
+        }
+        return false;
     }
 
     public boolean canBeSupporter(String username) {
-        return Database.getAllPossibleSupporters().contains(username);
+        for (PossibleSupporter supporter : Database.getAllPossibleSupporters()) {
+            if (supporter.getUsername().equals(username))
+                return true;
+        }
+        return false;
     }
 
     public void logout() throws Exception {
