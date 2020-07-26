@@ -2,21 +2,17 @@ package graphics;
 
 import com.jfoenix.controls.JFXButton;
 import controller.Database;
-import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.Main;
 import model.Chat;
-import model.ChatMessage;
 import model.Supporter;
 import model.User;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SupportArea {
     public VBox onlineBox;
@@ -26,9 +22,10 @@ public class SupportArea {
     ArrayList<String> chatList = new ArrayList<>();
 
     public void initialize() {
+        System.out.println("initializing...");
         try {
-            ArrayList<String> users = new ArrayList<>();
-            //TODO: users = Main.controller.getOnlineUsers();
+            ArrayList<String> users;
+            users = Database.getOnlineUsers();
 
             onlineBox.getChildren().clear();
             for (String userId : users) {
@@ -40,9 +37,13 @@ public class SupportArea {
                     link.setOnAction(event -> {
                         if (Main.controller.getUser().getType().equals("supporter"))
                             return;
+
                         Chat chat = new Chat();
-                        chat.addUser(Main.controller.getUser().getId());
-                        chat.addUser(userId);
+
+                        // add customer and supporter to chat members
+                        chat.addUser(Main.controller.getUser().getUsername());
+                        chat.addUser(Objects.requireNonNull(Database.getUserById(userId)).getUsername());
+
                         try {
                             Database.add(chat);
                             chatList.add(chat.getId());
@@ -55,7 +56,13 @@ public class SupportArea {
                 }
             }
 
-            //TODO: chatList = Main.controller.getPersonalChats();
+            chatList = new ArrayList<>();
+
+            for (Chat chat : Database.getAllChats()) {
+                if (chat.hasUser(Main.controller.getUser().getUsername())) {
+                    chatList.add(chat.getId());
+                }
+            }
 
             updateChatBox();
 
@@ -77,9 +84,9 @@ public class SupportArea {
     }
 
     public void reloadPressed() {
-        System.out.println("reloading chat area...");
+        System.out.println("reloading...");
         initialize();
         chatBox.updateChat();
-        chatBox.setChat(chatBox.getChat());
+        //chatBox.setChat(chatBox.getChat());
     }
 }

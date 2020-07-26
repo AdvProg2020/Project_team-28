@@ -23,32 +23,33 @@ public class ChatBox extends VBox {
     public void setChat(Chat chat) {
         this.chat = chat;
 
+        textArea.setDisable(true);
+        messagesBox.getChildren().clear();
+
         if (chat == null)
             return;
 
         textArea.setDisable(false);
 
-        messagesBox.getChildren().clear();
-        for (ChatMessage message : chat.getMessages(Main.controller.getUser().getId())) {
+        for (ChatMessage message : chat.getMessages()) {
             addMessageToBox(message);
         }
 
         StringBuilder members = new StringBuilder();
-        for (String username : chat.getUsernames()) {
+        for (String username : chat.getUsers()) {
             members.append(username).append(", ");
         }
+
         messagesBox.getChildren().add(new Label("Chat members:"));
         messagesBox.getChildren().add(new Label(members.substring(0, members.length() - 2)));
 
     }
 
     public void updateChat() {
-        try {
-            Database.update(chat, chat.getId());
-        } catch (Exception ignored) {
-        }
-        if (chat != null)
-            setChat(Objects.requireNonNull(Database.getChatById(chat.getId())));
+        System.out.println("setting chat messages...");
+        if (getChat() != null)
+            chat = Database.getChatById(getChat().getId());
+        setChat(chat);
     }
 
     public ChatBox() {
@@ -73,14 +74,23 @@ public class ChatBox extends VBox {
 
         textArea.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                event.consume(); // otherwise a new line will be added to the textArea after the sendFunction() call
+                event.consume();
                 if (event.isShiftDown()) {
                     textArea.appendText(System.getProperty("line.separator"));
                 } else {
+
+                    // get chat from server
+                    chat = Database.getChatById(chat.getId());
+                    assert chat != null;
+                    // add message to chat
                     chat.addMessage(new ChatMessage(Main.controller.getUser().getId(), textArea.getText()));
-                    System.out.println(chat.getMessages(Main.controller.getUser().getId()).size());
+                    // write chat into server
+                    try {
+                        Database.update(chat, chat.getId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     this.updateChat();
-                    //addMessageToBox(new ChatMessage(Main.controller.getUser().getId(), textArea.getText()));
                     textArea.setText("");
                 }
             }

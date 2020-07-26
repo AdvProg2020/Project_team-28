@@ -28,7 +28,7 @@ public class Main extends Application {
     public static ManagerController managerController;
     public static CustomerController customerController;
     public static ProductController productController;
-    private static Stack<Scene> sceneStack = new Stack<>();
+    private static final Stack<Scene> sceneStack = new Stack<>();
 
     public Main() {
 
@@ -52,10 +52,8 @@ public class Main extends Application {
         e.printStackTrace();
         if (Platform.isFxApplicationThread()) {
             showErrorDialog(e);
-            System.err.println("An unexpected error occurred in " + t);
-        } else {
-            System.err.println("An unexpected error occurred in " + t);
         }
+        System.err.println("An unexpected error occurred in " + t);
     }
 
     public static void showErrorDialog(Throwable e) {
@@ -140,12 +138,18 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
 //        Database.addProductToAds(Database.getProductById("111388d0-ac14-4a24-b54f-fda183df6c2d"));
 //        Database.addProductToAds(Database.getProductById("efe8e6bf-4b3c-4699-b3cf-16c6fd89c483"));
         mainStage = primaryStage;
         Main.setMainStage("", "src/main/resources/fxml/MainMenu.fxml");
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        if (Main.controller.getUser() != null)
+            Database.logout();
     }
 }
