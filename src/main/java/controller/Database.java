@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8888/";
+    private static final String serverUrl = "http://localhost:8080/";
     private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
     private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
     private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);
@@ -298,11 +298,7 @@ public class Database {
     }
 
     public static void add(Product product) throws Exception {
-        for (Product productIn : allProducts) {
-            if (productIn.equals(product.getId())) {
-                allProducts.remove(productIn);
-            }
-        }
+        allProducts.removeIf(productIn -> productIn.getId().equals(product.getId()));
         allProducts.add(product);
         writeObject(product, product.getId());
     }
@@ -373,6 +369,11 @@ public class Database {
     public static void remove(JsonElement jsonElement) {
         allRequests.remove(jsonElement);
         deleteObject(jsonElement, jsonElement.getAsJsonObject().get("id").getAsString());
+    }
+
+    public static void remove(Request request) {
+        allRequests.remove(request);
+        deleteObject(request, request.getId());
     }
 
     public static void removePossibleManager(String username) {

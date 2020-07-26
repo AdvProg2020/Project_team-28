@@ -6,7 +6,7 @@ import model.User;
 public class DefaultUser extends Customer {
 
     public DefaultUser() {
-            super("","Anonymous User","",
+            super("","AnonymousUser","",
                 "username@example.com","+98xxxxxxxxxx","",0);
         setUsername(getId());
     }
