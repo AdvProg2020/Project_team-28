@@ -292,14 +292,16 @@ public class UserController {
     }
 
     public String depositCredit(long money) throws Exception {
-        String url = Database.getServerUrl() + "/makeTransaction" + "?username=" + userLoggedOn.getUsername()
+        System.out.println("Money value " + money + " deposited");
+        String url = Database.getServerUrl() + "makeTransaction" + "?username=" + userLoggedOn.getUsername()
                 + "&password=" + userLoggedOn.getPassword() + "&type=deposit" + "&money=" + money + "&sourceId=-1"
                 + "&destId=" + userLoggedOn.getBankAccountId();
         return sendRequestToServer(url);
     }
 
     public String withdrawCredit(long money) throws Exception {
-        String url = Database.getServerUrl() + "/makeTransaction" + "?username=" + userLoggedOn.getUsername()
+        System.out.println("Money value " + money+ " withdrawn");
+        String url = Database.getServerUrl() + "makeTransaction" + "?username=" + userLoggedOn.getUsername()
                 + "&password=" + userLoggedOn.getPassword() + "&type=withdraw" + "&money=" + money + "&sourceId="
                 + userLoggedOn.getBankAccountId() + "&destId=-1";
         return sendRequestToServer(url);

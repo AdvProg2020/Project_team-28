@@ -101,8 +101,15 @@ public class ProfilePage {
                 break;
             default:
                 System.out.println(((TextInputControl) actionEvent.getSource()).getPromptText() + ".setText(Main.controller.getPersonalInfo(\"" + ((TextInputControl) actionEvent.getSource()).getPromptText() + "\");");
-                if (((TextInputControl) actionEvent.getSource()).getPromptText().equals("credit") )
-                    makeTransaction(Long.parseLong(((TextInputControl) actionEvent.getSource()).getText()));
+                if (((TextInputControl) actionEvent.getSource()).getPromptText().equals("credit") ) {
+                    try {
+                        makeTransaction(Long.parseLong(((TextInputControl) actionEvent.getSource()).getText()));
+                    }catch (Exception e) {
+                        ((TextInputControl) actionEvent.getSource()).
+                                setText(String.valueOf(Main.controller.getUser().getCredit()));
+                        throw e;
+                    }
+                }
                 Main.controller.changePersonalInfo(user, ((TextInputControl) actionEvent.getSource()).getPromptText(), ((TextInputControl) actionEvent.getSource()).getText());
         }
     }
