@@ -72,8 +72,10 @@ public abstract class User implements BaseModel {
     }
 
     protected String createBankAccount () throws Exception {
-        String url = Database.getServerUrl() + "/createBankAccount" + "?firstName=" + this.name +
-                "&lastName=" + this.surname + "&username=" + this.username + "&password=" + this.password;
+        String url = Database.getServerUrl() + "createBankAccount" + "?firstName=" +
+                this.name.replaceAll("\\s", "_") + "&lastName=" +
+                this.surname.replaceAll("\\s", "_") + "&username=" + this.username + "&password="
+                + this.password;
         System.out.println(url);
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();

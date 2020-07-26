@@ -108,17 +108,18 @@ public class CustomerController extends UserController {
 
     public long getTotalPrice() {
         long totalPrice = 0;
-        for (Product product : customerLoggedOn.getCart().keySet()) {
-            totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
+        HashMap<Product, Integer> cart = customerLoggedOn.getCart();
+        for (Product product : cart.keySet()) {
+            totalPrice += cart.get(product) * product.getPrice();
         }
         if (customerLoggedOn.getDiscountUsed() != null)
             totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) / 100;
         return totalPrice;
     }
 
-    public long getProductPrice (Product product) {
+    public long getProductPrice (Product product, int num) {
         long totalPrice = 0;
-        totalPrice += product.getPrice() * customerLoggedOn.getCart().get(product);
+        totalPrice += product.getPrice() * num;
         if (customerLoggedOn.getDiscountUsed() != null)
             totalPrice *= (double) (100 - customerLoggedOn.getDiscountUsed().getDiscountPercent()) / 100;
         return totalPrice;
@@ -146,12 +147,14 @@ public class CustomerController extends UserController {
 
     public long purchase(String method) throws Exception {
         long totalPrice = getTotalPrice();
+        if (method.equalsIgnoreCase("e-wallet") && customerLoggedOn.getCredit() < totalPrice) {
+                throw new Exception("Not enough credit");
+        }
         payEachSeller(method);
         //creating log
         PurchaseLog newLog = createPurchaseLog();
         createSellLogForAllProducts();
         customerLoggedOn.deleteDiscount();
-        //should be changed?
         Database.add(newLog);
         customerLoggedOn.addToPurchaseHistory(newLog);
         this.addCustomerToProducts();
@@ -161,26 +164,27 @@ public class CustomerController extends UserController {
     }
 
     private void payEachSeller(String method) throws Exception {
-        for (Product product : customerLoggedOn.getCart().keySet()) {
+        HashMap<Product, Integer> cart = customerLoggedOn.getCart();
+        for (Product product : cart.keySet()) {
             String destId = product.getSellers().get(0).getId();
             String reply;
             if (method.equalsIgnoreCase("e-wallet"))
-                reply = sendCreditPaymentRequest(getProductPrice(product), destId);
+                reply = sendCreditPaymentRequest(getProductPrice(product, cart.get(product)), destId);
             else
-                reply = sendBankPaymentRequest(getProductPrice(product), destId);
+                reply = sendBankPaymentRequest(getProductPrice(product, cart.get(product)), destId);
             System.out.println(product.getName() + ": " + reply);
         }
     }
 
     private String sendBankPaymentRequest(long productPrice, String destId) throws Exception {
-        String url = Database.getServerUrl() + "/paySellerByBankAccount" + "?username=" + userLoggedOn.getUsername()
+        String url = Database.getServerUrl() + "paySellerByBankAccount" + "?username=" + userLoggedOn.getUsername()
                 + "&password=" + userLoggedOn.getPassword() + "&money=" + productPrice + "&sourceId="
                 + userLoggedOn.getBankAccountId() + "&destId=" + destId;
         return sendRequestToServer(url);
     }
 
     private String sendCreditPaymentRequest(long productPrice, String destId) throws Exception {
-        String url = Database.getServerUrl() + "/paySellerCredit" + "?sourceId=" + userLoggedOn.getId()
+        String url = Database.getServerUrl() + "paySellerCredit" + "?sourceId=" + userLoggedOn.getId()
                 + "&money=" + productPrice + "&destId=" + destId;
         return sendRequestToServer(url);
     }

@@ -356,4 +356,11 @@ public class Product implements BaseModel {
     public String toString() {
         return name + "\t" + brand;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Product))
+            return false;
+        return this.id.equals(((Product) obj).getId());
+    }
 }
