@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import graphics.ChatBox?>
+<?import graphics.TopBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="graphics.SupportArea"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox prefWidth="620">
+        <TopBar/>
+        <HBox styleClass="section">
+            <Pane prefWidth="175">
+                <ImageView fitHeight="25.0" preserveRatio="true" onMouseClicked="#reloadPressed">
+                    <Image url="@../images/reload.png"/>
+                </ImageView>
+            </Pane>
+            <HBox fx:id="chatListBox" prefWidth="400" alignment="CENTER_LEFT"/>
+        </HBox>
+        <HBox styleClass="section">
+            <VBox styleClass="usersBubble" prefWidth="175">
+                <Label style="-fx-font-weight: bold">Online Support</Label>
+                <VBox fx:id="onlineBox" style="-fx-spacing: 0"/>
+            </VBox>
+            <ChatBox fx:id="chatBox"/>
+        </HBox>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../stylesheets/main.css"/>
+        <URL value="@../stylesheets/SupportArea.css"/>
+    </stylesheets>
+</AnchorPane>

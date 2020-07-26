@@ -20,6 +20,7 @@ public class Database {
     private static final NetworkArray<Discount> allDiscountCodes = new NetworkArray<>(Discount.class);
     private static final NetworkArray<Category> allCategories = new NetworkArray<>(Category.class);
     private static final NetworkArray<Comment> allComments = new NetworkArray<>(Comment.class);
+    private static final NetworkArray<Chat> allChats = new NetworkArray<>(Chat.class);
     private static final NetworkArray<Property> allProperties = new NetworkArray<>(Property.class);
     private static final NetworkArray<Score> allScores = new NetworkArray<>(Score.class);
     private static final NetworkArray<PurchaseLog> allPurchaseLogs = new NetworkArray<>(PurchaseLog.class);
@@ -46,6 +47,7 @@ public class Database {
         makeDirectory(Discount.class);
         makeDirectory(Category.class);
         makeDirectory(Comment.class);
+        makeDirectory(Chat.class);
         makeDirectory(Property.class);
         makeDirectory(Score.class);
         makeDirectory(PurchaseLog.class);
@@ -66,6 +68,7 @@ public class Database {
         loadList(allDiscountCodes, Discount.class);
         loadList(allCategories, Category.class);
         loadList(allComments, Comment.class);
+        loadList(allChats, Chat.class);
         loadList(allProperties, Property.class);
         loadList(allScores, Score.class);
         loadList(allPurchaseLogs, PurchaseLog.class);
@@ -284,6 +287,14 @@ public class Database {
         writeObject(possibleManager, possibleManager.getId());
     }
 
+    public static void allPossibleSupporter(String username) throws Exception {
+        PossibleManager possibleSupporter = new PossibleManager(username);
+        if (!allPossibleManagers.contains(possibleSupporter)) {
+            allPossibleManagers.add(new PossibleManager(username));
+        }
+        writeObject(possibleSupporter, possibleSupporter.getId());
+    }
+
     public static void addPossibleSupporter(String username) throws Exception {
         PossibleSupporter possibleSupporter = new PossibleSupporter(username);
         if (!allPossibleSupporters.contains(possibleSupporter)) {
@@ -322,6 +333,11 @@ public class Database {
     public static void add(Comment comment) throws Exception {
         allComments.add(comment);
         writeObject(comment, comment.getId());
+    }
+
+    public static void add(Chat chat) throws Exception {
+        allChats.add(chat);
+        writeObject(chat, chat.getId());
     }
 
     public static void add(Property property) throws Exception {
@@ -449,6 +465,14 @@ public class Database {
         return null;
     }
 
+    public static Chat getChatById(String id) {
+        for (Chat chat : allChats) {
+            if (chat.getId().equals(id))
+                return chat;
+        }
+        return null;
+    }
+
     public static Property getPropertyById(String id) {
         for (Property property : allProperties) {
             if (property.getId().equals(id))
@@ -556,6 +580,10 @@ public class Database {
 
     public static ArrayList<Comment> getAllComments() {
         return allComments;
+    }
+
+    public static ArrayList<Chat> getAllChats() {
+        return allChats;
     }
 
     public static ArrayList<Property> getAllProperties() {

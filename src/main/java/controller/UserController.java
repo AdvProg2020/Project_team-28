@@ -240,6 +240,13 @@ public class UserController {
         Database.addPossibleManager(username);
     }
 
+    public void addSupporter(String username) throws Exception {
+        User thisUser = Database.getUserByUsername(username);
+        if (thisUser != null)
+            throw new Exception("User already exists");
+        Database.addPossibleSupporter(username);
+    }
+
     public boolean canBeManager(String username) {
         return Database.getAllPossibleManagers().contains(username);
     }
