@@ -288,14 +288,6 @@ public class Database {
         writeObject(possibleManager, possibleManager.getId());
     }
 
-    public static void allPossibleSupporter(String username) throws Exception {
-        PossibleManager possibleSupporter = new PossibleManager(username);
-        if (!allPossibleManagers.contains(possibleSupporter)) {
-            allPossibleManagers.add(new PossibleManager(username));
-        }
-        writeObject(possibleSupporter, possibleSupporter.getId());
-    }
-
     public static void addPossibleSupporter(String username) throws Exception {
         PossibleSupporter possibleSupporter = new PossibleSupporter(username);
         if (!allPossibleSupporters.contains(possibleSupporter)) {
@@ -303,6 +295,18 @@ public class Database {
         }
         writeObject(possibleSupporter, possibleSupporter.getId());
     }
+
+    public static ArrayList<String> getOnlineUsers() {
+        try {
+            JsonObject jsonObject = sendGET("onlineUsers");
+            System.out.println(new Gson().fromJson(jsonObject.get("list"), ArrayList.class).toString());
+            return new Gson().fromJson(jsonObject.get("list"), ArrayList.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
 
     public static void add(User user) throws Exception {
         allUsers.add(user);
@@ -404,32 +408,42 @@ public class Database {
     }
 
     public static Product getProductById(String id) throws Exception {
-        try {
-            System.out.println("get product by id");
-            JsonObject jsonObject = sendGET("resource", "Product", id);
-            return new Gson().fromJson(jsonObject.get("object"), Product.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            for (Product product : allProducts) {
-                if (product.getId().equals(id))
-                    return product;
-            }
-            throw new Exception("product id not found");
+        for (Product product : allProducts) {
+            if (product.getId().equals(id))
+                return product;
         }
+        throw new Exception("product id not found");
+//        try {
+//            System.out.println("get product by id");
+//            JsonObject jsonObject = sendGET("resource", "Product", id);
+//            return new Gson().fromJson(jsonObject.get("object"), Product.class);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            for (Product product : allProducts) {
+//                if (product.getId().equals(id))
+//                    return product;
+//            }
+//            throw new Exception("product id not found");
+//        }
     }
 
     public static User getUserById(String id) {
-        try {
-            JsonObject jsonObject = sendGET("resource", "User", id);
-            return (User) new Gson().fromJson(jsonObject.get("object"), Class.forName("model." + jsonObject.get("className").getAsString()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            for (User user : allUsers) {
-                if (user.getId().equals(id))
-                    return user;
-            }
-            return null;
+        for (User user : allUsers) {
+            if (user.getId().equals(id))
+                return user;
         }
+        return null;
+//        try {
+//            JsonObject jsonObject = sendGET("resource", "User", id);
+//            return (User) new Gson().fromJson(jsonObject.get("object"), Class.forName("model." + jsonObject.get("className").getAsString()));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            for (User user : allUsers) {
+//                if (user.getId().equals(id))
+//                    return user;
+//            }
+//            return null;
+//        }
     }
 
     public static JsonElement getRequestById(String id) {
@@ -647,25 +661,19 @@ public class Database {
     }
 
     public static void logout() throws Exception {
-        String url = serverUrl + "logout";
+        String url = serverUrl + "logout?" + "token=" + token;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        String urlParameters = "token=" + token;
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-        int postDataLength = postData.length;
         con.setDoOutput(true);
         con.setInstanceFollowRedirects(false);
         con.setRequestMethod("DELETE");
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("charset", "utf-8");
-        con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+        con.setRequestProperty("AuthToken", token);
         con.setUseCaches(false);
-        try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-            wr.write(postData);
-        }
 
         int responseCode = con.getResponseCode();
-        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println("DELETE Response Code :: " + responseCode);
         System.out.println(" Response Body : " + con.getResponseMessage());
         JsonObject convertedObject = getJsonObjectFromReader(con, responseCode);
 
