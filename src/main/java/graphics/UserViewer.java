@@ -1,7 +1,11 @@
 package graphics;
 
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableView;
+import controller.Database;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +23,7 @@ import main.Main;
 import model.User;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class UserViewer {
     public VBox mainPane;
@@ -29,6 +34,7 @@ public class UserViewer {
         treeTableView = new JFXTreeTableView<UserRow>();
         TreeItem<UserRow> customers = new TreeItem<>(new UserRow("customers"));
         TreeItem<UserRow> sellers = new TreeItem<>(new UserRow("sellers"));
+        TreeItem<UserRow> supporters = new TreeItem<>(new UserRow("supporters"));
         TreeItem<UserRow> managers = new TreeItem<>(new UserRow("managers"));
 
         for (User user : Main.controller.getAllUsers()) {
@@ -39,6 +45,9 @@ public class UserViewer {
                 case "seller":
                     sellers.getChildren().add(new TreeItem<>(new UserRow(user)));
                     break;
+                case "supporter":
+                    supporters.getChildren().add(new TreeItem<>(new UserRow(user)));
+                    break;
                 case "manager":
                     managers.getChildren().add(new TreeItem<>(new UserRow(user)));
                     break;
@@ -47,21 +56,40 @@ public class UserViewer {
         TreeTableColumn<UserRow, String> columnUsername = new TreeTableColumn<>("Username");
         TreeTableColumn<UserRow, String> columnFirstName = new TreeTableColumn<>("First name");
         TreeTableColumn<UserRow, String> columnSurname = new TreeTableColumn<>("Sur name");
+        TreeTableColumn<UserRow, String> columnStatus = new TreeTableColumn<>("Status");
 
         columnUsername.setCellValueFactory(new TreeItemPropertyValueFactory<>("username"));
         columnFirstName.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
         columnSurname.setCellValueFactory(new TreeItemPropertyValueFactory<>("surname"));
 
+        ArrayList<String> onlineUsers = Database.getOnlineUsers();
+
+        for (String user : onlineUsers) {
+            System.out.println(user);
+        }
+
+        columnStatus.setCellValueFactory(dataFeatures -> {
+            TreeItem<UserRow> item = dataFeatures.getValue();
+            UserRow person = item.getValue();
+
+            if (person.getId() == null)
+                return new SimpleStringProperty();
+
+            return new SimpleStringProperty(onlineUsers.contains(person.getId()) ? "ONLINE" : "offline");
+        });
+
         columnUsername.setPrefWidth(125);
         columnFirstName.setPrefWidth(125);
         columnSurname.setPrefWidth(125);
+        columnStatus.setPrefWidth(75);
 
         treeTableView.getColumns().add(columnUsername);
         treeTableView.getColumns().add(columnFirstName);
         treeTableView.getColumns().add(columnSurname);
+        treeTableView.getColumns().add(columnStatus);
 
         TreeItem<UserRow> users = new TreeItem<>(new UserRow("users"));
-        users.getChildren().addAll(customers, sellers, managers);
+        users.getChildren().addAll(customers, sellers, supporters, managers);
         treeTableView.setRoot(users);
 
         addButtonToTable();

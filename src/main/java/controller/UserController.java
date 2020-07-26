@@ -252,7 +252,7 @@ public class UserController {
     }
 
     public boolean canBeSupporter(String username) {
-        return Database.getAllPossibleManagers().contains(username);
+        return Database.getAllPossibleSupporters().contains(username);
     }
 
     public void logout() throws Exception {
