@@ -1,7 +1,6 @@
 package controller;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.*;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String serverUrl = "http://localhost:8080/";
+    private static final String serverUrl = "http://localhost:8888/";
     private static final NetworkArray<User> allUsers = new NetworkArray<>(User.class);
     private static final NetworkArray<Product> allProducts = new NetworkArray<>(Product.class);
     private static final NetworkArray<Request> allRequests = new NetworkArray<>(Request.class);
@@ -99,7 +98,7 @@ public class Database {
 
     private static <T extends BaseModel> void loadList(ArrayList<T> list, Class<? extends T> cls, String folderName) throws Exception {
         ((NetworkArray<T>) list).load();
-        for (final File fileEntry : new File(getPath(folderName)).listFiles()) {
+/*        for (final File fileEntry : new File(getPath(folderName)).listFiles()) {
             try {
                 FileReader fileReader = new FileReader(fileEntry);
                 Object object = new Gson().fromJson(fileReader, cls);
@@ -108,7 +107,7 @@ public class Database {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     public static Object getObjectFromNetwork(String objectId, Class<Object> objectClass) throws Exception {
@@ -236,7 +235,7 @@ public class Database {
     static void writeObject(Object object, String id, String folderName) throws Exception {
         sendPost("resource", folderName, id, object);
 
-        String fileName = getPath(folderName) + id + ".json";
+/*        String fileName = getPath(folderName) + id + ".json";
         FileWriter writer;
         try {
             writer = new FileWriter(fileName);
@@ -244,7 +243,7 @@ public class Database {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private static void deleteObject(Object object, String id) {
